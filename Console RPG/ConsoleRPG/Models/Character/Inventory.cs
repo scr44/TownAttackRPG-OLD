@@ -11,6 +11,13 @@ namespace ConsoleRPG.Models.Character
 
         public List<Item> InvList = new List<Item>();
 
+        public void DisplayInventory()
+        {
+            foreach(Item item in InvList)
+            {
+                Console.WriteLine($"* {item.ItemName}: {item.ItemDescrip}");
+            }
+        }
         public void StoreItem(Item item)
         {
             InvList.Add(item);

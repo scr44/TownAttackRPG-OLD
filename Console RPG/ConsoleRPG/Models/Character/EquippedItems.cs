@@ -51,6 +51,10 @@ namespace ConsoleRPG.Models.Character
             if (slot == "MainHand")
             {
                 Equipped[slot] = new BareHand();
+                if (Is2H)
+                {
+                    Unequip("OffHand");
+                }
             }
             else if (slot == "OffHand")
             {
@@ -69,7 +73,7 @@ namespace ConsoleRPG.Models.Character
                 throw new ArgumentException("Tried to unequip from an invalid slot.");
             }
 
-            if (removedItem is BareHand || removedItem is Naked || removedItem is Unadorned)
+            if (removedItem is BareHand || removedItem is Naked || removedItem is Unadorned || removedItem is TwoHanding)
             { return null; }
             else
             { return removedItem; }
@@ -99,23 +103,11 @@ namespace ConsoleRPG.Models.Character
                 return unequipped;
             }
         }
-        /// <summary>
-        /// Toggles whether the primary weapon is being two-handed. If changing to two-handing, returns previously equipped offhand item.
-        /// </summary>
-        /// <returns></returns>
-        public Equipment Toggle2H()
+        public void DisplayEquipment()
         {
-            if (Is2H)
+            foreach(KeyValuePair<string, Equipment> equipment in Equipped)
             {
-                Unequip("OffHand");
-                return null;
-            }
-            else
-            {
-                // TODO when toggling, return offhand item to inventory. Possible back equip slot?
-                Equipment unequipped = Unequip("OffHand");
-                Equipped["OffHand"] = new TwoHanding();
-                return unequipped;
+                Console.WriteLine($"{equipment.Key} - {equipment.Value.ItemName}: {equipment.Value.ItemDescrip}\n");
             }
         }
     }

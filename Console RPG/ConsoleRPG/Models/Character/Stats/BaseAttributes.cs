@@ -8,18 +8,20 @@ namespace ConsoleRPG.Models.Character.Stats
     {
         #region Attribute Descriptions
         /* 
-        Strength: A character's brute power. Required for heavy weapons and armor, as well as strong attacks. Affects melee attacks, weight capacity, and ability to perform physical feats.
+        Strength (STR): A character's brute power. Required for heavy weapons and armor, as well as strong attacks. Affects melee attacks, weight capacity, and ability to perform physical feats.
 
-        Dexterity: A character's finesse. Required for light weapons and agile attacks. Affects melee attacks, parry chance, and ability to perform physical feats.
+        Dexterity (DEX): A character's finesse. Required for light weapons and agile attacks. Affects melee attacks, parry chance, and ability to perform physical feats.
 
-        Skill: A character's training and precision. Unlocks advanced weapon techniques. Required to use advanced equipment. Affects armor penetration.
+        Skill (SKL): A character's level of training and precision. Unlocks advanced weapon techniques. Affects armor penetration.
 
-        Aptitude: A character's ability to learn new things quickly. Affects how much experience is gained.
+        Aptitude (APT): A character's ability to learn new things quickly. Affects how much experience is gained.
 
-        Perception: A character's skill at thinking ahead and sensory abilities. Improves the effectiveness of items.
+        Perception (PER): A character's skill at thinking ahead and sensory abilities. Improves the effectiveness of items.
 
-        Charisma: A character's talent at persuading others. Opens many options in dialogue.
-         */
+        Charisma (CHA): A character's talent at persuading others. Opens many options in dialogue.
+         
+        ALL attributes can be used in event/conversation checks.     
+        */
         #endregion
 
         #region Constructors

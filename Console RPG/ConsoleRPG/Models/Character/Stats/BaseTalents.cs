@@ -47,8 +47,8 @@ namespace ConsoleRPG.Models.Character.Stats
                     { "Medicine", 0 },
                     { "Herbalism", 0 },
                     { "Explosives", 0 },
-                    { "Bestiary", 0 },
                     { "Veterancy", 0 },
+                    { "Bestiary", 0 },
                     { "Engineering", 0 },
                     { "History", 0 }
                 };

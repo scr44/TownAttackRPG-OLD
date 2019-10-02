@@ -18,14 +18,6 @@ namespace ConsoleRPG.Models.Items.Equipment.Hands
             IsArmor = false;
             IsCharm = false;
 
-            ArmorStats = new Dictionary<string, double>()
-            {
-                { "accuracy", 100 },
-                { "parryChance", 0 },
-                { "slashDMG", 0 },
-                { "pierceDMG", 0 },
-                { "crushDMG", 5 }
-            };
         }
 
         // TODO add item throwing Techniques to bare hand weapon

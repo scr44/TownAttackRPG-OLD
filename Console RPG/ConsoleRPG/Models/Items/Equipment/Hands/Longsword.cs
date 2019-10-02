@@ -22,9 +22,9 @@ namespace ConsoleRPG.Models.Items.Equipment.Hands
             {
                 { "accuracy", 0 },
                 { "parryChance", 15 },
-                { "slashDMG", 15 },
-                { "pierceDMG", 20 },
-                { "crushDMG", 5 }
+                { "slashMultiplier", 15 },
+                { "pierceMultiplier", 20 },
+                { "crushMultiplier", 5 }
             };
 
             ReqStats.Add("STR", 6);
