@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <StartupObject>ConsoleRPG.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\Items\Bomb\**" />
+    <EmbeddedResource Remove="Models\Items\Bomb\**" />
+    <None Remove="Models\Items\Bomb\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Items\Elixir\" />
+    <Folder Include="Models\Items\Herb\" />
+    <Folder Include="Models\Items\Throwable\" />
+    <Folder Include="Models\Scenario\" />
+  </ItemGroup>
+
+</Project>
