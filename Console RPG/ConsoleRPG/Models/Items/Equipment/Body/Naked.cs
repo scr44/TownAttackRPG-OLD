@@ -8,10 +8,10 @@ namespace ConsoleRPG.Models.Items.Equipment.Body
     {
         public Naked()
         {
+            EquipmentKeywords.Add("None");
+
             ItemName = "Naked";
             ItemDescrip = "Have some decency!";
-            Value = 0;
-            Condition = 100.00;
         }
 
         // TODO add CHA modifiers to "naked" equipment based on gender of user and target

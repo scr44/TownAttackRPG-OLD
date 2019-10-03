@@ -8,18 +8,13 @@ namespace ConsoleRPG.Models.Items.Equipment.Hands
     {
         public BareHand()
         {
+            EquipmentKeywords.Add("None");
+            EquipmentKeywords.Add("Hand");
+
             ItemName = "Bare hand";
             ItemDescrip = "An empty hand. Can punch and throw items.";
-            Value = 0;
-            Weight = 0;
-            Condition = 0;
-
-            IsWeapon = true;
-            IsArmor = false;
-            IsCharm = false;
-
         }
 
-        // TODO add item throwing Techniques to bare hand weapon
+        // TODO add item throwing Techniques to Hand type equipment
     }
 }

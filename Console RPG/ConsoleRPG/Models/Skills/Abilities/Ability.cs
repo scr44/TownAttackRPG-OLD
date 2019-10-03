@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleRPG.Models.Combat.CombatEvents
+namespace ConsoleRPG.Models.Skills.Abilities
 {
-    class Hit
+    public abstract class Ability : Skill
     {
     }
 }

@@ -1,13 +1,13 @@
-﻿using System;
+﻿using ConsoleRPG.Models.Actors.Character;
+using ConsoleRPG.Models.Actors.Character.Stats;
+using ConsoleRPG.Models.Items.Equipment.Body;
+using ConsoleRPG.Models.Items.Equipment.Charms;
+using ConsoleRPG.Models.Items.Equipment.Hands;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using ConsoleRPG.Models.Character.Stats;
-using ConsoleRPG.Models.Items.Equipment;
-using ConsoleRPG.Models.Items.Equipment.Body;
-using ConsoleRPG.Models.Items.Equipment.Hands;
-using ConsoleRPG.Models.Items.Equipment.Charms;
 
-namespace ConsoleRPG.Models.Character.Professions.Default_Professions
+namespace ConsoleRPG.Models.Professions.Default_Professions
 {
     public class Mercenary : Profession
     {
@@ -17,6 +17,7 @@ namespace ConsoleRPG.Models.Character.Professions.Default_Professions
             ProfessionSummary = "A veteran fighter for hire. She is a master of the longsword; but constant concussions and old wounds have damaged her senses, and her social graces are lacking.";
             Gender = "Female";
             BaseHealth = 20;
+            BaseStamina = 20;
             StartingAttributes = new BaseAttributes(
                 str: 6,
                 dex: 6,

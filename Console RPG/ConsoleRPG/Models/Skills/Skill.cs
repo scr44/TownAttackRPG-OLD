@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleRPG.Models.Character.Abilities
+namespace ConsoleRPG.Models.Skills
 {
-    class Ability
+    public abstract class Skill
     {
     }
 }

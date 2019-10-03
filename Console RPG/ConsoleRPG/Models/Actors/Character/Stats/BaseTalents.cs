@@ -2,24 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleRPG.Models.Character.Stats
+namespace ConsoleRPG.Models.Actors.Character.Stats
 {
     public class BaseTalents
     {
-        #region Constructors
-        public BaseTalents() { }
-        public BaseTalents(int med, int herb, int expl, int vet, int best, int eng, int hist)
-        {
-            Talent["Medicine"] = med;
-            Talent["Herbalism"] = herb;
-            Talent["Explosives"] = expl;
-            Talent["Veterancy"] = vet;
-            Talent["Bestiary"] = best;
-            Talent["Engineering"] = eng;
-            Talent["History"] = hist;
-        }
-        #endregion
-
         #region Talent Descriptions
         /* 
         Medicine: The art of healing wounds and diagnosing injuries.
@@ -38,10 +24,24 @@ namespace ConsoleRPG.Models.Character.Stats
         */
         #endregion
 
+        #region Constructors
+        public BaseTalents() { }
+        public BaseTalents(int med, int herb, int expl, int vet, int best, int eng, int hist)
+        {
+            Talent["Medicine"] = med;
+            Talent["Herbalism"] = herb;
+            Talent["Explosives"] = expl;
+            Talent["Veterancy"] = vet;
+            Talent["Bestiary"] = best;
+            Talent["Engineering"] = eng;
+            Talent["History"] = hist;
+        }
+        #endregion
+
         /// <summary>
         /// Dictionary of Talents.
         /// </summary>
-        public Dictionary<string, int> Talent { get; private set; } 
+        public Dictionary<string, int> Talent { get; private set; }
             = new Dictionary<string, int>()
                 {
                     { "Medicine", 0 },

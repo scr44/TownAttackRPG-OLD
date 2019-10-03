@@ -1,15 +1,16 @@
 ﻿using ConsoleRPG.Models.Items.Equipment;
 using ConsoleRPG.Models.Items.Equipment.Body;
-using ConsoleRPG.Models.Items.Equipment.Hands;
 using ConsoleRPG.Models.Items.Equipment.Charms;
+using ConsoleRPG.Models.Items.Equipment.Hands;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleRPG.Models.Character
+namespace ConsoleRPG.Models.Actors.Character
 {
     public class EquippedItems
     {
+        #region Constructors
         public EquippedItems() { }
         public EquippedItems(Equipment main, Equipment off, Equipment body, Equipment charm1, Equipment charm2)
         {
@@ -19,7 +20,9 @@ namespace ConsoleRPG.Models.Character
             Equipped["Charm 1"] = charm1;
             Equipped["Charm 2"] = charm2;
         }
+        #endregion
 
+        #region Properties
         public Dictionary<string, Equipment> Equipped { get; set; } =
             new Dictionary<string, Equipment>()
             {
@@ -39,7 +42,9 @@ namespace ConsoleRPG.Models.Character
                 { return false; }
             }
         }
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Unequips an Equipment object and returns it. If slot was empty, returns null.
         /// </summary>
@@ -103,12 +108,14 @@ namespace ConsoleRPG.Models.Character
                 return unequipped;
             }
         }
+
         public void DisplayEquipment()
         {
-            foreach(KeyValuePair<string, Equipment> equipment in Equipped)
+            foreach (KeyValuePair<string, Equipment> equipment in Equipped)
             {
                 Console.WriteLine($"{equipment.Key} - {equipment.Value.ItemName}: {equipment.Value.ItemDescrip}\n");
             }
         }
+        #endregion
     }
 }

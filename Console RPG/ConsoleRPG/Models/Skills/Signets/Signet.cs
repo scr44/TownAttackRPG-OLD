@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleRPG.Models.Enemy
+namespace ConsoleRPG.Models.Skills.Signets
 {
-    class Enemy
+    public abstract class Signet : Skill
     {
     }
 }

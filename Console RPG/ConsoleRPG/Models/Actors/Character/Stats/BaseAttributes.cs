@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleRPG.Models.Character.Stats
+namespace ConsoleRPG.Models.Actors.Character.Stats
 {
     public class BaseAttributes
     {
@@ -66,7 +66,7 @@ namespace ConsoleRPG.Models.Character.Stats
         };
 
         /// <summary>
-        /// Changes the given attribute by the given points.
+        /// Changes an Attribute by the given points.
         /// </summary>
         /// <param name="stat">STR, DEX, SKL, APT, PER, or CHA</param>
         /// <param name="points">Positive points to increase, negative points to decrease.</param>

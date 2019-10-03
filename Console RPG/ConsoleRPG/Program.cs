@@ -1,5 +1,5 @@
-﻿using ConsoleRPG.Models.Character;
-using ConsoleRPG.Models.Character.Professions.Default_Professions;
+﻿using ConsoleRPG.Models.Actors.Character;
+using ConsoleRPG.Models.Professions.Default_Professions;
 using ConsoleRPG.Models.Items;
 using ConsoleRPG.Models.Items.Equipment;
 using System;

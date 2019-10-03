@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ConsoleRPG.Models.Character.Stats;
+using ConsoleRPG.Models.Actors.Character.Stats;
 
 namespace ConsoleRPG.Models.Items.Equipment
 {
     public class Equipment : Item
     {
-        public bool IsWeapon { get; protected set; }
-        public bool IsArmor { get; protected set; }
-        public bool IsCharm { get; protected set; }
-        public double Condition { get; protected set; }
+        public List<string> EquipmentKeywords { get; protected set; }
+        public double Condition { get; protected set; } = 100;
 
         #region Stats Tables
         /// <summary>
@@ -19,11 +17,13 @@ namespace ConsoleRPG.Models.Items.Equipment
         public Dictionary<string, double> WeaponStats { get; protected set; } =
             new Dictionary<string, double>()
             {
-                { "accuracy", 100 },
-                { "parryChance", 0 },
-                { "slashMultiplier", 1 },
-                { "pierceMultiplier", 1 },
-                { "crushMultiplier", 1 }
+                { "accuracy", 1.00 },
+                { "parryChance", 0.00 },
+                { "slashMultiplier", 1.00 },
+                { "pierceMultiplier", 1.00 },
+                { "crushMultiplier", 1.00 },
+                { "critChance", 0.05 },
+                { "critMultiplier", 2.00 }
             };
         /// <summary>
         /// Armor-specific statistics
@@ -31,7 +31,7 @@ namespace ConsoleRPG.Models.Items.Equipment
         public Dictionary<string, double> ArmorStats { get; protected set; } =
             new Dictionary<string, double>()
             {
-                { "armorHP", 0 },
+                { "healthBonus", 0 },
                 { "blockChance", 0 },
                 { "slashPROT", 0 },
                 { "piercePROT", 0 },
@@ -41,7 +41,10 @@ namespace ConsoleRPG.Models.Items.Equipment
         ///  Charm-specific statistics
         /// </summary>
         public Dictionary<string, int> CharmStats { get; protected set; } =
-            new Dictionary<string, int>();
+            new Dictionary<string, int>()
+            {
+                { "staminaBonus", 0 }
+            };
         /// <summary>
         /// Stat requirements to equip
         /// </summary>

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleRPG.Models.Character
+namespace ConsoleRPG.Models.Actors.Character
 {
     public class Inventory
     {
@@ -13,7 +13,7 @@ namespace ConsoleRPG.Models.Character
 
         public void DisplayInventory()
         {
-            foreach(Item item in InvList)
+            foreach (Item item in InvList)
             {
                 Console.WriteLine($"* {item.ItemName}: {item.ItemDescrip}");
             }

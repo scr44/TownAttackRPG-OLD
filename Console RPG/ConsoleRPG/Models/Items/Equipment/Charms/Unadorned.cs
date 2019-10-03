@@ -8,10 +8,10 @@ namespace ConsoleRPG.Models.Items.Equipment.Charms
     {
         public Unadorned()
         {
+            EquipmentKeywords.Add("None");
+
             ItemName = "Unadorned";
             ItemDescrip = "Wearing no jewelry or charms in this slot.";
-            Value = 0;
-            Condition = 100.00;
         }
     }
 }
