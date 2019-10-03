@@ -7,7 +7,8 @@ namespace ConsoleRPG.Models.Items.Equipment
 {
     public class Equipment : Item
     {
-        public List<string> EquipmentKeywords { get; protected set; }
+        public List<string> EquipmentKeywords { get; protected set; } =
+            new List<string>();
         public double Condition { get; protected set; } = 100;
 
         #region Stats Tables

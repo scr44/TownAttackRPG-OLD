@@ -19,3 +19,14 @@ E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\Console
 E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\ConsoleRPG\obj\Debug\netcoreapp2.2\ConsoleRPG.AssemblyInfo.cs
 E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\ConsoleRPG\obj\Debug\netcoreapp2.2\ConsoleRPG.dll
 E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\ConsoleRPG\obj\Debug\netcoreapp2.2\ConsoleRPG.pdb
+C:\Users\SRoy\Documents\git\rpg-steve\Console RPG\ConsoleRPG\bin\Debug\netcoreapp2.2\ConsoleRPG.deps.json
+C:\Users\SRoy\Documents\git\rpg-steve\Console RPG\ConsoleRPG\bin\Debug\netcoreapp2.2\ConsoleRPG.runtimeconfig.json
+C:\Users\SRoy\Documents\git\rpg-steve\Console RPG\ConsoleRPG\bin\Debug\netcoreapp2.2\ConsoleRPG.runtimeconfig.dev.json
+C:\Users\SRoy\Documents\git\rpg-steve\Console RPG\ConsoleRPG\bin\Debug\netcoreapp2.2\ConsoleRPG.dll
+C:\Users\SRoy\Documents\git\rpg-steve\Console RPG\ConsoleRPG\bin\Debug\netcoreapp2.2\ConsoleRPG.pdb
+C:\Users\SRoy\Documents\git\rpg-steve\Console RPG\ConsoleRPG\obj\Debug\netcoreapp2.2\ConsoleRPG.csprojAssemblyReference.cache
+C:\Users\SRoy\Documents\git\rpg-steve\Console RPG\ConsoleRPG\obj\Debug\netcoreapp2.2\ConsoleRPG.csproj.CoreCompileInputs.cache
+C:\Users\SRoy\Documents\git\rpg-steve\Console RPG\ConsoleRPG\obj\Debug\netcoreapp2.2\ConsoleRPG.AssemblyInfoInputs.cache
+C:\Users\SRoy\Documents\git\rpg-steve\Console RPG\ConsoleRPG\obj\Debug\netcoreapp2.2\ConsoleRPG.AssemblyInfo.cs
+C:\Users\SRoy\Documents\git\rpg-steve\Console RPG\ConsoleRPG\obj\Debug\netcoreapp2.2\ConsoleRPG.dll
+C:\Users\SRoy\Documents\git\rpg-steve\Console RPG\ConsoleRPG\obj\Debug\netcoreapp2.2\ConsoleRPG.pdb

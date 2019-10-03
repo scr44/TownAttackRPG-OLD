@@ -40,7 +40,8 @@ namespace ConsoleRPG.Models.Actors.Character
         /// <param name="item"></param>
         public void Equip(string slot, Equipment item)
         {
-            Inventory.TakeItem(item);
+            Equipment takenItem = item;
+            Inventory.RemoveItem(item);
             Equipment priorItem = EquippedItems.Equip(slot, item);
             if (!(priorItem is null))
             { Inventory.StoreItem(priorItem); }
@@ -204,5 +205,19 @@ namespace ConsoleRPG.Models.Actors.Character
         }
         #endregion
 
+        #region Damage Resistances
+        public double DmgPROT(string dmgType)
+        {
+            string dmgProt = dmgType + "PROT";
+            return EquipmentMod(dmgProt);
+        }
+        #endregion
+
+        #region Combat Functions
+        override public void TakeHpDmg(string dmgType, int dmg)
+        {
+
+        }
+        #endregion
     }
 }

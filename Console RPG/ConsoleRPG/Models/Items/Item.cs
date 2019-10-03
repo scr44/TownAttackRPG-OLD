@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ConsoleRPG.Models.Items.Equipment;
 
 namespace ConsoleRPG.Models.Items
 {

@@ -20,3 +20,5 @@
 "Charm"
 "Cursed"
 "Jewelry"
+
+"Unbreakable"

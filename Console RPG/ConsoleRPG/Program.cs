@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 
 namespace ConsoleRPG
-{
+{C:\Users\SRoy\Documents\git\rpg-steve\Console RPG\ConsoleRPG\Program.cs
     class Program
     {
         static void Main(string[] args)
@@ -28,10 +28,8 @@ namespace ConsoleRPG
 
             Console.WriteLine("\nWhen she puts her sword away, her equipment looks like this:");
             Guinevere.Unequip("MainHand");
-            foreach (KeyValuePair<string, Equipment> equipment in Guinevere.EquippedItems.Equipped)
-            {
-                Console.WriteLine($"{equipment.Key}: {equipment.Value.ItemName} - {equipment.Value.ItemDescrip}\n");
-            }
+            Guinevere.CheckEquipment();
+
             Console.WriteLine("\nand the sword is back in her inventory:");
             Guinevere.CheckInventory();
 
