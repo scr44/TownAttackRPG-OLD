@@ -17,8 +17,8 @@ namespace ConsoleRPG.Models.Items.Equipment.Charms
             Weight = 0.1;
             Condition = 100.00;
 
-            AddCharmStat("APT", 1);
-            AddCharmStat("CHA", -1);
+            SetEquipmentStat("APT", 1, CharmStats);
+            SetEquipmentStat("CHA", -1, CharmStats);
         }
     }
 }

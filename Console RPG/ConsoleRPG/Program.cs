@@ -5,8 +5,9 @@ using ConsoleRPG.Models.Items.Equipment;
 using System;
 using System.Collections.Generic;
 
-namespace ConsoleRPG
-{C:\Users\SRoy\Documents\git\rpg-steve\Console RPG\ConsoleRPG\Program.cs
+namespace ConsoleRPG 
+{
+
     class Program
     {
         static void Main(string[] args)
@@ -22,22 +23,25 @@ namespace ConsoleRPG
             Console.WriteLine("\nShe is currently using the following equipment:");
             Guinevere.CheckEquipment();
 
-            Console.WriteLine("\nIf she stops two-handing her weapon, her equipment looks like this:");
+            Console.WriteLine("\nand her inventory is empty:");
+            Guinevere.CheckInventory();
+
+            Console.WriteLine("\n\nIf she stops two-handing her weapon, her equipment looks like this:");
             Guinevere.Toggle2H();
             Guinevere.CheckEquipment();
 
-            Console.WriteLine("\nWhen she puts her sword away, her equipment looks like this:");
+            Console.WriteLine("\n\nWhen she puts her sword away, her equipment looks like this:");
             Guinevere.Unequip("MainHand");
             Guinevere.CheckEquipment();
 
             Console.WriteLine("\nand the sword is back in her inventory:");
             Guinevere.CheckInventory();
 
-            Console.WriteLine("\nIf she tries to two-hand her fist, it doesn't work:");
+            Console.WriteLine("\n\nIf she tries to two-hand her fist, it doesn't work:");
             Guinevere.Toggle2H();
             Guinevere.CheckEquipment();
 
-            Console.WriteLine("\nShe has to re-equip her sword first. Then, she can go back to two-handing it.");
+            Console.WriteLine("\n\nShe has to re-equip her sword first. Then, she can go back to two-handing it.");
             //Guinevere.Equip("MainHand", Guinevere.Inventory.InvList[0]); // TODO fix equipping items from inventory
 
             Console.ReadLine();

@@ -29,6 +29,9 @@ namespace ConsoleRPG.Models.Items.Equipment.Hands
                 { "critMultiplier", 1.5 }
             };
 
+            ValidSlots["MainHand"] = true;
+            ValidSlots["OffHand"] = true;
+
             ReqStats.Add("STR", 6);
             ReqStats.Add("DEX", 6);
             ReqStats.Add("SKL", 6);

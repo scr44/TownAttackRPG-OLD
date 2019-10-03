@@ -7,15 +7,21 @@ namespace ConsoleRPG.Models.Effects
 {
     public abstract class Effect
     {//TODO handle effects lasting beyond combat
+        public List<string> EffectKeywords { get; protected set; } = new List<string>();
+
         public string EffectName { get; protected set; }
         public string EffectDescrip { get; protected set; }
-        public int Duration { get; protected set; } // number of turns effect has remaining
+        public int Duration { get; set; } // number of turns effect has remaining
         public Actor Target { get; protected set; }
         /// <summary>
-        /// Dictionary of the Attribute, Talent, 
+        /// Dictionary of the Attribute, Talent, Charm, and other stats modified by the Effect.
         /// </summary>
         public Dictionary<string, int> EffectStatsModified { get; protected set; }
 
+        public virtual void TriggerEffect()
+        {
+
+        } // TODO 03: build an Effect with a triggered function (eg next attack skill costs less AP)
         public virtual void TickEffect()
         {
             Duration -= 1;

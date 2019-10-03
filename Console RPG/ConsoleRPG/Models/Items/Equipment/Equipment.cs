@@ -9,7 +9,7 @@ namespace ConsoleRPG.Models.Items.Equipment
     {
         public List<string> EquipmentKeywords { get; protected set; } =
             new List<string>();
-        public double Condition { get; protected set; } = 100;
+        public double Condition { get; protected set; } = 100; // TODO when building combat, handle equipment degradation
 
         #region Stats Tables
         /// <summary>
@@ -41,16 +41,16 @@ namespace ConsoleRPG.Models.Items.Equipment
         /// <summary>
         ///  Charm-specific statistics
         /// </summary>
-        public Dictionary<string, int> CharmStats { get; protected set; } =
-            new Dictionary<string, int>()
+        public Dictionary<string, double> CharmStats { get; protected set; } =
+            new Dictionary<string, double>()
             {
                 { "staminaBonus", 0 }
             };
         /// <summary>
         /// Stat requirements to equip
         /// </summary>
-        public Dictionary<string, int> ReqStats { get; protected set; } =
-            new Dictionary<string, int>();
+        public Dictionary<string, double> ReqStats { get; protected set; } =
+            new Dictionary<string, double>();
         /// <summary>
         /// List of valid equippable slots.
         /// </summary>
@@ -62,7 +62,7 @@ namespace ConsoleRPG.Models.Items.Equipment
                 { "Body", false },
                 { "Charm 1", false },
                 { "Charm 2", false }
-            };
+            }; // TODO test ValidSlots requirement for equipping items
         #endregion
 
         /// <summary>
@@ -98,17 +98,28 @@ namespace ConsoleRPG.Models.Items.Equipment
             // TODO add ability requirements to Equipment class
         }
         /// <summary>
-        /// Adds points to the charm's given Attribute or Talent bonus.
+        /// Sets a KeyValuePair(stat, points) in the given statsTable.
         /// </summary>
-        /// <param name="stat">Attribute to affect</param>
-        /// <param name="points">Points to increase (negative to decrease)</param>
-        public void AddCharmStat(string stat, int points)
+        /// <param name="stat">The stat to add, e.g. "crush PROT" or "STR".</param>
+        /// <param name="points">The amount of points to set the new stat to. </param>
+        /// <param name="statsTable"></param>
+        public void SetEquipmentStat(string stat, double points, Dictionary<string, double> statsTable )
         {
-            CharmStats.Add(stat, points);
+            if( !(statsTable.TryAdd(stat, points)) )
+            {
+                statsTable[stat] = points;
+            }
         }
         public void BreakEquipment()
         {
+            EquipmentKeywords.Add("Broken");
+            Condition = 0;
             //TODO add equipment breaking behavior (unequip, prevent equip)
+        }
+        public void RepairEquipment(double points)
+        {
+            EquipmentKeywords.Remove("Broken");
+            Condition += points;
         }
         public void CharmEffect()
         { // TODO add Charm Effect method to Equipment class 

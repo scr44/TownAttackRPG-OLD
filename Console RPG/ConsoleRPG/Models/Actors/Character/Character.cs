@@ -32,6 +32,7 @@ namespace ConsoleRPG.Models.Actors.Character
         #region Inventory and Equipment
         public EquippedItems EquippedItems { get; private set; }
         public Inventory Inventory { get; private set; }
+        public bool Is2H { get { return EquippedItems.Is2H; } }
 
         /// <summary>
         /// Equips an item and moves prior equipped item to inventory.
@@ -62,7 +63,7 @@ namespace ConsoleRPG.Models.Actors.Character
         /// <returns></returns>
         public void Toggle2H()
         {
-            if (EquippedItems.Is2H)
+            if (Is2H)
             {
                 Unequip("OffHand");
             }
@@ -77,14 +78,22 @@ namespace ConsoleRPG.Models.Actors.Character
         }
         public void CheckEquipment()
         {
-            Console.WriteLine($"{Name}'s Equipment");
-            Console.WriteLine("===================================");
+            string header = $"=  {Name}'s Equipment  =";
+            int len = header.Length;
+            string hline = new string('=', len);
+            Console.WriteLine(hline);
+            Console.WriteLine(header);
+            Console.WriteLine(hline);
             EquippedItems.DisplayEquipment();
         }
         public void CheckInventory()
         {
-            Console.WriteLine($"{Name}'s Inventory");
-            Console.WriteLine("===================================");
+            string header = $"=  {Name}'s Inventory  =";
+            int len = header.Length;
+            string hline = new string('=', len);
+            Console.WriteLine(hline);
+            Console.WriteLine(header);
+            Console.WriteLine(hline);
             Inventory.DisplayInventory();
         }
         // TODO implement trade function for selling items and exchanging with party members
@@ -159,7 +168,7 @@ namespace ConsoleRPG.Models.Actors.Character
                         mod += itemStat.Value;
                     }
                 }
-                foreach (KeyValuePair<string, int> itemStat in item.CharmStats)
+                foreach (KeyValuePair<string, double> itemStat in item.CharmStats)
                 {
                     if (itemStat.Key == stat)
                     {
@@ -205,8 +214,13 @@ namespace ConsoleRPG.Models.Actors.Character
         }
         #endregion
 
+        #region Active Effects
+        public ActiveEffects ActiveEffects { get; private set; }
+            = new ActiveEffects();
+        #endregion
+
         #region Damage Resistances
-        public double DmgPROT(string dmgType)
+        public double EquipmentPROT(string dmgType)
         {
             string dmgProt = dmgType + "PROT";
             return EquipmentMod(dmgProt);
@@ -214,9 +228,48 @@ namespace ConsoleRPG.Models.Actors.Character
         #endregion
 
         #region Combat Functions
-        override public void TakeHpDmg(string dmgType, int dmg)
+        /// <summary>
+        /// Reduces damage per armor, adds armor piercing damage, then deals remaining damage to Actor's HP.
+        /// </summary>
+        /// <param name="dmgType">The damage type.</param>
+        /// <param name="dmg">The amount of damage.</param>
+        /// <param name="ap">The armor-piercing multiplier of the attack.</param>
+        override public void TakeHit(string dmgType, int dmg, double ap)
         {
-
+            double reducedDmg = (1 - EquipmentPROT(dmgType)) * dmg + (EquipmentPROT(dmgType) * dmg * ap);
+            TakeHpDmg((int)reducedDmg);
+        }
+        public override void TakeHpDmg(int dmg)
+        {
+            HP -= dmg;
+            if(HP < 0)
+            {
+                HP = 0;
+            }
+        }
+        public override void RestoreHp(int hp)
+        {
+            HP += hp;
+            if(HP > MaxHP)
+            {
+                HP = MaxHP;
+            }
+        }
+        public void ReduceSP(int sp)
+        {
+            SP -= sp;
+            if(SP < 0)
+            {
+                SP = 0;
+            }
+        }
+        public void RestoreSP(int sp)
+        {
+            SP += sp;
+            if(SP > MaxSP)
+            {
+                SP = MaxSP;
+            }
         }
         #endregion
     }

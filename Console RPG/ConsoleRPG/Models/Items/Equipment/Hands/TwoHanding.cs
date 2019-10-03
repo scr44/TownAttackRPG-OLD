@@ -16,6 +16,7 @@ namespace ConsoleRPG.Models.Items.Equipment.Hands
             
             // TODO add modifier to attack rolls for 2h damage
             // TODO add 2h requirements to Techniques
+            // Allow TwoHanding to use Hand abilities like punching, but not throwing
         }
     }
 }

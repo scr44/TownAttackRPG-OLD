@@ -6,9 +6,9 @@ namespace ConsoleRPG.Models.Actors
 {
     public abstract class Actor
     {
-        public virtual void TakeHpDmg(string dmgType, int dmg)
-        {
-
-        }
+        // TODO consider making these all an interface later
+        public virtual void TakeHit(string dmgType, int dmg, double ap) { }
+        public virtual void TakeHpDmg(int dmg) { }
+        public virtual void RestoreHp(int hp) { }
     }
 }
