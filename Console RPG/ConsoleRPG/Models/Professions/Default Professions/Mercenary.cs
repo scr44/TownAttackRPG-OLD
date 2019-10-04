@@ -18,7 +18,7 @@ namespace ConsoleRPG.Models.Professions.Default_Professions
             ProfessionSummary = "Mercenaries are masters of the longsword; but constant concussions and old wounds have damaged their senses, and their social graces are lacking.";
             BaseHealth = 20;
             BaseStamina = 20;
-            StartingAttributes = new BaseAttributes(
+            StartingAttributes = new Attributes(
                 str: 6,
                 dex: 6,
                 skl: 7,
@@ -26,7 +26,7 @@ namespace ConsoleRPG.Models.Professions.Default_Professions
                 per: 2,
                 cha: 3
                 );
-            StartingTalents = new BaseTalents(
+            StartingTalents = new Talents(
                 med: 0,
                 herb: 0,
                 expl: 0,
@@ -36,7 +36,7 @@ namespace ConsoleRPG.Models.Professions.Default_Professions
                 hist: 0
                 );
             StartingInventory = new Inventory();
-            StartingEquipment = new EquippedItems(
+            StartingEquipment = new Equipment(
                 main: new Longsword(),
                 off: new TwoHanding(),
                 body: new HalfPlate(),

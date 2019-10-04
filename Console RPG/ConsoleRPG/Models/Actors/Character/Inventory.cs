@@ -8,32 +8,53 @@ namespace ConsoleRPG.Models.Actors.Character
 {
     public class Inventory
     {
-        public Inventory() { }
+        /// <summary>
+        /// The contents of a character's inventory.
+        /// </summary>
+        public Dictionary<string, Item> InventoryContents { get; private set; } =
+            new Dictionary<string, Item>();
+        /// <summary>
+        /// The counts of a character's inventory.
+        /// </summary>
+        public Dictionary<string, int> InventoryCounts { get; private set; } =
+            new Dictionary<string, int>();
 
-        public List<Item> InvList = new List<Item>();
-
-        public void DisplayInventory()
+        public void AddItem(Item item)
         {
-            if (InvList.Count > 0)
+            if (InventoryContents.TryAdd(item.ItemName, item))
             {
-                foreach (Item item in InvList)
-                {
-                    Console.WriteLine($"* {item.ItemName}: {item.ItemDescrip}");
-                    //TODO 01: How do you get a subclass back once you've put it in a container of superclasses?
-                }
+                InventoryCounts.Add(item.ItemName, 1);
             }
             else
             {
-                Console.WriteLine("No items in inventory.");
+                InventoryCounts[item.ItemName]++;
             }
-        }
-        public void StoreItem(Item item)
-        {
-            InvList.Add(item);
         }
         public void RemoveItem(Item item)
         {
-            InvList.Remove(item);
+            if (InventoryCounts[item.ItemName] > 1)
+            {
+                InventoryCounts[item.ItemName]--;
+            }
+            else if (InventoryCounts[item.ItemName] == 1)
+            {
+                InventoryContents.Remove(item.ItemName);
+                InventoryCounts.Remove(item.ItemName);
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("An inventory cannot have a negative number of items.");
+            }
+        }
+        public void DepositItem(Item item, Inventory container)
+        {
+            container.AddItem(item);
+            this.RemoveItem(item);
+        }
+        public void TakeItem(Item item, Inventory container)
+        {
+            this.AddItem(item);
+            container.RemoveItem(item);
         }
     }
 }

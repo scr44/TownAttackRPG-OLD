@@ -36,8 +36,8 @@ namespace CRPG_Unit_Tests
         [TestMethod]
         public void CharacterHasStartingStats()
         {
-            CollectionAssert.AreEqual(Guinevere.BaseAttributes.ValueDict, new Mercenary().StartingAttributes.ValueDict, "Character should construct with Profession's starting attributes.");
-            CollectionAssert.AreEqual(Guinevere.BaseTalents.ValueDict, new Mercenary().StartingTalents.ValueDict, "Character should construct with Profession's starting talents.");
+            CollectionAssert.AreEqual(Guinevere.Attributes.BaseValue, new Mercenary().StartingAttributes.BaseValue, "Character should construct with Profession's starting attributes.");
+            CollectionAssert.AreEqual(Guinevere.Talents.BaseValue, new Mercenary().StartingTalents.BaseValue, "Character should construct with Profession's starting talents.");
         }
     }
 
@@ -53,9 +53,6 @@ namespace CRPG_Unit_Tests
             Dictionary<string,EquipmentItem> charEquipment = Guinevere.Equipment.Equipped;
             // Get mercenary profession's default equipped gear
             Dictionary<string, EquipmentItem> defaultEquipment = new Mercenary("M").StartingEquipment.Equipped;
-
-            // Compare
-            // Why the hell doesn't this work? http://softwareonastring.com/357/why-collectionassert-areequal-fails-even-when-both-lists-contain-the-same-items
             //CollectionAssert.AreEqual(charEquipment, defaultEquipment, "New character's gear should match their profession's starting gear.");
             Assert.AreEqual(charEquipment.ToString(), defaultEquipment.ToString());
         }

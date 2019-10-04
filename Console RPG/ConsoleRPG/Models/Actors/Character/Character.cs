@@ -1,5 +1,8 @@
 ﻿using ConsoleRPG.Models.Actors.Character.Stats;
+using ConsoleRPG.Models.Items;
 using ConsoleRPG.Models.Items.Equipment;
+using ConsoleRPG.Models.Items.Equipment.Body;
+using ConsoleRPG.Models.Items.Equipment.Charms;
 using ConsoleRPG.Models.Items.Equipment.Hands;
 using ConsoleRPG.Models.Professions;
 using System;
@@ -15,8 +18,8 @@ namespace ConsoleRPG.Models.Actors.Character
             Name = name;
             Gender = prof.Gender;
             Profession = prof;
-            BaseAttributes = prof.StartingAttributes;
-            BaseTalents = prof.StartingTalents;
+            Attributes = prof.StartingAttributes;
+            Talents = prof.StartingTalents;
             Equipment = prof.StartingEquipment;
             Inventory = prof.StartingInventory;
 
@@ -28,80 +31,62 @@ namespace ConsoleRPG.Models.Actors.Character
         public Profession Profession { get; }
         #endregion
 
-        #region Inventory and Equipment
-        public EquippedItems Equipment { get; private set; }
+        #region Inventory
+        /// <summary>
+        /// The items currently held by the character.
+        /// </summary>
         public Inventory Inventory { get; private set; }
-        public bool Is2H { get { return Equipment.Is2H; } }
-        #region Inventory and Equipment Methods
-        /// <summary>
-        /// Equips an item and moves prior equipped item to inventory.
-        /// </summary>
-        /// <param name="slot"></param>
-        /// <param name="item"></param>
-        public void Equip(string slot, EquipmentItem item)
+        public double WeightCapacity
         {
-            EquipmentItem takenItem = item;
-            Inventory.RemoveItem(item);
-            EquipmentItem priorItem = Equipment.Equip(slot, item);
-            if (!(priorItem is null))
-            { Inventory.StoreItem(priorItem); }
-        }
-        /// <summary>
-        /// Unequips an item and stores it in the inventory.
-        /// </summary>
-        /// <param name="slot"></param>
-        public void Unequip(string slot)
-        {
-            EquipmentItem priorItem = Equipment.Unequip(slot);
-            if (!(priorItem is null))
-            { Inventory.StoreItem(priorItem); }
-        }
-        /// <summary>
-        /// Toggles whether the primary weapon is being two-handed. If changing to two-handing, returns previously equipped offhand item.
-        /// </summary>
-        /// <returns></returns>
-        public void Toggle2H()
-        {
-            if (Is2H)
+            get
             {
-                Unequip("OffHand");
-            }
-            else
-            {
-                if (Equipment.Equipped["MainHand"].EquipmentKeywords.Contains("Can2H"))
+                double moddedSTR = Attributes.BaseValue["STR"] + EquipmentMod("STR") + EffectMod("STR");
+                if (moddedSTR <= 10)
                 {
-                    Unequip("OffHand");
-                    Equipment.Equipped["OffHand"] = new TwoHanding();
+                    // 15 points of Weight Cap for every STR up to 10
+                    return moddedSTR * 15;
                 }
+                else
+                {
+                    // Diminishing max Weight Capacity returns for STR > 10
+                    return (moddedSTR - 10) * 5 + (10 * 15);
+                }
+                
             }
         }
-        public void CheckEquipment()
+        public double WeightLoad
         {
-            string header = $"=  {Name}'s Equipment  =";
-            int len = header.Length;
-            string hline = new string('=', len);
-            Console.WriteLine(hline);
-            Console.WriteLine(header);
-            Console.WriteLine(hline);
-            Equipment.DisplayEquipment();
+            get
+            {
+                double weight = 0;
+                foreach(KeyValuePair<string, Item> item in Inventory.InventoryContents)
+                {
+                    weight += Inventory.InventoryContents[item.Key].Weight
+                        * Inventory.InventoryCounts[item.Key];
+                }
+                foreach(var item in Equipment.Slot)
+                {
+                    weight += Equipment.Slot[item.Key].Weight;
+                }
+                return weight;
+            }
         }
-        public void CheckInventory()
+        public bool Overburdered
         {
-            string header = $"=  {Name}'s Inventory  =";
-            int len = header.Length;
-            string hline = new string('=', len);
-            Console.WriteLine(hline);
-            Console.WriteLine(header);
-            Console.WriteLine(hline);
-            Inventory.DisplayInventory();
-        }
-        // TODO implement trade function for selling items and exchanging with party members
+            get
+            {
+                return WeightLoad > WeightCapacity;
+            }
+        } // If held weight exceeds the weight capacity.
         #endregion
+
+        #region Equipment
+        public Equipment Equipment { get; private set; }
         #endregion
 
         #region Base Attributes and Talents
-        public BaseAttributes BaseAttributes { get; private set; }
-        public BaseTalents BaseTalents { get; private set; }
+        public Attributes Attributes { get; private set; }
+        public Talents Talents { get; private set; }
         #endregion
 
         #region Health, Stamina, XP
@@ -143,7 +128,6 @@ namespace ConsoleRPG.Models.Actors.Character
         #endregion
 
         #region Stat Modifiers
-        // TODO build Effects and modify character stats from them
         /// <summary>
         /// Returns the total equipment modifier for the given stat.
         /// </summary>
@@ -152,23 +136,23 @@ namespace ConsoleRPG.Models.Actors.Character
         public double EquipmentMod(string stat)
         {
             double mod = 0;
-            foreach (EquipmentItem item in Equipment.Equipped.Values)
+            foreach (KeyValuePair<string, EquipmentItem> item in this.Equipment.Slot)
             {
-                foreach (KeyValuePair<string, double> itemStat in item.WeaponStats)
+                foreach (KeyValuePair<string, double> itemStat in item.Value.WeaponStats)
                 {
                     if (itemStat.Key == stat)
                     {
                         mod += itemStat.Value;
                     }
                 }
-                foreach (KeyValuePair<string, double> itemStat in item.ArmorStats)
+                foreach (KeyValuePair<string, double> itemStat in item.Value.ArmorStats)
                 {
                     if (itemStat.Key == stat)
                     {
                         mod += itemStat.Value;
                     }
                 }
-                foreach (KeyValuePair<string, double> itemStat in item.CharmStats)
+                foreach (KeyValuePair<string, double> itemStat in item.Value.CharmStats)
                 {
                     if (itemStat.Key == stat)
                     {
@@ -179,38 +163,14 @@ namespace ConsoleRPG.Models.Actors.Character
             return mod;
         }
         /// <summary>
-        /// A dictionary of the current modded attribute values.
+        /// Returns the total effect modifier for the given stat.
         /// </summary>
-        public Dictionary<string, int> Attributes
+        /// <param name="stat"></param>
+        /// <returns></returns>
+        public double EffectMod(string stat)
         {
-            get
-            {
-                return new Dictionary<string, int>()
-                {
-                    { "STR", BaseAttributes.ValueDict["STR"] + (int)EquipmentMod("STR") },
-                    { "DEX", BaseAttributes.ValueDict["DEX"] + (int)EquipmentMod("DEX") },
-                    { "SKL", BaseAttributes.ValueDict["SKL"] + (int)EquipmentMod("STR") },
-                    { "APT", BaseAttributes.ValueDict["APT"] + (int)EquipmentMod("APT") },
-                    { "PER", BaseAttributes.ValueDict["PER"] + (int)EquipmentMod("PER") },
-                    { "CHA", BaseAttributes.ValueDict["CHA"] + (int)EquipmentMod("CHA") },
-                };
-            }
-        }
-        public Dictionary<string, int> Talents
-        {
-            get
-            {
-                return new Dictionary<string, int>()
-                {
-                    { "Medicine", BaseTalents.ValueDict["Medicine"] + (int)EquipmentMod("Medicine") },
-                    { "Herbalism", BaseTalents.ValueDict["Herbalism"] + (int)EquipmentMod("Herbalism") },
-                    { "Explosives", BaseTalents.ValueDict["Explosives"] + (int)EquipmentMod("Explosives") },
-                    { "Veterancy", BaseTalents.ValueDict["Veterancy"] + (int)EquipmentMod("Veterancy") },
-                    { "Bestiary", BaseTalents.ValueDict["Bestiary"] + (int)EquipmentMod("Bestiary") },
-                    { "Engineering", BaseTalents.ValueDict["Engineering"] + (int)EquipmentMod("Engineering") },
-                    { "History", BaseTalents.ValueDict["History"] + (int)EquipmentMod("History") },
-                };
-            }
+            // TODO build Effects and get modified character stats from them
+            return 0;
         }
         #endregion
 

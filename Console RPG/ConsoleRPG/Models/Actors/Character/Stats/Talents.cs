@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ConsoleRPG.Models.Actors.Character.Stats
 {
-    public class BaseTalents
+    public class Talents
     {
         #region Talent Descriptions
         /* 
@@ -25,23 +25,23 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
         #endregion
 
         #region Constructors
-        public BaseTalents() { }
-        public BaseTalents(int med, int herb, int expl, int vet, int best, int eng, int hist)
+        public Talents() { }
+        public Talents(int med, int herb, int expl, int vet, int best, int eng, int hist)
         {
-            ValueDict["Medicine"] = med;
-            ValueDict["Herbalism"] = herb;
-            ValueDict["Explosives"] = expl;
-            ValueDict["Veterancy"] = vet;
-            ValueDict["Bestiary"] = best;
-            ValueDict["Engineering"] = eng;
-            ValueDict["History"] = hist;
+            BaseValue["Medicine"] = med;
+            BaseValue["Herbalism"] = herb;
+            BaseValue["Explosives"] = expl;
+            BaseValue["Veterancy"] = vet;
+            BaseValue["Bestiary"] = best;
+            BaseValue["Engineering"] = eng;
+            BaseValue["History"] = hist;
         }
         #endregion
 
         /// <summary>
         /// Dictionary of Talents.
         /// </summary>
-        public Dictionary<string, int> ValueDict { get; private set; }
+        public Dictionary<string, int> BaseValue { get; private set; }
             = new Dictionary<string, int>()
                 {
                     { "Medicine", 0 },
@@ -61,7 +61,7 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
         public void ChangeTalent(string stat, int points)
         {
             stat = stat.ToLower();
-            ValueDict[stat] += points;
+            BaseValue[stat] += points;
         }
     }
 }
