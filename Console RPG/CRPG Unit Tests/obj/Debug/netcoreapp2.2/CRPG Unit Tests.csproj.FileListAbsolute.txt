@@ -15,3 +15,19 @@ C:\Users\SRoy\Documents\git\rpg-steve\Console RPG\CRPG Unit Tests\obj\Debug\netc
 C:\Users\SRoy\Documents\git\rpg-steve\Console RPG\CRPG Unit Tests\bin\Debug\netcoreapp2.2\ConsoleRPG.dll
 C:\Users\SRoy\Documents\git\rpg-steve\Console RPG\CRPG Unit Tests\bin\Debug\netcoreapp2.2\ConsoleRPG.pdb
 C:\Users\SRoy\Documents\git\rpg-steve\Console RPG\CRPG Unit Tests\obj\Debug\netcoreapp2.2\CRPG Unit Tests.csproj.CopyComplete
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\CRPG Unit Tests\obj\Debug\netcoreapp2.2\CRPG Unit Tests.csprojAssemblyReference.cache
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\CRPG Unit Tests\obj\Debug\netcoreapp2.2\CRPG Unit Tests.AssemblyInfoInputs.cache
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\CRPG Unit Tests\obj\Debug\netcoreapp2.2\CRPG Unit Tests.AssemblyInfo.cs
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\CRPG Unit Tests\obj\Debug\netcoreapp2.2\CRPG Unit Tests.dll
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\CRPG Unit Tests\obj\Debug\netcoreapp2.2\CRPG Unit Tests.pdb
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\CRPG Unit Tests\bin\Debug\netcoreapp2.2\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\CRPG Unit Tests\bin\Debug\netcoreapp2.2\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\CRPG Unit Tests\bin\Debug\netcoreapp2.2\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\CRPG Unit Tests\bin\Debug\netcoreapp2.2\CRPG Unit Tests.deps.json
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\CRPG Unit Tests\bin\Debug\netcoreapp2.2\CRPG Unit Tests.runtimeconfig.json
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\CRPG Unit Tests\bin\Debug\netcoreapp2.2\CRPG Unit Tests.runtimeconfig.dev.json
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\CRPG Unit Tests\bin\Debug\netcoreapp2.2\CRPG Unit Tests.dll
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\CRPG Unit Tests\bin\Debug\netcoreapp2.2\CRPG Unit Tests.pdb
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\CRPG Unit Tests\bin\Debug\netcoreapp2.2\ConsoleRPG.dll
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\CRPG Unit Tests\bin\Debug\netcoreapp2.2\ConsoleRPG.pdb
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\CRPG Unit Tests\obj\Debug\netcoreapp2.2\CRPG Unit Tests.csproj.CopyComplete

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ConsoleRPG.Models.Items.Equipment.Charms
 {
-    public class Unadorned : Equipment
+    public class Unadorned : EquipmentItem
     {
         public Unadorned()
         {

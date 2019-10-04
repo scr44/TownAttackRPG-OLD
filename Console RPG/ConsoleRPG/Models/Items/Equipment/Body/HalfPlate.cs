@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ConsoleRPG.Models.Items.Equipment.Body
 {
-    public class HalfPlate : Equipment
+    public class HalfPlate : EquipmentItem
     {
         public HalfPlate()
         {

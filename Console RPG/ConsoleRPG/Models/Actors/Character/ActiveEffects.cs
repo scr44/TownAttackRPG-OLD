@@ -1,6 +1,7 @@
 ﻿using ConsoleRPG.Models.Effects;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ConsoleRPG.Models.Actors.Character
@@ -47,7 +48,7 @@ namespace ConsoleRPG.Models.Actors.Character
             {
                 if(newEffect.EffectKeywords.Contains("Stacking Duration"))
                 {
-                    // Stack duration
+                    // Add duration to existing instance
                 }
                 else
                 {

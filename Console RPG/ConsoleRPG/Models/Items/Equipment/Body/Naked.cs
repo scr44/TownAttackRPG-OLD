@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ConsoleRPG.Models.Items.Equipment.Body
 {
-    public class Naked : Equipment
+    public class Naked : EquipmentItem
     {
         public Naked()
         {

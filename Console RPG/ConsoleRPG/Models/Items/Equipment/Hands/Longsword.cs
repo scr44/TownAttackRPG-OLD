@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ConsoleRPG.Models.Items.Equipment.Hands
 {
-    public class Longsword : Equipment
+    public class Longsword : EquipmentItem
     {
         public Longsword()
         {

@@ -12,7 +12,7 @@ namespace ConsoleRPG.Models.Actors.Character
     {
         #region Constructors
         public EquippedItems() { }
-        public EquippedItems(Equipment main, Equipment off, Equipment body, Equipment charm1, Equipment charm2)
+        public EquippedItems(EquipmentItem main, EquipmentItem off, EquipmentItem body, EquipmentItem charm1, EquipmentItem charm2)
         {
             Equipped["MainHand"] = main;
             Equipped["OffHand"] = off;
@@ -23,8 +23,8 @@ namespace ConsoleRPG.Models.Actors.Character
         #endregion
 
         #region Properties
-        public Dictionary<string, Equipment> Equipped { get; set; } =
-            new Dictionary<string, Equipment>()
+        public Dictionary<string, EquipmentItem> Equipped { get; set; } =
+            new Dictionary<string, EquipmentItem>()
             {
                 { "MainHand", new BareHand() },
                 { "OffHand", new BareHand() },
@@ -50,9 +50,9 @@ namespace ConsoleRPG.Models.Actors.Character
         /// </summary>
         /// <param name="slot">"MainHand", "OffHand", "Body", "Charm 1", "Charm 2" (Case sensitive)</param>
         /// <returns></returns>
-        public Equipment Unequip(string slot)
+        public EquipmentItem Unequip(string slot)
         {
-            Equipment removedItem = Equipped[slot];
+            EquipmentItem removedItem = Equipped[slot];
             if (slot == "MainHand")
             {
                 Equipped[slot] = new BareHand();
@@ -89,7 +89,7 @@ namespace ConsoleRPG.Models.Actors.Character
         /// <param name="slot">"MainHand", "OffHand", "Body", "Charm 1", "Charm 2" (Case sensitive)</param>
         /// <param name="item">The item to equip.</param>
         /// <returns></returns>
-        public Equipment Equip(string slot, Equipment item)
+        public EquipmentItem Equip(string slot, EquipmentItem item)
         {
             if (item.ValidSlots[slot] == false)
             {
@@ -103,7 +103,7 @@ namespace ConsoleRPG.Models.Actors.Character
             }
             else
             {
-                Equipment unequipped = Equipped[slot];
+                EquipmentItem unequipped = Equipped[slot];
                 Equipped[slot] = item;
                 return unequipped;
             }
@@ -111,7 +111,7 @@ namespace ConsoleRPG.Models.Actors.Character
 
         public void DisplayEquipment()
         {
-            foreach (KeyValuePair<string, Equipment> equipment in Equipped)
+            foreach (KeyValuePair<string, EquipmentItem> equipment in Equipped)
             {
                 Console.WriteLine($"{equipment.Key} - {equipment.Value.ItemName}: {equipment.Value.ItemDescrip}\n");
             }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ConsoleRPG.Models.Items.Equipment.Charms
 {
-    public class LoversLocket : Equipment
+    public class LoversLocket : EquipmentItem
     {
         public LoversLocket()
         {

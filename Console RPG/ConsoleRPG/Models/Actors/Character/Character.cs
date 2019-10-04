@@ -24,83 +24,7 @@ namespace ConsoleRPG.Models.Actors.Character
         }
 
         #region Flavor Text Info
-        public string Name { get; }
-        public string Gender { get; set; }
-        #region Pronouns
-        // Pronouns for string interpolation in events and combat
-        public string HisHer
-        {
-            get
-            {
-                if(Gender == "Male")
-                {
-                    return "his";
-                }
-                else if (Gender == "Female" )
-                {
-                    return "her";
-                }
-                else
-                {
-                    return "its";
-                }
-            }
-        }
-        public string HisHers
-        {
-            get
-            {
-                if (Gender == "Male")
-                {
-                    return "his";
-                }
-                else if (Gender == "Female")
-                {
-                    return "hers";
-                }
-                else
-                {
-                    return "its";
-                }
-            }
-        }
-        public string HeShe
-        {
-            get
-            {
-                if (Gender == "Male")
-                {
-                    return "he";
-                }
-                else if (Gender == "Female")
-                {
-                    return "she";
-                }
-                else
-                {
-                    return "it";
-                }
-            }
-        }
-        public string GenderAdjective
-        {
-            get
-            {
-                if (Gender == "Male")
-                {
-                    return " male";
-                }
-                else if (Gender == "Female")
-                {
-                    return " female";
-                }
-                else
-                {
-                    return "";
-                }
-            }
-        }
-        #endregion
+        public string Name { get; } // TODO add handling for First and Last name
         public Profession Profession { get; }
         #endregion
 
@@ -108,17 +32,17 @@ namespace ConsoleRPG.Models.Actors.Character
         public EquippedItems Equipment { get; private set; }
         public Inventory Inventory { get; private set; }
         public bool Is2H { get { return Equipment.Is2H; } }
-
+        #region Inventory and Equipment Methods
         /// <summary>
         /// Equips an item and moves prior equipped item to inventory.
         /// </summary>
         /// <param name="slot"></param>
         /// <param name="item"></param>
-        public void Equip(string slot, Equipment item)
+        public void Equip(string slot, EquipmentItem item)
         {
-            Equipment takenItem = item;
+            EquipmentItem takenItem = item;
             Inventory.RemoveItem(item);
-            Equipment priorItem = Equipment.Equip(slot, item);
+            EquipmentItem priorItem = Equipment.Equip(slot, item);
             if (!(priorItem is null))
             { Inventory.StoreItem(priorItem); }
         }
@@ -128,7 +52,7 @@ namespace ConsoleRPG.Models.Actors.Character
         /// <param name="slot"></param>
         public void Unequip(string slot)
         {
-            Equipment priorItem = Equipment.Unequip(slot);
+            EquipmentItem priorItem = Equipment.Unequip(slot);
             if (!(priorItem is null))
             { Inventory.StoreItem(priorItem); }
         }
@@ -172,6 +96,7 @@ namespace ConsoleRPG.Models.Actors.Character
             Inventory.DisplayInventory();
         }
         // TODO implement trade function for selling items and exchanging with party members
+        #endregion
         #endregion
 
         #region Base Attributes and Talents
@@ -227,7 +152,7 @@ namespace ConsoleRPG.Models.Actors.Character
         public double EquipmentMod(string stat)
         {
             double mod = 0;
-            foreach (Equipment item in Equipment.Equipped.Values)
+            foreach (EquipmentItem item in Equipment.Equipped.Values)
             {
                 foreach (KeyValuePair<string, double> itemStat in item.WeaponStats)
                 {

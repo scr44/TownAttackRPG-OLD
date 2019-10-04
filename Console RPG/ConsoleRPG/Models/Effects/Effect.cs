@@ -11,7 +11,13 @@ namespace ConsoleRPG.Models.Effects
 
         public string EffectName { get; protected set; }
         public string EffectDescrip { get; protected set; }
-        public int Duration { get; set; } // number of turns effect has remaining
+        /// <summary>
+        /// Number of ticks an effect has remaining.
+        /// </summary>
+        public int Duration { get; set; }
+        /// <summary>
+        /// The target of the effect.
+        /// </summary>
         public Actor Target { get; protected set; }
         /// <summary>
         /// Dictionary of the Attribute, Talent, Charm, and other stats modified by the Effect.
