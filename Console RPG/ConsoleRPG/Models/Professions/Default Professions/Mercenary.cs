@@ -11,11 +11,11 @@ namespace ConsoleRPG.Models.Professions.Default_Professions
 {
     public class Mercenary : Profession
     {
-        public Mercenary()
+        public Mercenary(string gender="F")
         {
             Title = "Mercenary";
-            ProfessionSummary = "A veteran fighter for hire. She is a master of the longsword; but constant concussions and old wounds have damaged her senses, and her social graces are lacking.";
-            Gender = "Female";
+            Gender = GetGender(gender);
+            ProfessionSummary = "Mercenaries are masters of the longsword; but constant concussions and old wounds have damaged their senses, and their social graces are lacking.";
             BaseHealth = 20;
             BaseStamina = 20;
             StartingAttributes = new BaseAttributes(

@@ -6,16 +6,33 @@ using System.Text;
 
 namespace ConsoleRPG.Models.Professions
 {
-    public class Profession
+    abstract public class Profession
     {
         public Profession()
         {
-
+            
         }
 
         public string Title { get; protected set; }
-        public string ProfessionSummary { get; protected set; }
         public string Gender { get; protected set; }
+        public string GetGender(string gender)
+        {
+            gender = gender.ToLower();
+            if (gender == "male" || gender == "m")
+            {
+                Gender = "Male";
+            }
+            else if (gender == "female" || gender == "f")
+            {
+                Gender = "Female";
+            }
+            else
+            {
+                Gender = "Unknown";
+            }
+            return Gender;
+        }
+        public string ProfessionSummary { get; protected set; }
         public int BaseHealth { get; protected set; }
         public int BaseStamina { get; protected set; }
         public BaseAttributes StartingAttributes { get; protected set; }

@@ -43,19 +43,19 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
         /// <param name="cha"></param>
         public BaseAttributes(int str, int dex, int skl, int apt, int per, int cha)
         {
-            Attr["STR"] = str;
-            Attr["DEX"] = dex;
-            Attr["SKL"] = skl;
-            Attr["APT"] = apt;
-            Attr["PER"] = per;
-            Attr["CHA"] = cha;
+            ValueDict["STR"] = str;
+            ValueDict["DEX"] = dex;
+            ValueDict["SKL"] = skl;
+            ValueDict["APT"] = apt;
+            ValueDict["PER"] = per;
+            ValueDict["CHA"] = cha;
         }
         #endregion
 
         /// <summary>
         /// Dictionary of Attributes.
         /// </summary>
-        public Dictionary<string, int> Attr { get; private set; } = new Dictionary<string, int>()
+        public Dictionary<string, int> ValueDict { get; private set; } = new Dictionary<string, int>()
         {
             { "STR", 5 },
             { "DEX", 5 },
@@ -73,7 +73,7 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
         public void ChangeAttribute(string stat, int points)
         {
             stat = stat.ToUpper();
-            Attr[stat] += points;
+            ValueDict[stat] += points;
         }
     }
 }

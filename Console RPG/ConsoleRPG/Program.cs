@@ -12,13 +12,13 @@ namespace ConsoleRPG
     {
         static void Main(string[] args)
         {
-            Character Guinevere = new Character("Guinevere", new Mercenary());
+            Character Guinevere = new Character("Guinevere", new Mercenary("F"));
 
-            Console.WriteLine($"{Guinevere.Name} is a {Guinevere.Gender.ToLower()} {Guinevere.Profession.Title.ToLower()}: {Guinevere.Profession.ProfessionSummary}");
+            Console.WriteLine($"{Guinevere.Name} is a{Guinevere.GenderAdjective} {Guinevere.Profession.Title.ToLower()}: {Guinevere.Profession.ProfessionSummary}");
             Console.WriteLine("\nHer attributes are:");
-            foreach(KeyValuePair<string,int> stat in Guinevere.BaseAttributes.Attr)
+            foreach(KeyValuePair<string,int> stat in Guinevere.BaseAttributes.ValueDict)
             {
-                Console.WriteLine($"{stat.Key}: {Guinevere.BaseAttributes.Attr[stat.Key]}");
+                Console.WriteLine($"{stat.Key}: {Guinevere.BaseAttributes.ValueDict[stat.Key]}");
             }
             Console.WriteLine("\nShe is currently using the following equipment:");
             Guinevere.CheckEquipment();
@@ -42,7 +42,7 @@ namespace ConsoleRPG
             Guinevere.CheckEquipment();
 
             Console.WriteLine("\n\nShe has to re-equip her sword first. Then, she can go back to two-handing it.");
-            //Guinevere.Equip("MainHand", Guinevere.Inventory.InvList[0]); // TODO fix equipping items from inventory
+            //Guinevere.Equip("MainHand", (Equipment)Guinevere.Inventory.InvList[0]); // TODO fix equipping items from inventory
 
             Console.ReadLine();
         }

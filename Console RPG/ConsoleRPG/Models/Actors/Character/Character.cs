@@ -17,7 +17,7 @@ namespace ConsoleRPG.Models.Actors.Character
             Profession = prof;
             BaseAttributes = prof.StartingAttributes;
             BaseTalents = prof.StartingTalents;
-            EquippedItems = prof.StartingEquipment;
+            Equipment = prof.StartingEquipment;
             Inventory = prof.StartingInventory;
 
             BaseHealth = prof.BaseHealth;
@@ -25,14 +25,89 @@ namespace ConsoleRPG.Models.Actors.Character
 
         #region Flavor Text Info
         public string Name { get; }
-        public string Gender { get; }
+        public string Gender { get; set; }
+        #region Pronouns
+        // Pronouns for string interpolation in events and combat
+        public string HisHer
+        {
+            get
+            {
+                if(Gender == "Male")
+                {
+                    return "his";
+                }
+                else if (Gender == "Female" )
+                {
+                    return "her";
+                }
+                else
+                {
+                    return "its";
+                }
+            }
+        }
+        public string HisHers
+        {
+            get
+            {
+                if (Gender == "Male")
+                {
+                    return "his";
+                }
+                else if (Gender == "Female")
+                {
+                    return "hers";
+                }
+                else
+                {
+                    return "its";
+                }
+            }
+        }
+        public string HeShe
+        {
+            get
+            {
+                if (Gender == "Male")
+                {
+                    return "he";
+                }
+                else if (Gender == "Female")
+                {
+                    return "she";
+                }
+                else
+                {
+                    return "it";
+                }
+            }
+        }
+        public string GenderAdjective
+        {
+            get
+            {
+                if (Gender == "Male")
+                {
+                    return " male";
+                }
+                else if (Gender == "Female")
+                {
+                    return " female";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+        #endregion
         public Profession Profession { get; }
         #endregion
 
         #region Inventory and Equipment
-        public EquippedItems EquippedItems { get; private set; }
+        public EquippedItems Equipment { get; private set; }
         public Inventory Inventory { get; private set; }
-        public bool Is2H { get { return EquippedItems.Is2H; } }
+        public bool Is2H { get { return Equipment.Is2H; } }
 
         /// <summary>
         /// Equips an item and moves prior equipped item to inventory.
@@ -43,7 +118,7 @@ namespace ConsoleRPG.Models.Actors.Character
         {
             Equipment takenItem = item;
             Inventory.RemoveItem(item);
-            Equipment priorItem = EquippedItems.Equip(slot, item);
+            Equipment priorItem = Equipment.Equip(slot, item);
             if (!(priorItem is null))
             { Inventory.StoreItem(priorItem); }
         }
@@ -53,7 +128,7 @@ namespace ConsoleRPG.Models.Actors.Character
         /// <param name="slot"></param>
         public void Unequip(string slot)
         {
-            Equipment priorItem = EquippedItems.Unequip(slot);
+            Equipment priorItem = Equipment.Unequip(slot);
             if (!(priorItem is null))
             { Inventory.StoreItem(priorItem); }
         }
@@ -69,10 +144,10 @@ namespace ConsoleRPG.Models.Actors.Character
             }
             else
             {
-                if (EquippedItems.Equipped["MainHand"].EquipmentKeywords.Contains("Can2H"))
+                if (Equipment.Equipped["MainHand"].EquipmentKeywords.Contains("Can2H"))
                 {
                     Unequip("OffHand");
-                    EquippedItems.Equipped["OffHand"] = new TwoHanding();
+                    Equipment.Equipped["OffHand"] = new TwoHanding();
                 }
             }
         }
@@ -84,7 +159,7 @@ namespace ConsoleRPG.Models.Actors.Character
             Console.WriteLine(hline);
             Console.WriteLine(header);
             Console.WriteLine(hline);
-            EquippedItems.DisplayEquipment();
+            Equipment.DisplayEquipment();
         }
         public void CheckInventory()
         {
@@ -152,7 +227,7 @@ namespace ConsoleRPG.Models.Actors.Character
         public double EquipmentMod(string stat)
         {
             double mod = 0;
-            foreach (Equipment item in EquippedItems.Equipped.Values)
+            foreach (Equipment item in Equipment.Equipped.Values)
             {
                 foreach (KeyValuePair<string, double> itemStat in item.WeaponStats)
                 {
@@ -187,12 +262,12 @@ namespace ConsoleRPG.Models.Actors.Character
             {
                 return new Dictionary<string, int>()
                 {
-                    { "STR", BaseAttributes.Attr["STR"] + (int)EquipmentMod("STR") },
-                    { "DEX", BaseAttributes.Attr["DEX"] + (int)EquipmentMod("DEX") },
-                    { "SKL", BaseAttributes.Attr["SKL"] + (int)EquipmentMod("STR") },
-                    { "APT", BaseAttributes.Attr["APT"] + (int)EquipmentMod("APT") },
-                    { "PER", BaseAttributes.Attr["PER"] + (int)EquipmentMod("PER") },
-                    { "CHA", BaseAttributes.Attr["CHA"] + (int)EquipmentMod("CHA") },
+                    { "STR", BaseAttributes.ValueDict["STR"] + (int)EquipmentMod("STR") },
+                    { "DEX", BaseAttributes.ValueDict["DEX"] + (int)EquipmentMod("DEX") },
+                    { "SKL", BaseAttributes.ValueDict["SKL"] + (int)EquipmentMod("STR") },
+                    { "APT", BaseAttributes.ValueDict["APT"] + (int)EquipmentMod("APT") },
+                    { "PER", BaseAttributes.ValueDict["PER"] + (int)EquipmentMod("PER") },
+                    { "CHA", BaseAttributes.ValueDict["CHA"] + (int)EquipmentMod("CHA") },
                 };
             }
         }
@@ -202,13 +277,13 @@ namespace ConsoleRPG.Models.Actors.Character
             {
                 return new Dictionary<string, int>()
                 {
-                    { "Medicine", BaseTalents.Talent["Medicine"] + (int)EquipmentMod("Medicine") },
-                    { "Herbalism", BaseTalents.Talent["Herbalism"] + (int)EquipmentMod("Herbalism") },
-                    { "Explosives", BaseTalents.Talent["Explosives"] + (int)EquipmentMod("Explosives") },
-                    { "Veterancy", BaseTalents.Talent["Veterancy"] + (int)EquipmentMod("Veterancy") },
-                    { "Bestiary", BaseTalents.Talent["Bestiary"] + (int)EquipmentMod("Bestiary") },
-                    { "Engineering", BaseTalents.Talent["Engineering"] + (int)EquipmentMod("Engineering") },
-                    { "History", BaseTalents.Talent["History"] + (int)EquipmentMod("History") },
+                    { "Medicine", BaseTalents.ValueDict["Medicine"] + (int)EquipmentMod("Medicine") },
+                    { "Herbalism", BaseTalents.ValueDict["Herbalism"] + (int)EquipmentMod("Herbalism") },
+                    { "Explosives", BaseTalents.ValueDict["Explosives"] + (int)EquipmentMod("Explosives") },
+                    { "Veterancy", BaseTalents.ValueDict["Veterancy"] + (int)EquipmentMod("Veterancy") },
+                    { "Bestiary", BaseTalents.ValueDict["Bestiary"] + (int)EquipmentMod("Bestiary") },
+                    { "Engineering", BaseTalents.ValueDict["Engineering"] + (int)EquipmentMod("Engineering") },
+                    { "History", BaseTalents.ValueDict["History"] + (int)EquipmentMod("History") },
                 };
             }
         }
