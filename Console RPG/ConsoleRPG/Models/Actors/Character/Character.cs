@@ -61,11 +61,13 @@ namespace ConsoleRPG.Models.Actors.Character
                 double weight = 0;
                 foreach(KeyValuePair<string, Item> item in Inventory.InventoryContents)
                 {
+                    // weight of all items in inventory
                     weight += Inventory.InventoryContents[item.Key].Weight
                         * Inventory.InventoryCounts[item.Key];
                 }
                 foreach(var item in Equipment.Slot)
                 {
+                    // weight of all equipped items
                     weight += Equipment.Slot[item.Key].Weight;
                 }
                 return weight;

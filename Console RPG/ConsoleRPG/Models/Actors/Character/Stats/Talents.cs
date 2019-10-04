@@ -60,8 +60,15 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
         /// <param name="points">Positive points to increase, negative points to decrease.</param>
         public void ChangeTalent(string stat, int points)
         {
-            stat = stat.ToLower();
-            BaseValue[stat] += points;
+            if (BaseValue.ContainsKey(stat))
+            {
+                stat = stat.ToUpper();
+                BaseValue[stat] += points;
+            }
+            else
+            {
+                throw new ArgumentException("Tried to change an invalid Talent.");
+            }
         }
     }
 }

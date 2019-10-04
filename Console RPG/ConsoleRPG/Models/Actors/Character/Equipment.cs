@@ -1,4 +1,5 @@
-﻿using ConsoleRPG.Models.Items.Equipment;
+﻿using ConsoleRPG.Models.Items;
+using ConsoleRPG.Models.Items.Equipment;
 using ConsoleRPG.Models.Items.Equipment.Body;
 using ConsoleRPG.Models.Items.Equipment.Charms;
 using ConsoleRPG.Models.Items.Equipment.Hands;
@@ -12,16 +13,20 @@ namespace ConsoleRPG.Models.Actors.Character
     {
         #region Constructors
         public Equipment() { }
-        public Equipment(EquipmentItem main, EquipmentItem off, EquipmentItem body, EquipmentItem charm1, EquipmentItem charm2)
+        public Equipment(Inventory inventoryPointer, EquipmentItem main, EquipmentItem off, 
+            EquipmentItem body, EquipmentItem charm1, EquipmentItem charm2)
         {
-            Equipped["MainHand"] = main;
-            Equipped["OffHand"] = off;
-            Equipped["Body"] = body;
-            Equipped["Charm 1"] = charm1;
-            Equipped["Charm 2"] = charm2;
+            Slot["MainHand"] = main;
+            Slot["OffHand"] = off;
+            Slot["Body"] = body;
+            Slot["Charm 1"] = charm1;
+            Slot["Charm 2"] = charm2;
+
+            AttachedInventory = inventoryPointer;
         }
         #endregion
 
+        public Inventory AttachedInventory { get; }
         /// <summary>
         /// The set of equipment slots and equipped items.
         /// </summary>
@@ -64,6 +69,7 @@ namespace ConsoleRPG.Models.Actors.Character
                     Unequip("OffHand");
                     Slot["OffHand"] = new TwoHanding();
                 }
+                // if can't 2H the main weapon, do nothing
             }
         }
         /// <summary>
@@ -78,24 +84,25 @@ namespace ConsoleRPG.Models.Actors.Character
              && !(equipment.EquipmentKeywords.Contains("NotEquippable"))
              && !(equipment.EquipmentKeywords.Contains("Broken")))
             {
-                EquipmentItem priorEquipment = Slot[slot];
-                Slot[slot] = equipment;
-                if (// If the slot was empty
+                EquipmentItem priorEquipment = Slot[slot]; // Hold the prior equipped item,
+                AttachedInventory.RemoveItem(equipment);
+                Slot[slot] = equipment;                    // and equip the new item.
+                if (                             
                        priorEquipment is BareHand
-                    || priorEquipment is Naked
+                    || priorEquipment is Naked             // If the slot was empty,
                     || priorEquipment is Unadorned)
                 {
-                    return true; // New item equipped
+                    return true;                           // return true because the equip succeeded.
                 }
-                else // If the slot had equipment
+                else                                       // If the slot had equipment,
                 {
-                    // add the prior item to the inventory
-                    return true;
+                    AttachedInventory.AddItem(equipment);  // add the prior item to the attached inventory
+                    return true;                           // and return true because the equip succeeded.
                 }
             }
-            else
+            else                                           // If invalid slot, non-equippable item, or broken equipment,
             {
-                return false; // Don't equip the item
+                return false;                              // don't equip the item, and return false because the equip failed.
             }
         }
         /// <summary>
@@ -104,14 +111,52 @@ namespace ConsoleRPG.Models.Actors.Character
         /// <param name="slot"></param>
         public void Unequip(string slot)
         {
-            EquipmentItem priorItem = Slot.Unequip(slot);
-            if (!(priorItem is null))
-            { Inventory.StoreItem(priorItem); }
+            // Hold the prior equipped item
+            EquipmentItem priorEquipment = Slot[slot];
+
+            // 2H primary unequips the offhand as well
+            if(Is2H && slot == "MainHand")
+            {
+                Toggle2H();
+            }
+
+            // The actual slot unequip
+            if(slot == "MainHand" || slot == "OffHand")
+            {
+                Slot[slot] = new BareHand();
+            }
+            else if (slot == "Body")
+            {
+                Slot[slot] = new Naked();
+            }
+            else if (slot.StartsWith("Charm"))
+            {
+                Slot[slot] = new Unadorned();
+            }
+            else
+            {
+                throw new ArgumentException("Tried to unequip an invalid slot.");
+            }
+
+            // Inventory handling post-unequip
+            if (    // If the slot was empty
+                       priorEquipment is BareHand
+                    || priorEquipment is TwoHanding
+                    || priorEquipment is Naked
+                    || priorEquipment is Unadorned)
+            {
+                // Do nothing;
+            }
+            else
+            {
+                // Add item to the attached inventory.
+                AttachedInventory.AddItem(priorEquipment);
+            }
         }
 
         public void DisplayEquipment()
         {
-            foreach (KeyValuePair<string, EquipmentItem> equipment in Equipped)
+            foreach (KeyValuePair<string, EquipmentItem> equipment in Slot)
             {
                 Console.WriteLine($"{equipment.Key} - {equipment.Value.ItemName}: {equipment.Value.ItemDescrip}\n");
             }

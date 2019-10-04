@@ -37,6 +37,7 @@ namespace ConsoleRPG.Models.Professions.Default_Professions
                 );
             StartingInventory = new Inventory();
             StartingEquipment = new Equipment(
+                inventoryPointer: StartingInventory,
                 main: new Longsword(),
                 off: new TwoHanding(),
                 body: new HalfPlate(),
