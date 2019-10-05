@@ -18,14 +18,15 @@ namespace ConsoleRPG.Models.Professions.Default_Professions
             ProfessionSummary = "Mercenaries are masters of the longsword; but constant concussions and old wounds have damaged their senses, and their social graces are lacking.";
             BaseHealth = 20;
             BaseStamina = 20;
-            StartingAttributes = new Attributes(
-                str: 6,
-                dex: 6,
-                skl: 7,
-                apt: 4,
-                per: 2,
-                cha: 3
-                );
+            StartingAttributes = new Dictionary<string, int>()
+            {
+                { "STR", 6 },
+                { "DEX", 6 },
+                { "SKL", 7 },
+                { "APT", 4 },
+                { "PER", 2 },
+                { "CHA", 3 }
+            };
             StartingTalents = new Talents(
                 med: 0,
                 herb: 0,

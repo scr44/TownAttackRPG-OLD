@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleRPG.Models.Skills.Signets
+namespace ConsoleRPG.Models.Actors.Character.Stats
 {
-    public abstract class Signet : Skill
+    class HP
     {
     }
 }

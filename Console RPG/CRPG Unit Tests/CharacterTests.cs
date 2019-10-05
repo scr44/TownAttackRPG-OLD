@@ -46,11 +46,12 @@ namespace CRPG_Unit_Tests
     [TestClass]
     public class CharacterStats
     {
-
+        [TestMethod]
+        public void 
     }
 
     [TestClass]
-    public class CharacterHPandSP
+    public class ArmorDamageAndHP
     {
 
     }
@@ -139,12 +140,16 @@ namespace CRPG_Unit_Tests
             Guinevere.Equipment.Toggle2H();
             Assert.IsTrue(Guinevere.Equipment.Is2H, "Longsword should be 2H.");
         }
+        [TestMethod]
+        public void BreakingAndRepairing()
+        {
+
+        }
     }
+
     [TestClass]
     public class InventoryBehavior
     {
-        public object Coins { get; private set; }
-
         [TestMethod]
         public void AddingItems()
         {

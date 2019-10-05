@@ -181,7 +181,68 @@ namespace ConsoleRPG.Models.Actors.Character
             = new ActiveEffects();
         #endregion
 
-        #region Damage Resistances
+        #region Offense
+        public Dictionary<string, double> DmgMultiplier // TODO add Effect mods to offense
+        {
+            get
+            {
+                return new Dictionary<string, double>()
+                {
+                    // + EffectMultiplier("slash")
+                    { "slash", EquipmentDmgMultiplier("slash") + AttackScaling["slash"]}, 
+                    { "pierce", EquipmentDmgMultiplier("pierce") + AttackScaling["pierce"]},
+                    { "crush", EquipmentDmgMultiplier("crush") + AttackScaling["crush"]},
+
+                    { "poison", EquipmentDmgMultiplier("poison") + AttackScaling["poison"]},
+                    { "bleed", EquipmentDmgMultiplier("bleed") + AttackScaling["bleed"]},
+                    { "fire", EquipmentDmgMultiplier("fire") + AttackScaling["fire"]},
+                    { "acid", EquipmentDmgMultiplier("acid") + AttackScaling["acid"]},
+                };
+            }
+        }
+        public Dictionary<string, double> AttackScaling
+        {
+            get
+            {
+                return new Dictionary<string, double>()
+                {
+                    // + EffectMultiplier("slash")
+                    { "slash", 0.2 * (Attributes.ModdedValue["DEX"] - 5) },
+                    { "pierce", 0.2 * (Attributes.ModdedValue["SKL"] - 5)},
+                    { "crush", 0.2 * (Attributes.ModdedValue["STR"] - 5)},
+
+                    { "poison", 0.1 * Talents.ModdedValue["Herbalism"] },
+                    { "bleed", 0.1 * Talents.ModdedValue["Medicine"] },
+                    { "fire", 0.1 * Talents.ModdedValue["Explosives"] },
+                    { "acid", 0.1 * Talents.ModdedValue["Engineering"] },
+                };
+            }
+        }
+        public double EquipmentDmgMultiplier(string dmgType)
+        {
+            string dmgMult = dmgType + "Multiplier";
+            return EquipmentMod(dmgMult);
+        }
+        #endregion
+
+        #region Defense
+        public Dictionary<string,double> Defense // TODO add Effect mods to defense
+        {
+            get
+            {
+                return new Dictionary<string, double>()
+                {
+                    { "slash", EquipmentPROT("slash") }, // + EffectPROT("slash") },
+                    { "pierce", EquipmentPROT("pierce") },
+                    { "crush", EquipmentPROT("crush") },
+
+                    { "poison", EquipmentPROT("poison") },
+                    { "bleed", EquipmentPROT("bleed") },
+                    { "fire", EquipmentPROT("fire") },
+                    { "acid", EquipmentPROT("acid") },
+                };
+            }
+        }
         public double EquipmentPROT(string dmgType)
         {
             string dmgProt = dmgType + "PROT";

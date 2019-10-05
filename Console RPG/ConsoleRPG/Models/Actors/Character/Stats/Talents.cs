@@ -26,8 +26,9 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
 
         #region Constructors
         public Talents() { }
-        public Talents(int med, int herb, int expl, int vet, int best, int eng, int hist)
+        public Talents(Character character, int med, int herb, int expl, int vet, int best, int eng, int hist)
         {
+            this.AttachedCharacter = character;
             BaseValue["Medicine"] = med;
             BaseValue["Herbalism"] = herb;
             BaseValue["Explosives"] = expl;
@@ -37,6 +38,8 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
             BaseValue["History"] = hist;
         }
         #endregion
+
+        public Character AttachedCharacter { get; }
 
         /// <summary>
         /// Dictionary of Talents.
@@ -52,6 +55,25 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
                     { "Engineering", 0 },
                     { "History", 0 }
                 };
+        /// <summary>
+        /// Dictionary of Attributes + AttributeMods
+        /// </summary>
+        public Dictionary<string, int> ModdedValue
+        {
+            get
+            {
+                return new Dictionary<string, int>()
+                {
+                    { "Medicine", BaseValue["Medicine"] + (int)AttachedCharacter.EquipmentMod("Medicine") + (int)AttachedCharacter.EffectMod("Medicine") },
+                    { "Herbalism", BaseValue["Herbalism"] + (int)AttachedCharacter.EquipmentMod("Herbalism") + (int)AttachedCharacter.EffectMod("Herbalism") },
+                    { "Explosives", BaseValue["Explosives"] + (int)AttachedCharacter.EquipmentMod("Explosives") + (int)AttachedCharacter.EffectMod("Explosives") },
+                    { "Veterancy", BaseValue["Veterancy"] + (int)AttachedCharacter.EquipmentMod("Veterancy") + (int)AttachedCharacter.EffectMod("Veterancy") },
+                    { "Bestiary", BaseValue["Bestiary"] + (int)AttachedCharacter.EquipmentMod("Bestiary") + (int)AttachedCharacter.EffectMod("Bestiary") },
+                    { "Engineering", BaseValue["Engineering"] + (int)AttachedCharacter.EquipmentMod("Engineering") + (int)AttachedCharacter.EffectMod("Engineering") },
+                    { "History", BaseValue["History"] + (int)AttachedCharacter.EquipmentMod("History") + (int)AttachedCharacter.EffectMod("History") },
+                };
+            }
+        }
 
         /// <summary>
         /// Changes a Talent by the given number of points.
@@ -62,7 +84,6 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
         {
             if (BaseValue.ContainsKey(stat))
             {
-                stat = stat.ToUpper();
                 BaseValue[stat] += points;
             }
             else

@@ -35,7 +35,7 @@ namespace ConsoleRPG.Models.Professions
         public string ProfessionSummary { get; protected set; }
         public int BaseHealth { get; protected set; }
         public int BaseStamina { get; protected set; }
-        public Attributes StartingAttributes { get; protected set; }
+        public Dictionary<string, int> StartingAttributes { get; protected set; }
         public Talents StartingTalents { get; protected set; }
         public Inventory StartingInventory { get; protected set; }
         public Equipment StartingEquipment { get; protected set; }

@@ -33,7 +33,7 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
 
         }
         /// <summary>
-        /// Sets base attributes to given levels.
+        /// Sets actor's base attributes to given levels.
         /// </summary>
         /// <param name="str"></param>
         /// <param name="dex"></param>
@@ -41,8 +41,9 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
         /// <param name="apt"></param>
         /// <param name="per"></param>
         /// <param name="cha"></param>
-        public Attributes(int str, int dex, int skl, int apt, int per, int cha)
+        public Attributes(Character character, int str, int dex, int skl, int apt, int per, int cha)
         {
+            this.AttachedCharacter = character;
             BaseValue["STR"] = str;
             BaseValue["DEX"] = dex;
             BaseValue["SKL"] = skl;
@@ -52,8 +53,10 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
         }
         #endregion
 
+        public Character AttachedCharacter { get; }
+
         /// <summary>
-        /// Dictionary of Attributes.
+        /// Dictionary of Attributes
         /// </summary>
         public Dictionary<string, int> BaseValue { get; private set; } = new Dictionary<string, int>()
         {
@@ -64,6 +67,24 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
             { "PER", 5 },
             { "CHA", 5 }
         };
+        /// <summary>
+        /// Dictionary of Attributes + AttributeMods
+        /// </summary>
+        public Dictionary<string, int> ModdedValue
+        {
+            get
+            {
+                return new Dictionary<string, int>()
+                {
+                    { "STR", BaseValue["STR"] + (int)AttachedCharacter.EquipmentMod("STR") + (int)AttachedCharacter.EffectMod("STR") },
+                    { "DEX", BaseValue["DEX"] + (int)AttachedCharacter.EquipmentMod("DEX") + (int)AttachedCharacter.EffectMod("DEX") },
+                    { "SKL", BaseValue["SKL"] + (int)AttachedCharacter.EquipmentMod("SKL") + (int)AttachedCharacter.EffectMod("SKL") },
+                    { "APT", BaseValue["APT"] + (int)AttachedCharacter.EquipmentMod("APT") + (int)AttachedCharacter.EffectMod("APT") },
+                    { "PER", BaseValue["PER"] + (int)AttachedCharacter.EquipmentMod("PER") + (int)AttachedCharacter.EffectMod("PER") },
+                    { "CHA", BaseValue["CHA"] + (int)AttachedCharacter.EquipmentMod("CHA") + (int)AttachedCharacter.EffectMod("CHA") },
+                };
+            }
+        }
 
         /// <summary>
         /// Changes an Attribute by the given points.
