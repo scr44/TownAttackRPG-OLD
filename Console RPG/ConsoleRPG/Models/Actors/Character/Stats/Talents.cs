@@ -37,6 +37,11 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
             BaseValue["Engineering"] = eng;
             BaseValue["History"] = hist;
         }
+        public Talents(Character character, Dictionary<string,int> initDict)
+        {
+            this.AttachedCharacter = character;
+            this.BaseValue = initDict;
+        }
         #endregion
 
         public Character AttachedCharacter { get; }

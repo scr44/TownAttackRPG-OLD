@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleRPG.Models.Items;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,7 +17,7 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
 
         Aptitude (APT): A character's ability to learn new things quickly. Affects how much experience is gained.
 
-        Perception (PER): A character's skill at thinking ahead and sensory abilities. Improves the effectiveness of items.
+        Fortitude (FOR): A character's resilience and will to survive. Affects damage PROT.
 
         Charisma (CHA): A character's talent at persuading others. Opens many options in dialogue.
          
@@ -39,17 +40,22 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
         /// <param name="dex"></param>
         /// <param name="skl"></param>
         /// <param name="apt"></param>
-        /// <param name="per"></param>
+        /// <param name="fort"></param>
         /// <param name="cha"></param>
-        public Attributes(Character character, int str, int dex, int skl, int apt, int per, int cha)
+        public Attributes(Character character, int str, int dex, int skl, int apt, int fort, int cha)
         {
             this.AttachedCharacter = character;
             BaseValue["STR"] = str;
             BaseValue["DEX"] = dex;
             BaseValue["SKL"] = skl;
             BaseValue["APT"] = apt;
-            BaseValue["PER"] = per;
+            BaseValue["FOR"] = fort;
             BaseValue["CHA"] = cha;
+        }
+        public Attributes(Character character, Dictionary<string, int> initDict)
+        {
+            this.AttachedCharacter = character;
+            this.BaseValue = initDict;
         }
         #endregion
 
@@ -64,7 +70,7 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
             { "DEX", 5 },
             { "SKL", 5 },
             { "APT", 5 },
-            { "PER", 5 },
+            { "FOR", 5 },
             { "CHA", 5 }
         };
         /// <summary>
@@ -80,7 +86,7 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
                     { "DEX", BaseValue["DEX"] + (int)AttachedCharacter.EquipmentMod("DEX") + (int)AttachedCharacter.EffectMod("DEX") },
                     { "SKL", BaseValue["SKL"] + (int)AttachedCharacter.EquipmentMod("SKL") + (int)AttachedCharacter.EffectMod("SKL") },
                     { "APT", BaseValue["APT"] + (int)AttachedCharacter.EquipmentMod("APT") + (int)AttachedCharacter.EffectMod("APT") },
-                    { "PER", BaseValue["PER"] + (int)AttachedCharacter.EquipmentMod("PER") + (int)AttachedCharacter.EffectMod("PER") },
+                    { "FOR", BaseValue["FOR"] + (int)AttachedCharacter.EquipmentMod("FOR") + (int)AttachedCharacter.EffectMod("FOR") },
                     { "CHA", BaseValue["CHA"] + (int)AttachedCharacter.EquipmentMod("CHA") + (int)AttachedCharacter.EffectMod("CHA") },
                 };
             }

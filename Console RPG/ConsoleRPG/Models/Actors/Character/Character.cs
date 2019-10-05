@@ -18,12 +18,13 @@ namespace ConsoleRPG.Models.Actors.Character
             Name = name;
             Gender = prof.Gender;
             Profession = prof;
-            Attributes = prof.StartingAttributes;
-            Talents = prof.StartingTalents;
-            Equipment = prof.StartingEquipment;
-            Inventory = prof.StartingInventory;
+            Attributes = new Attributes(this, prof.StartingAttributesDict);
+            Talents = new Talents(this, prof.StartingTalentsDict);
+            Inventory = new Inventory(prof.StartingInventoryDict);
+            Equipment = new Equipment(this.Inventory, prof.StartingEquipmentDict);
 
             BaseHealth = prof.BaseHealth;
+            BaseStamina = prof.BaseStamina;
         }
 
         #region Flavor Text Info
@@ -73,7 +74,7 @@ namespace ConsoleRPG.Models.Actors.Character
                 return weight;
             }
         }
-        public bool Overburdered
+        public bool IsOverburdened
         {
             get
             {
@@ -86,7 +87,7 @@ namespace ConsoleRPG.Models.Actors.Character
         public Equipment Equipment { get; private set; }
         #endregion
 
-        #region Base Attributes and Talents
+        #region Attributes and Talents
         public Attributes Attributes { get; private set; }
         public Talents Talents { get; private set; }
         #endregion
@@ -111,14 +112,14 @@ namespace ConsoleRPG.Models.Actors.Character
                 return Profession.BaseStamina + EquipmentMod("staminaBonus");
             }
         }
-        public double percentHP
+        public double PercentHP
         {
             get
             {
                 return Math.Round((HP / MaxHP * 100),2);
             }
         }
-        public double percentSP
+        public double PercentSP
         {
             get
             {
@@ -189,18 +190,18 @@ namespace ConsoleRPG.Models.Actors.Character
                 return new Dictionary<string, double>()
                 {
                     // + EffectMultiplier("slash")
-                    { "slash", EquipmentDmgMultiplier("slash") + AttackScaling["slash"]}, 
-                    { "pierce", EquipmentDmgMultiplier("pierce") + AttackScaling["pierce"]},
-                    { "crush", EquipmentDmgMultiplier("crush") + AttackScaling["crush"]},
+                    { "slash", EquipmentDmgMultiplier("slash") + DmgScaling["slash"] + Bonus2HScaling }, 
+                    { "pierce", EquipmentDmgMultiplier("pierce") + DmgScaling["pierce"] + Bonus2HScaling },
+                    { "crush", EquipmentDmgMultiplier("crush") + DmgScaling["crush"] + Bonus2HScaling },
 
-                    { "poison", EquipmentDmgMultiplier("poison") + AttackScaling["poison"]},
-                    { "bleed", EquipmentDmgMultiplier("bleed") + AttackScaling["bleed"]},
-                    { "fire", EquipmentDmgMultiplier("fire") + AttackScaling["fire"]},
-                    { "acid", EquipmentDmgMultiplier("acid") + AttackScaling["acid"]},
+                    { "poison", EquipmentDmgMultiplier("poison") + DmgScaling["poison"] },
+                    { "bleed", EquipmentDmgMultiplier("bleed") + DmgScaling["bleed"] },
+                    { "fire", EquipmentDmgMultiplier("fire") + DmgScaling["fire"] },
+                    { "acid", EquipmentDmgMultiplier("acid") + DmgScaling["acid"] },
                 };
             }
         }
-        public Dictionary<string, double> AttackScaling
+        public Dictionary<string, double> DmgScaling
         {
             get
             {
@@ -217,6 +218,20 @@ namespace ConsoleRPG.Models.Actors.Character
                     { "acid", 0.1 * Talents.ModdedValue["Engineering"] },
                 };
             }
+        } // Attack scaling is additive
+        public double Bonus2HScaling
+        {
+            get
+            {
+                if(this.Equipment.Is2H)
+                {
+                    return 0.2;
+                }
+                else
+                {
+                    return 0.0;
+                }
+            }
         }
         public double EquipmentDmgMultiplier(string dmgType)
         {
@@ -226,20 +241,39 @@ namespace ConsoleRPG.Models.Actors.Character
         #endregion
 
         #region Defense
-        public Dictionary<string,double> Defense // TODO add Effect mods to defense
+        public Dictionary<string,double> PROTMultiplier // TODO add Effect mods to defense
         {
             get
             {
                 return new Dictionary<string, double>()
                 {
-                    { "slash", EquipmentPROT("slash") }, // + EffectPROT("slash") },
-                    { "pierce", EquipmentPROT("pierce") },
-                    { "crush", EquipmentPROT("crush") },
+                    { "slash", EquipmentPROT("slash") * PROTScaling["slash"] }, // + EffectPROT("slash") },
+                    { "pierce", EquipmentPROT("pierce") * PROTScaling["pierce"] },
+                    { "crush", EquipmentPROT("crush") * PROTScaling["crush"] },
 
-                    { "poison", EquipmentPROT("poison") },
-                    { "bleed", EquipmentPROT("bleed") },
-                    { "fire", EquipmentPROT("fire") },
-                    { "acid", EquipmentPROT("acid") },
+                    { "poison", EquipmentPROT("poison") * PROTScaling["poison"] },
+                    { "bleed", EquipmentPROT("bleed") * PROTScaling["bleed"] },
+                    { "fire", EquipmentPROT("fire") * PROTScaling["fire"] },
+                    { "acid", EquipmentPROT("acid") * PROTScaling["acid"] },
+                };
+            }
+        }
+        // Defense scaling is multiplicative with equipment PROT, otherwise becoming invincible would be easy
+        public Dictionary<string, double> PROTScaling 
+        {
+            get
+            {
+                return new Dictionary<string, double>()
+                { // TODO Balance the hell out of these defense stats, they're broke AF
+                    // + EffectMultiplier("slash")
+                    { "slash", 0.05 * (Attributes.ModdedValue["FOR"] - 5) },
+                    { "pierce", 0.05 * (Attributes.ModdedValue["FOR"] - 5)},
+                    { "crush", 0.05 * (Attributes.ModdedValue["FOR"] - 5)},
+
+                    { "poison", 0.25 * Talents.BaseValue["Herbalism"] },
+                    { "bleed", 0.25 * Talents.BaseValue["Medicine"] },
+                    { "fire", 0.25 * Talents.BaseValue["Explosives"] },
+                    { "acid", 0.25 * Talents.BaseValue["Engineering"] },
                 };
             }
         }

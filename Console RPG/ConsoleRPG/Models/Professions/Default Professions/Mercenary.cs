@@ -1,8 +1,11 @@
 ﻿using ConsoleRPG.Models.Actors.Character;
 using ConsoleRPG.Models.Actors.Character.Stats;
+using ConsoleRPG.Models.Items;
 using ConsoleRPG.Models.Items.Equipment.Body;
 using ConsoleRPG.Models.Items.Equipment.Charms;
 using ConsoleRPG.Models.Items.Equipment.Hands;
+using ConsoleRPG.Models.Items.Money;
+using ConsoleRPG.Models.Items.VendorTrash;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,33 +21,38 @@ namespace ConsoleRPG.Models.Professions.Default_Professions
             ProfessionSummary = "Mercenaries are masters of the longsword; but constant concussions and old wounds have damaged their senses, and their social graces are lacking.";
             BaseHealth = 20;
             BaseStamina = 20;
-            StartingAttributes = new Dictionary<string, int>()
+            StartingAttributesDict = new Dictionary<string, int>()
             {
                 { "STR", 6 },
                 { "DEX", 6 },
                 { "SKL", 7 },
                 { "APT", 4 },
-                { "PER", 2 },
+                { "FOR", 2 },
                 { "CHA", 3 }
             };
-            StartingTalents = new Talents(
-                med: 0,
-                herb: 0,
-                expl: 0,
-                vet: 2,
-                best: 0,
-                eng: 0,
-                hist: 0
-                );
-            StartingInventory = new Inventory();
-            StartingEquipment = new Equipment(
-                inventoryPointer: StartingInventory,
-                main: new Longsword(),
-                off: new TwoHanding(),
-                body: new HalfPlate(),
-                charm1: new LoversLocket(),
-                charm2: new Unadorned()
-                );
+            StartingTalentsDict = new Dictionary<string, int>()
+            {
+                { "Medicine", 0 },
+                { "Herbalism", 0 },
+                { "Explosives", 0 },
+                { "Veterancy", 2 },
+                { "Bestiary", 0 },
+                { "Engineering", 0 },
+                { "History", 0 }
+            };
+            StartingInventoryDict = new Dictionary<Item, int>()
+            {
+                { new Coins(), 800 },
+                { new Memento(), 1 }
+            };
+            StartingEquipmentDict = new Dictionary<string, Items.Equipment.EquipmentItem>()
+            {
+                { "MainHand", new Longsword() },
+                { "OffHand", new TwoHanding() },
+                { "Body", new HalfPlate() },
+                { "Charm 1", new LoversLocket() },
+                { "Charm 2", new Unadorned() }
+            };
         }
     }
 }

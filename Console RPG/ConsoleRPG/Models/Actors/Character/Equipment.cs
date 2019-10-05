@@ -24,6 +24,11 @@ namespace ConsoleRPG.Models.Actors.Character
 
             AttachedInventory = inventoryPointer;
         }
+        public Equipment(Inventory inventoryPointer, Dictionary<string, EquipmentItem> initDict)
+        {
+            this.AttachedInventory = inventoryPointer;
+            this.Slot = initDict;
+        }
         #endregion
 
         public Inventory AttachedInventory { get; }
@@ -90,7 +95,8 @@ namespace ConsoleRPG.Models.Actors.Character
                 if (                             
                        priorEquipment is BareHand
                     || priorEquipment is Naked             // If the slot was empty,
-                    || priorEquipment is Unadorned)
+                    || priorEquipment is Unadorned
+                    || priorEquipment is TwoHanding)
                 {
                     return true;                           // return true because the equip succeeded.
                 }

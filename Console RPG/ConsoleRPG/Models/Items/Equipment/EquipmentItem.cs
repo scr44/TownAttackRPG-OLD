@@ -110,6 +110,14 @@ namespace ConsoleRPG.Models.Items.Equipment
                 statsTable[stat] = points;
             }
         }
+        public void DamageEquipment(double points)
+        {
+            Condition -= points;
+            if (Condition <= 0)
+            {
+                BreakEquipment();
+            }
+        }
         public void BreakEquipment()
         {
             EquipmentKeywords.Add("Broken");

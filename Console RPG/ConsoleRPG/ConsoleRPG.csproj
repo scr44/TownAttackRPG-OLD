@@ -15,7 +15,6 @@
   <ItemGroup>
     <Folder Include="Models\Items\Elixir\" />
     <Folder Include="Models\Items\Herb\" />
-    <Folder Include="Models\Items\VendorTrash\" />
     <Folder Include="Models\Items\Throwable\" />
     <Folder Include="Models\Scenario\" />
     <Folder Include="Models\Skills\Abilities\" />

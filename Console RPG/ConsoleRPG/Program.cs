@@ -13,23 +13,7 @@ namespace ConsoleRPG
     {
         static void Main(string[] args)
         {
-            List<int> testList = new List<int>() { 0, 1, 2, 3, 4, 5 };
-
-            IEnumerable<int> selection =
-                from values in testList
-                where values < 2
-                select values;
-
             
-
-            selection.Select(x => x = 10);
-
-            foreach(int x in selection)
-            {
-                Console.WriteLine(x);
-            }
-
-            Console.ReadLine();
         }
     }
 

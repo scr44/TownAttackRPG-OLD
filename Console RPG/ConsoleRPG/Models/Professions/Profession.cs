@@ -1,5 +1,7 @@
 ﻿using ConsoleRPG.Models.Actors.Character;
 using ConsoleRPG.Models.Actors.Character.Stats;
+using ConsoleRPG.Models.Items;
+using ConsoleRPG.Models.Items.Equipment;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -35,9 +37,9 @@ namespace ConsoleRPG.Models.Professions
         public string ProfessionSummary { get; protected set; }
         public int BaseHealth { get; protected set; }
         public int BaseStamina { get; protected set; }
-        public Dictionary<string, int> StartingAttributes { get; protected set; }
-        public Talents StartingTalents { get; protected set; }
-        public Inventory StartingInventory { get; protected set; }
-        public Equipment StartingEquipment { get; protected set; }
+        public Dictionary<string, int> StartingAttributesDict { get; protected set; }
+        public Dictionary<string, int> StartingTalentsDict { get; protected set; }
+        public Dictionary<Item, int> StartingInventoryDict { get; protected set; }
+        public Dictionary<string, EquipmentItem> StartingEquipmentDict { get; protected set; }
     }
 }
