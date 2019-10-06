@@ -59,6 +59,17 @@ namespace ConsoleRPG.Models.Actors.Character
         #endregion
 
         #region Two-Handing
+        public bool Can2H
+        {
+            get
+            {
+                if (Slot["MainHand"].EquipmentTags.Contains("Can2H"))
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
         /// <summary>
         /// Checks whether Character is wielding their primary weapon with both hands.
         /// </summary>
@@ -84,7 +95,7 @@ namespace ConsoleRPG.Models.Actors.Character
             }
             else
             {
-                if (Slot["MainHand"].EquipmentTags.Contains("Can2H"))
+                if (Can2H)
                 {
                     Unequip("OffHand");
                     Slot["OffHand"] = new TwoHanding();

@@ -20,15 +20,29 @@ namespace ConsoleRPG.Models.Menus
         public NewGameMenu NewGameMenu { get; private set; }
         public ProfessionMenu ProfessionMenu { get; private set; }
 
-        public int Selection { get; private set; } = 0;
+        public string Selection { get; private set; } = "Run Main Menu";
         
         public void Start()
         {
-            StartConsole();
+            BootUpConsole();
             RunSplashScreen();
-            RunMainMenu();
+            while(true)
+            {
+                if (Selection == "Run Main Menu")
+                {
+                    Selection = RunMainMenu();
+                }
+                else if (Selection == "Run New Game Menu")
+                {
+                    Selection = RunNewGameMenu();
+                }
+                else if (Selection == "Run Profession Menu")
+                {
+                    Selection = RunProfessionMenu();
+                }
+            }
         }
-        public void StartConsole()
+        public void BootUpConsole()
         {
             Console.SetWindowSize(130, 50);
         }
@@ -38,87 +52,83 @@ namespace ConsoleRPG.Models.Menus
             SplashScreen.AscendingTitle();
             Console.ReadKey();
         }
-        public void RunMainMenu()
-        { // TODO Menus: change hardcoded selection numbers to strings that say what the selected option is
-            while (Selection == 0)
+        public string RunMainMenu()
+        {
+            while (Selection == "Run Main Menu")
             {
                 Selection = MainMenu.Options();
 
-                if (Selection == 1)
+                if (Selection == "New Game")
                 {
-                    Selection = 0;
-                    RunNewGameMenu();
+                    Selection = "Run New Game Menu";
                 }
-                else if (Selection == 2)
-                {
-                    Console.Clear();
-                    Console.WriteLine("Sorry, this feature is incomplete.");
-                    Console.ReadKey();
-                    Selection = 0;
-                }
-                else if (Selection == 3)
+                else if (Selection == "Continue")
                 {
                     Console.Clear();
                     Console.WriteLine("Sorry, this feature is incomplete.");
                     Console.ReadKey();
-                    Selection = 0;
+                    Selection = "Run Main Menu";
                 }
-                else if (Selection == 0)
+                else if (Selection == "Options")
                 {
-                    continue;
+                    Console.Clear();
+                    Console.WriteLine("Sorry, this feature is incomplete.");
+                    Console.ReadKey();
+                    Selection = "Run Main Menu";
                 }
-                else
+                else if (Selection == "Quit")
                 {
                     Environment.Exit(0);
                 }
+                else
+                {
+                    Selection = "Run Main Menu";
+                }
             }
+            return Selection;
         }
-        public void RunNewGameMenu()
+        public string RunNewGameMenu()
         {
-            while (Selection == 0)
+            while (Selection == "Run New Game Menu")
             {
                 Selection = NewGameMenu.Options();
-                if (Selection == 1)
+                if (Selection == "Select Pre-Made Profession")
                 {
-                    Selection = 0;
-                    RunProfessionMenu();
+                    Selection = "Run Profession Menu";
                 }
-                else if (Selection == 2)
+                else if (Selection == "Custom Profession")
                 {
                     Console.Clear();
                     Console.WriteLine("Sorry, this feature is incomplete.");
-                    Selection = 0;
+                    Selection = "Run New Game Menu";
                     Console.ReadKey();
                 }
-                else
+                else // Back
                 {
-                    Selection = 0;
-                    RunMainMenu();
+                    Selection = "Run Main Menu";
                 }
             }
+            return Selection;
         }
-        public void RunProfessionMenu()
+        public string RunProfessionMenu()
         {
-            while (Selection == 0)
+            while (Selection == "Run Profession Menu")
             {
                 Selection = ProfessionMenu.Options();
-                if (Selection == 1)
+                if (Selection == "Knight")
                 {
-                    
+                    Selection = "Run Main Menu";
                 }
-                else if (Selection == 2)
+                else if (Selection == "Scholar")
                 {
-                    Console.Clear();
-                    Console.WriteLine("Sorry, this feature is incomplete.");
-                    Selection = 0;
-                    Console.ReadKey();
+                    Selection = "Run Main Menu";
                 }
                 else
                 {
-                    Selection = 0;
-                    RunNewGameMenu();
+                    Selection = "Run New Game Menu";
                 }
             }
+            return Selection;
         }
     }
 }

@@ -10,8 +10,6 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
         /* 
         Medicine: The art of healing wounds and diagnosing injuries.
 
-        Herbalism: Knowledge of herbs and the crafting of poultices and elixirs.
-
         Explosives: The knowledge to craft throwable weapons.
 
         Veterancy: Skill at identifying human enemies.Bonuses against human opponents, and can unlock special event actions.
@@ -20,17 +18,16 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
 
         Engineering: Skill at operating and understanding machines. Bonuses against mechanical enemies, and can unlock special event actions.
 
-        History: Skill at identifying monsters and ancient relics. Bonuses against monsters, and can unlock special event actions.
+        History: Skill at identifying ancient relics. Can unlock special event actions.
         */
         #endregion
 
         #region Constructors
         public Talents() { }
-        public Talents(Character character, int med, int herb, int expl, int vet, int best, int eng, int hist)
+        public Talents(Character character, int med, int expl, int vet, int best, int eng, int hist)
         {
             this.AttachedCharacter = character;
             BaseValue["Medicine"] = med;
-            BaseValue["Herbalism"] = herb;
             BaseValue["Explosives"] = expl;
             BaseValue["Veterancy"] = vet;
             BaseValue["Bestiary"] = best;
@@ -53,7 +50,6 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
             = new Dictionary<string, int>()
                 {
                     { "Medicine", 0 },
-                    { "Herbalism", 0 },
                     { "Explosives", 0 },
                     { "Veterancy", 0 },
                     { "Bestiary", 0 },
@@ -70,7 +66,6 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
                 return new Dictionary<string, int>()
                 {
                     { "Medicine", BaseValue["Medicine"] + (int)AttachedCharacter.EquipmentMod("Medicine", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("Medicine", AttachedCharacter.ActiveEffects) },
-                    { "Herbalism", BaseValue["Herbalism"] + (int)AttachedCharacter.EquipmentMod("Herbalism", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("Herbalism", AttachedCharacter.ActiveEffects) },
                     { "Explosives", BaseValue["Explosives"] + (int)AttachedCharacter.EquipmentMod("Explosives", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("Explosives", AttachedCharacter.ActiveEffects) },
                     { "Veterancy", BaseValue["Veterancy"] + (int)AttachedCharacter.EquipmentMod("Veterancy", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("Veterancy", AttachedCharacter.ActiveEffects) },
                     { "Bestiary", BaseValue["Bestiary"] + (int)AttachedCharacter.EquipmentMod("Bestiary", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("Bestiary", AttachedCharacter.ActiveEffects) },

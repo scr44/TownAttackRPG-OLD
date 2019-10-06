@@ -18,13 +18,13 @@ namespace ConsoleRPG.Models.Items.Equipment
         public Dictionary<string, double> WeaponStats { get; protected set; } =
             new Dictionary<string, double>()
             {
-                { "accuracy", 1.00 },
+                { "accuracy", 0.00 },
                 { "parryChance", 0.00 },
-                { "slashMultiplier", 1.00 },
-                { "pierceMultiplier", 1.00 },
-                { "crushMultiplier", 1.00 },
-                { "critChance", 0.05 },
-                { "critMultiplier", 2.00 }
+                { "slashMultiplier", 0.00 },
+                { "pierceMultiplier", 0.00 },
+                { "crushMultiplier", 0.00 },
+                { "critChance", 0.00 },
+                { "critMultiplier", 0.00 }
             };
         /// <summary>
         /// Armor-specific statistics

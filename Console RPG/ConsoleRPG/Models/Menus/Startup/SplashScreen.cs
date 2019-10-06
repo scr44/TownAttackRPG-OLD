@@ -25,8 +25,26 @@ namespace ConsoleRPG.Models.Menus.Startup
                                               +#+    +#+ +#+        +#+   +#+#    
                                              #+#    #+# #+#        #+#    #+#     
                                             ###    ### ###         ########   ";
+        string TitleAlt = @"
+       ::::::::::: ::::::::  :::       ::: ::::    :::          ::: ::::::::::: ::::::::::: :::      ::::::::  :::    ::: 
+           :+:    :+:    :+: :+:       :+: :+:+:   :+:        :+: :+:   :+:         :+:   :+: :+:   :+:    :+: :+:   :+:  
+           +:+    +:+    +:+ +:+       +:+ :+:+:+  +:+       +:+   +:+  +:+         +:+  +:+   +:+  +:+        +:+  +:+   
+           +#+    +#+    +:+ +#+  +:+  +#+ +#+ +:+ +#+      +#++:++#++: +#+         +#+ +#++:++#++: +#+        +#++:++    
+           +#+    +#+    +#+ +#+ +#+#+ +#+ +#+  +#+#+#      +#+     +#+ +#+         +#+ +#+     +#+ +#+        +#+  +#+   
+           #+#    #+#    #+#  #+#+# #+#+#  #+#   #+#+#      #+#     #+# #+#         #+# #+#     #+# #+#    #+# #+#   #+#  
+           ###     ########    ###   ###   ###    ####      ###     ### ###         ### ###     ###  ########  ###    ### 
+
+
+
+                                                  :::::::::  :::::::::   :::::::: 
+                                                 :+:    :+:  :+:    :+:  :+:    :+: 
+                                                 +:+    +:+  +:+    +:+  +:+         
+                                                +#++:++#:    +#++:++#+    :#:          
+                                               ++#    ++#    +#+           #++   ##++    
+                                               +#+    +#+    #+#           +#+    +#+     
+                                              ###    ###     ###             ########   ";
         string pressEnter = @"
-                                                        Press Enter
+                                                          Press Enter
 ";
 
         #region Title split into words
@@ -52,7 +70,7 @@ namespace ConsoleRPG.Models.Menus.Startup
 
         public void DisplayTitle(bool showPrompt)
         {
-            Console.Write(Title);
+            Console.Write(TitleAlt);
             for (int i = 0; i < 8; i++)
             {
                 Console.WriteLine();
@@ -64,7 +82,14 @@ namespace ConsoleRPG.Models.Menus.Startup
         }
         public void FlashingPrompt()
         {
+            Console.Clear();
+            for (int i = 0; i < 12; i++)
+            {
+                Console.WriteLine();
+            }
+            DisplayTitle(false);
             bool showPrompt = true;
+            TitleJingle();
             while(!Console.KeyAvailable)
             {
                 Console.Clear();
@@ -83,6 +108,7 @@ namespace ConsoleRPG.Models.Menus.Startup
         }
         public void AscendingTitle()
         {
+            PressedEnterJingle();
             for(int j = 11; j > 5; j--)
             {
                 Console.Clear();
@@ -93,6 +119,21 @@ namespace ConsoleRPG.Models.Menus.Startup
                 DisplayTitle(false);
                 Thread.Sleep(25);
             }
+        }
+        public void TitleJingle()
+        {
+            Console.Beep(600, 100);
+            Console.Beep(700, 100);
+            Console.Beep(650, 300);
+            Console.Beep(500, 200);
+            Console.Beep(550, 150);
+        }
+        public void PressedEnterJingle()
+        {
+            Console.Beep(800, 90);
+            Console.Beep(1400, 100);
+            Console.Beep(1200, 80);
+            Console.Beep(1400, 100);
         }
 
     }

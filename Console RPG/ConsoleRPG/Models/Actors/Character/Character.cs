@@ -131,7 +131,7 @@ namespace ConsoleRPG.Models.Actors.Character
                     { "pierce", 0.2 * (Attributes.ModdedValue["SKL"] - 5) },
                     { "crush", 0.2 * (Attributes.ModdedValue["STR"] - 5) },
 
-                    { "poison", 0.1 * Talents.ModdedValue["Herbalism"] },
+                    { "poison", 0.1 * Talents.ModdedValue["Bestiary"] },
                     { "bleed", 0.1 * Talents.ModdedValue["Medicine"] },
                     { "fire", 0.1 * Talents.ModdedValue["Explosives"] },
                     { "acid", 0.1 * Talents.ModdedValue["Engineering"] },
@@ -179,12 +179,12 @@ namespace ConsoleRPG.Models.Actors.Character
             {
                 return new Dictionary<string, double>()
                 { // TODO Balance: balance sorely needed for defense
-                    // + EffectMultiplier("slash")
+                    // Also the math needs adjusted, right now you can have negative PROT
                     { "slash", 0.05 * (Attributes.ModdedValue["FOR"] - 5) },
                     { "pierce", 0.05 * (Attributes.ModdedValue["FOR"] - 5)},
                     { "crush", 0.05 * (Attributes.ModdedValue["FOR"] - 5)},
 
-                    { "poison", 0.25 * Talents.BaseValue["Herbalism"] },
+                    { "poison", 0.25 * Talents.BaseValue["Bestiary"] },
                     { "bleed", 0.25 * Talents.BaseValue["Medicine"] },
                     { "fire", 0.25 * Talents.BaseValue["Explosives"] },
                     { "acid", 0.25 * Talents.BaseValue["Engineering"] },

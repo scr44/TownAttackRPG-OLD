@@ -1,4 +1,7 @@
-﻿using ConsoleRPG.Models.Actors.Character;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using ConsoleRPG.Models.Actors.Character;
 using ConsoleRPG.Models.Actors.Character.Stats;
 using ConsoleRPG.Models.Items;
 using ConsoleRPG.Models.Items.Equipment.Body;
@@ -6,52 +9,48 @@ using ConsoleRPG.Models.Items.Equipment.Charms;
 using ConsoleRPG.Models.Items.Equipment.Hands;
 using ConsoleRPG.Models.Items.Money;
 using ConsoleRPG.Models.Items.VendorTrash;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ConsoleRPG.Models.Professions.DefaultProfessions
 {
-    public class Knight : Profession
+    public class Constable : Profession
     {
-        public Knight(string gender="M")
+        public Constable(string gender = "M")
         {
-            Title = "Knight";
+            Title = "Constable";
             Gender = GetGender(gender);
-            ProfessionSummary = "Knights are masters of the longsword clad in sturdy plate armor; but " +
-                "they often neglect their academic studies in favor of drinking and skirt-chasing.";
+            ProfessionSummary = "The town's venerable lawman. Knows his way around locks and is " +
+                "well-versed in breaking up brawls. This stiffness of age is beginning to set in.";
             BaseHealth = 20;
             BaseStamina = 20;
             BaseStaminaRegen = 10.0;
             StartingAttributesDict = new Dictionary<string, int>()
             {
-                { "STR", 7 },
-                { "DEX", 7 },
-                { "SKL", 7 },
-                { "APT", 2 },
-                { "FOR", 6 },
-                { "CHA", 4 }
+                { "STR", 6 },
+                { "DEX", 3 },
+                { "SKL", 6 },
+                { "APT", 4 },
+                { "FOR", 5 },
+                { "CHA", 5 }
             };
             StartingTalentsDict = new Dictionary<string, int>()
             {
                 { "Medicine", 0 },
                 { "Explosives", 0 },
-                { "Veterancy", 2 },
+                { "Veterancy", 1 },
                 { "Bestiary", 0 },
-                { "Engineering", 0 },
+                { "Engineering", 1 },
                 { "History", 0 }
             };
             StartingInventoryDict = new Dictionary<Item, int>()
             {
-                { new Coins(), 800 },
-                { new Memento(), 1 }
+                { new Coins(), 1000 },
             };
             StartingEquipmentDict = new Dictionary<string, Items.Equipment.EquipmentItem>()
             {
-                { "MainHand", new Longsword() },
-                { "OffHand", new TwoHanding() },
-                { "Body", new PlateArmor() },
-                { "Charm 1", new LoversLocket() },
+                { "MainHand", new BareHand() },
+                { "OffHand", new BareHand() },
+                { "Body", new Naked() },
+                { "Charm 1", new Unadorned() },
                 { "Charm 2", new Unadorned() }
             };
         }

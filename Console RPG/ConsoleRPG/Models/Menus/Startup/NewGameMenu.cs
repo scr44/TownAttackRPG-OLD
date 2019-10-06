@@ -30,48 +30,71 @@ namespace ConsoleRPG.Models.Menus
                                               +#+    +#+ +#+        +#+   +#+#    
                                              #+#    #+# #+#        #+#    #+#     
                                             ###    ### ###         ########   ";
+        string TitleAlt = @"
+
+
+
+
+
+       ::::::::::: ::::::::  :::       ::: ::::    :::          ::: ::::::::::: ::::::::::: :::      ::::::::  :::    ::: 
+           :+:    :+:    :+: :+:       :+: :+:+:   :+:        :+: :+:   :+:         :+:   :+: :+:   :+:    :+: :+:   :+:  
+           +:+    +:+    +:+ +:+       +:+ :+:+:+  +:+       +:+   +:+  +:+         +:+  +:+   +:+  +:+        +:+  +:+   
+           +#+    +#+    +:+ +#+  +:+  +#+ +#+ +:+ +#+      +#++:++#++: +#+         +#+ +#++:++#++: +#+        +#++:++    
+           +#+    +#+    +#+ +#+ +#+#+ +#+ +#+  +#+#+#      +#+     +#+ +#+         +#+ +#+     +#+ +#+        +#+  +#+   
+           #+#    #+#    #+#  #+#+# #+#+#  #+#   #+#+#      #+#     #+# #+#         #+# #+#     #+# #+#    #+# #+#   #+#  
+           ###     ########    ###   ###   ###    ####      ###     ### ###         ### ###     ###  ########  ###    ### 
+
+
+
+                                                  :::::::::  :::::::::   :::::::: 
+                                                 :+:    :+:  :+:    :+:  :+:    :+: 
+                                                 +:+    +:+  +:+    +:+  +:+         
+                                                +#++:++#:    +#++:++#+    :#:          
+                                               ++#    ++#    +#+           #++   ##++    
+                                               +#+    +#+    #+#           +#+    +#+     
+                                              ###    ###     ###             ########   ";
         string MenuOptions = @"
-                                                 Select a Pre-Made Profession
-                                                        (Recommended)                  
+                                                  Select a Pre-Made Profession
+                                                         (Recommended)                  
          
-                                                      Custom Profession
+                                                       Custom Profession
          
-                                                            Back
+                                                             Back
 ";
         string MenuOptions1 = @"
-                                               > Select a Pre-Made Profession <
-                                                        (Recommended)                  
+                                                > Select a Pre-Made Profession <
+                                                         (Recommended)                  
          
-                                                      Custom Profession
+                                                       Custom Profession
          
-                                                            Back
+                                                             Back
 ";
         string MenuOptions2 = @"
-                                                 Select a Pre-Made Profession
-                                                        (Recommended)                  
+                                                  Select a Pre-Made Profession
+                                                         (Recommended)                  
          
-                                                    > Custom Profession <
+                                                     > Custom Profession <
          
-                                                            Back
+                                                             Back
 ";
         string MenuOptions3 = @"
-                                                 Select a Pre-Made Profession
-                                                        (Recommended)                  
+                                                  Select a Pre-Made Profession
+                                                         (Recommended)                  
          
-                                                      Custom Profession
+                                                       Custom Profession
          
-                                                          > Back <
+                                                           > Back <
 ";
 
-        public int Selection { get; private set; } = 0;
+        override public string Selection { get; set; } = "Run New Game Menu";
 
-        override public int Options()
+        override public string Options()
         {
             int cursor = 1;
             while (cursor != 0)
             {
                 Console.Clear();
-                Console.WriteLine(Title);
+                Console.WriteLine(TitleAlt);
 
                 for (int i = 0; i < 10; i++)
                 {
@@ -105,6 +128,7 @@ namespace ConsoleRPG.Models.Menus
         {
             if (keyPressed == ConsoleKey.UpArrow)
             {
+                CursorMoveBeep();
                 if (cursor == 1)
                 { return maxCursor; }
                 else
@@ -112,6 +136,7 @@ namespace ConsoleRPG.Models.Menus
             }
             else if (keyPressed == ConsoleKey.DownArrow)
             {
+                CursorMoveBeep();
                 if (cursor == maxCursor)
                 { return 1; }
                 else
@@ -119,6 +144,7 @@ namespace ConsoleRPG.Models.Menus
             }
             else if (keyPressed == ConsoleKey.Enter)
             {
+                CursorSelectBeep();
                 SelectOption(cursor);
                 return 0;
             }
@@ -129,7 +155,27 @@ namespace ConsoleRPG.Models.Menus
         }
         override public void SelectOption(int cursor)
         {
-            Selection = cursor;
+            if (cursor == 1)
+            {
+                Selection = "Select Pre-Made Profession";
+            }
+            else if (cursor == 2)
+            {
+                Selection = "Custom Profession";
+            }
+            else // Back
+            {
+                Selection = "Run Main Menu";
+            }
+        }
+        public override void CursorMoveBeep()
+        {
+            Console.Beep(500, 100);
+        }
+        public override void CursorSelectBeep()
+        {
+            Console.Beep(900, 100);
+            Console.Beep(1200, 80);
         }
     }
 }

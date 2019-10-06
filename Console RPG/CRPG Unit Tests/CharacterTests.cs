@@ -143,9 +143,9 @@ namespace CRPG_Unit_Tests
         [TestMethod]
         public void WeightCapacityScaling()
         {
-            Assert.AreEqual(Guinevere.Inventory.WeightCapacity, 6 * 15,
+            Assert.AreEqual(Guinevere.Inventory.WeightCapacity, 7 * 15,
                 "Weight capacity should equal 15 times strength when STR <= 10.");
-            Guinevere.Attributes.ChangeAttribute("STR", 4);
+            Guinevere.Attributes.ChangeAttribute("STR", 3);
             Assert.AreEqual(Guinevere.Inventory.WeightCapacity, 10 * 15,
                 "Weight capacity should equal 15 times strength when STR <= 10.");
             Guinevere.Attributes.ChangeAttribute("STR", 10);

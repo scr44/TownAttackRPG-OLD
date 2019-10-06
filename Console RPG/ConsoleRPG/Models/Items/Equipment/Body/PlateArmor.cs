@@ -28,6 +28,8 @@ namespace ConsoleRPG.Models.Items.Equipment.Body
                 { "crushPROT", .70 }
             };
 
+            ValidSlots["Body"] = true;
+
             ReqStats.Add("STR", 6);
             ReqStats.Add("FOR", 5);
         }

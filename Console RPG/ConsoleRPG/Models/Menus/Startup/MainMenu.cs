@@ -31,61 +31,84 @@ namespace ConsoleRPG.Models.Menus.Startup
                                               +#+    +#+ +#+        +#+   +#+#    
                                              #+#    #+# #+#        #+#    #+#     
                                             ###    ### ###         ########   ";
+        string TitleAlt = @"
+
+
+
+
+
+       ::::::::::: ::::::::  :::       ::: ::::    :::          ::: ::::::::::: ::::::::::: :::      ::::::::  :::    ::: 
+           :+:    :+:    :+: :+:       :+: :+:+:   :+:        :+: :+:   :+:         :+:   :+: :+:   :+:    :+: :+:   :+:  
+           +:+    +:+    +:+ +:+       +:+ :+:+:+  +:+       +:+   +:+  +:+         +:+  +:+   +:+  +:+        +:+  +:+   
+           +#+    +#+    +:+ +#+  +:+  +#+ +#+ +:+ +#+      +#++:++#++: +#+         +#+ +#++:++#++: +#+        +#++:++    
+           +#+    +#+    +#+ +#+ +#+#+ +#+ +#+  +#+#+#      +#+     +#+ +#+         +#+ +#+     +#+ +#+        +#+  +#+   
+           #+#    #+#    #+#  #+#+# #+#+#  #+#   #+#+#      #+#     #+# #+#         #+# #+#     #+# #+#    #+# #+#   #+#  
+           ###     ########    ###   ###   ###    ####      ###     ### ###         ### ###     ###  ########  ###    ### 
+
+
+
+                                                  :::::::::  :::::::::   :::::::: 
+                                                 :+:    :+:  :+:    :+:  :+:    :+: 
+                                                 +:+    +:+  +:+    +:+  +:+         
+                                                +#++:++#:    +#++:++#+    :#:          
+                                               ++#    ++#    +#+           #++   ##++    
+                                               +#+    +#+    #+#           +#+    +#+     
+                                              ###    ###     ###             ########   ";
         string MenuOptions = @"
                                                             New Game
 
-                                                        Continue From Save
+                                                            Continue    
 
                                                             Options
 
-                                                             Quit
+                                                            Quit
 ";
         string MenuOptions1 = @"
                                                           > New Game <
 
-                                                        Continue From Save  
+                                                            Continue      
 
-                                                            Options
+                                                             Option
 
-                                                             Quit
+                                                              Quit
 ";
         string MenuOptions2= @"
                                                             New Game
 
-                                                      > Continue From Save <
+                                                          > Continue <    
 
-                                                            Options
+                                                             Option
 
-                                                             Quit
+                                                              Quit
 ";
         string MenuOptions3= @"
                                                             New Game
 
-                                                        Continue From Save
+                                                            Continue    
 
-                                                          > Options <
+                                                           > Option <
 
-                                                             Quit
+                                                              Quit
 ";
         string MenuOptions4= @"
                                                             New Game
 
-                                                        Continue From Save
+                                                            Continue    
 
-                                                            Options
+                                                             Option
 
-                                                           > Quit <
+                                                            > Quit <
 ";
 
-        public int Selection { get; private set; }
+        override public string Selection { get; set; }
 
-        override public int Options()
+        override public string Options()
         {
             int cursor = 1;
             while(cursor != 0)
             {
                 Console.Clear();
-                Console.WriteLine(Title);
+                Console.WriteLine(TitleAlt);
 
                 for (int i = 0; i < 10; i++)
                 {
@@ -94,10 +117,10 @@ namespace ConsoleRPG.Models.Menus.Startup
 
                 ConsoleKey keyPressed = DisplayCursor(cursor);
 
-                cursor = MoveCursor(keyPressed, cursor);
+                cursor = MoveCursor(keyPressed, cursor); // Selection happens in here
             }
             return Selection;
-        }
+        } // Main loop
         override public ConsoleKey DisplayCursor(int cursor)
         {
             if (cursor == 1)
@@ -123,13 +146,15 @@ namespace ConsoleRPG.Models.Menus.Startup
         {
             if(keyPressed == ConsoleKey.UpArrow)
             {
-                if(cursor == 1)
+                CursorMoveBeep();
+                if (cursor == 1)
                 { return maxCursor; }
                 else
                 { return cursor -= 1; }
             }
             else if(keyPressed == ConsoleKey.DownArrow)
             {
+                CursorMoveBeep();
                 if (cursor == maxCursor)
                 { return 1; }
                 else
@@ -137,6 +162,7 @@ namespace ConsoleRPG.Models.Menus.Startup
             }
             else if(keyPressed == ConsoleKey.Enter)
             {
+                CursorSelectBeep();
                 SelectOption(cursor);
                 return 0;
             }
@@ -147,7 +173,31 @@ namespace ConsoleRPG.Models.Menus.Startup
         }
         override public void SelectOption(int cursor)
         {
-            Selection = cursor;
+            if(cursor == 1)
+            {
+                Selection = "New Game";
+            }
+            else if(cursor == 2)
+            {
+                Selection = "Continue";
+            }
+            else if(cursor == 3)
+            {
+                Selection = "Options";
+            }
+            else
+            {
+                Selection = "Quit";
+            }
+        }
+        public override void CursorMoveBeep()
+        {
+            Console.Beep(500, 100);
+        }
+        public override void CursorSelectBeep()
+        {
+            Console.Beep(900, 100);
+            Console.Beep(1200, 80);
         }
     }
 }

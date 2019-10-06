@@ -12,46 +12,46 @@ using System.Text;
 
 namespace ConsoleRPG.Models.Professions.DefaultProfessions
 {
-    public class Knight : Profession
+    public class Scholar : Profession
     {
-        public Knight(string gender="M")
+        public Scholar(string gender = "M")
         {
-            Title = "Knight";
+            Title = "Scholar";
             Gender = GetGender(gender);
-            ProfessionSummary = "Knights are masters of the longsword clad in sturdy plate armor; but " +
-                "they often neglect their academic studies in favor of drinking and skirt-chasing.";
+            ProfessionSummary = "The scholar is a quick learner and widely knowledgeable, but spends more" +
+                "time reading books than on physical pursuits.";
             BaseHealth = 20;
-            BaseStamina = 20;
+            BaseStamina = 15;
             BaseStaminaRegen = 10.0;
             StartingAttributesDict = new Dictionary<string, int>()
             {
-                { "STR", 7 },
-                { "DEX", 7 },
-                { "SKL", 7 },
-                { "APT", 2 },
-                { "FOR", 6 },
-                { "CHA", 4 }
+                { "STR", 2 },
+                { "DEX", 2 },
+                { "SKL", 3 },
+                { "APT", 9 },
+                { "FOR", 2 },
+                { "CHA", 3 }
             };
             StartingTalentsDict = new Dictionary<string, int>()
             {
-                { "Medicine", 0 },
+                { "Medicine", 1 },
                 { "Explosives", 0 },
-                { "Veterancy", 2 },
-                { "Bestiary", 0 },
-                { "Engineering", 0 },
-                { "History", 0 }
+                { "Veterancy", 0 },
+                { "Bestiary", 1 },
+                { "Engineering", 1 },
+                { "History", 2 }
             };
             StartingInventoryDict = new Dictionary<Item, int>()
             {
-                { new Coins(), 800 },
-                { new Memento(), 1 }
+                { new Coins(), 400 },
+                { new Diploma(), 1 }
             };
             StartingEquipmentDict = new Dictionary<string, Items.Equipment.EquipmentItem>()
             {
-                { "MainHand", new Longsword() },
-                { "OffHand", new TwoHanding() },
-                { "Body", new PlateArmor() },
-                { "Charm 1", new LoversLocket() },
+                { "MainHand", new BareHand() },
+                { "OffHand", new HistoryTome() },
+                { "Body", new Clothing() },
+                { "Charm 1", new QuillAndInkwell() },
                 { "Charm 2", new Unadorned() }
             };
         }

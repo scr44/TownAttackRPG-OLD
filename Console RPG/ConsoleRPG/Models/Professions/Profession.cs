@@ -62,7 +62,6 @@ namespace ConsoleRPG.Models.Professions
         new Dictionary<string, int>()
         {
             { "Medicine", 0 },
-            { "Herbalism", 0 },
             { "Explosives", 0 },
             { "Veterancy", 0 },
             { "Bestiary", 0 },
