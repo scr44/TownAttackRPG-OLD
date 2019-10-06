@@ -7,9 +7,9 @@ namespace ConsoleRPG.Models.Items.Equipment
 {
     public class EquipmentItem : Item
     {
-        public List<string> EquipmentKeywords { get; protected set; } =
+        public List<string> EquipmentTags { get; protected set; } =
             new List<string>();
-        public double Condition { get; protected set; } = 100; // TODO when building combat, handle equipment degradation
+        public double Condition { get; protected set; } = 100; // TODO Equipment: condition/degredation
 
         #region Stats Tables
         /// <summary>
@@ -62,7 +62,7 @@ namespace ConsoleRPG.Models.Items.Equipment
                 { "Body", false },
                 { "Charm 1", false },
                 { "Charm 2", false }
-            }; // TODO test ValidSlots requirement for equipping items
+            };
         #endregion
 
         /// <summary>
@@ -95,7 +95,6 @@ namespace ConsoleRPG.Models.Items.Equipment
             {
                 ReqStats[stat] += points;
             }
-            // TODO add ability requirements to Equipment class
         }
         /// <summary>
         /// Sets a KeyValuePair(stat, points) in the given statsTable.
@@ -120,17 +119,16 @@ namespace ConsoleRPG.Models.Items.Equipment
         }
         public void BreakEquipment()
         {
-            EquipmentKeywords.Add("Broken");
+            EquipmentTags.Add("Broken");
             Condition = 0;
-            //TODO add equipment breaking behavior (unequip, prevent equip)
         }
         public void RepairEquipment(double points)
         {
-            EquipmentKeywords.Remove("Broken");
+            EquipmentTags.Remove("Broken");
             Condition += points;
         }
         public void CharmEffect()
-        { // TODO add Charm Effect method to Equipment class 
+        { // TODO Effects: add Charm Effect method to Equipment class 
         }
     }
 }

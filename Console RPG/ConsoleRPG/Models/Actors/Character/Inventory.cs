@@ -19,6 +19,66 @@ namespace ConsoleRPG.Models.Actors.Character
                 }
             }
         }
+        public Inventory(Character character, Dictionary<Item, int> initItems)
+        {
+            AttachedCharacter = character;
+            foreach (var item in initItems)
+            {
+                for (int i = 1; i <= item.Value; i++)
+                {
+                    this.AddItem(item.Key);
+                }
+            }
+        }
+
+        public Character AttachedCharacter { get; }
+        public double WeightCapacity
+        {
+            get
+            {
+                double moddedSTR = AttachedCharacter.Attributes.BaseValue["STR"]
+                    + AttachedCharacter.EquipmentMod("STR", AttachedCharacter.Equipment) 
+                    + AttachedCharacter.EffectMod("STR", AttachedCharacter.ActiveEffects);
+                if (moddedSTR <= 10)
+                {
+                    // 15 points of Weight Cap for every STR up to 10
+                    return moddedSTR * 15;
+                }
+                else
+                {
+                    // Diminishing max Weight Capacity returns for STR > 10
+                    return (moddedSTR - 10) * 5 + (10 * 15);
+                }
+
+            }
+        }
+        public double WeightLoad
+        {
+            get
+            {
+                double weight = 0;
+                foreach (KeyValuePair<string, Item> item in this.InventoryContents)
+                {
+                    // weight of all items in inventory
+                    weight += this.InventoryContents[item.Key].Weight
+                        * this.InventoryCounts[item.Key];
+                }
+                foreach (var item in AttachedCharacter.Equipment.Slot)
+                {
+                    // weight of all equipped items
+                    weight += AttachedCharacter.Equipment.Slot[item.Key].Weight;
+                }
+                return weight;
+            }
+        }
+        public bool IsOverburdened
+        {
+            // If held weight exceeds the weight capacity.
+            get
+            {
+                return WeightLoad > WeightCapacity;
+            }
+        } 
 
         /// <summary>
         /// The contents of a character's inventory.
@@ -58,28 +118,27 @@ namespace ConsoleRPG.Models.Actors.Character
         /// Removes an item from the inventory and returns it to the caller.
         /// </summary>
         /// <param name="item">Item to remove</param>
-        public Item RemoveItem(Item item)
+        public void RemoveItem(string itemName)
         {
-            if (InventoryCounts[item.ItemName] > 1)
+            if (InventoryCounts[itemName] > 1)
             {
-                InventoryCounts[item.ItemName]--;
+                InventoryCounts[itemName]--;
             }
-            else if (InventoryCounts[item.ItemName] == 1)
+            else if (InventoryCounts[itemName] == 1)
             {
-                InventoryContents.Remove(item.ItemName);
-                InventoryCounts.Remove(item.ItemName);
+                InventoryContents.Remove(itemName);
+                InventoryCounts.Remove(itemName);
             }
             else
             {
                 throw new ArgumentOutOfRangeException("An inventory cannot have a negative number of items.");
             }
-            return item;
         }
-        public void RemoveItem(Item item, int count)
+        public void RemoveItem(string itemName, int count)
         {
             for(int i = 0; i < count; i++)
             {
-                this.RemoveItem(item);
+                this.RemoveItem(itemName);
             }
         }
         /// <summary>
@@ -90,7 +149,7 @@ namespace ConsoleRPG.Models.Actors.Character
         public void GiveItem(Item item, Inventory target)
         {
             target.AddItem(item);
-            this.RemoveItem(item);
+            this.RemoveItem(item.ItemName);
         }
         /// <summary>
         /// Transfers an item from the target inventory to this one.
@@ -100,7 +159,7 @@ namespace ConsoleRPG.Models.Actors.Character
         public void TakeItem(Item item, Inventory target)
         {
             this.AddItem(item);
-            target.RemoveItem(item);
+            target.RemoveItem(item.ItemName);
         }
     }
 }

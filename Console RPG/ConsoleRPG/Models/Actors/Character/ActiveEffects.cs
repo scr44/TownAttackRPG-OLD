@@ -41,12 +41,12 @@ namespace ConsoleRPG.Models.Actors.Character
         }
 
 
-        public void AddEffect(Effect newEffect) // TODO 00: finish add effect duration refreshing
+        public void AddEffect(Effect newEffect) // TODO Effects: finish add effect duration refreshing
         {
-            if(newEffect.EffectKeywords.Contains("Unique") // Duration stacks or refreshes rather than new instance
+            if(newEffect.EffectTags.Contains("Unique") // Duration stacks or refreshes rather than new instance
                 && EffectInstanceCount.ContainsKey(newEffect.EffectName))
             {
-                if(newEffect.EffectKeywords.Contains("Stacking Duration"))
+                if(newEffect.EffectTags.Contains("Stacking Duration"))
                 {
                     // Add duration to existing instance
                 }
@@ -58,7 +58,7 @@ namespace ConsoleRPG.Models.Actors.Character
             else // Effect starts
             {
                 EffectList.Add(newEffect);
-                if (newEffect.EffectKeywords.Contains("Trigger on Start"))
+                if (newEffect.EffectTags.Contains("Trigger on Start"))
                 {
                     newEffect.TriggerEffect();
                 }
@@ -66,7 +66,7 @@ namespace ConsoleRPG.Models.Actors.Character
         }
         public void RemoveEffect(int i)
         {
-            if(EffectList[i].EffectKeywords.Contains("Trigger on Expiry"))
+            if(EffectList[i].EffectTags.Contains("Trigger on Expiry"))
             {
                 EffectList[i].Duration = 0;
                 EffectList[i].TriggerEffect();
@@ -82,7 +82,7 @@ namespace ConsoleRPG.Models.Actors.Character
                     break;
                 }
 
-                if(EffectList[i].EffectKeywords.Contains(keyword))
+                if(EffectList[i].EffectTags.Contains(keyword))
                 {
                     RemoveEffect(i);
                 }

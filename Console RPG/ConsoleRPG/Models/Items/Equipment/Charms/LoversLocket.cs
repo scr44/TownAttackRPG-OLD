@@ -8,8 +8,8 @@ namespace ConsoleRPG.Models.Items.Equipment.Charms
     {
         public LoversLocket()
         {
-            EquipmentKeywords.Add("Charm");
-            EquipmentKeywords.Add("Jewelry");
+            EquipmentTags.Add("Charm");
+            EquipmentTags.Add("Jewelry");
 
             ItemName = "Lover's Locket";
             ItemDescrip = "A copper locket holding the picture of a long-departed lover. The lasting gloom of lessons learned.";

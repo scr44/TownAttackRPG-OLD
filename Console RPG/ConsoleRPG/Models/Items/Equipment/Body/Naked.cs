@@ -8,12 +8,20 @@ namespace ConsoleRPG.Models.Items.Equipment.Body
     {
         public Naked()
         {
-            EquipmentKeywords.Add("None");
+            EquipmentTags.Add("None");
 
             ItemName = "Naked";
-            ItemDescrip = "Have some decency!";
+            Random rand = new Random();
+            List<string> nakedDescriptions = new List<string>()
+            {
+                "Have some decency!",
+                "You have no shame, do you?",
+                "What would your mother say?",
+                "Your birthday suit.",
+                "It's a good thing this game uses ASCII graphics."
+                // TODO Easter Egg: update if ever moving past ASCII graphics.
+            };
+            ItemDescrip = nakedDescriptions[rand.Next(0,5)];
         }
-
-        // TODO add CHA modifiers to "naked" equipment based on gender of user and target
     }
 }

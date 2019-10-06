@@ -8,9 +8,9 @@ namespace ConsoleRPG.Models.Items.Equipment.Hands
     {
         public Longsword()
         {
-            EquipmentKeywords.Add("Sword");
-            EquipmentKeywords.Add("Weapon");
-            EquipmentKeywords.Add("Can2H");
+            EquipmentTags.Add("Sword");
+            EquipmentTags.Add("Weapon");
+            EquipmentTags.Add("Can2H");
 
             ItemName = "Longsword";
             ItemDescrip = "A versatile weapon. Good damage, with a wide variety of attack techniques for any situation.";

@@ -1,4 +1,5 @@
 ﻿using ConsoleRPG.Models.Actors.Character.Stats;
+using ConsoleRPG.Models.Combat;
 using ConsoleRPG.Models.Items;
 using ConsoleRPG.Models.Items.Equipment;
 using ConsoleRPG.Models.Items.Equipment.Body;
@@ -11,7 +12,7 @@ using System.Text;
 
 namespace ConsoleRPG.Models.Actors.Character
 {
-    public class Character : Actor
+    public class Character : Actor, IStatModifiers, IAttack, IDefense
     {
         public Character(string name, Profession prof)
         {
@@ -20,16 +21,21 @@ namespace ConsoleRPG.Models.Actors.Character
             Profession = prof;
             Attributes = new Attributes(this, prof.StartingAttributesDict);
             Talents = new Talents(this, prof.StartingTalentsDict);
-            Inventory = new Inventory(prof.StartingInventoryDict);
-            Equipment = new Equipment(this.Inventory, prof.StartingEquipmentDict);
+            Inventory = new Inventory(this, prof.StartingInventoryDict);
+            Equipment = new Equipment(this, prof.StartingEquipmentDict);
 
-            BaseHealth = prof.BaseHealth;
-            BaseStamina = prof.BaseStamina;
+            HP = new Health(Profession, Equipment, ActiveEffects);
+            SP = new Stamina(Profession, Equipment, ActiveEffects);
+            HP.AdjustHP(9999); // Start off at full health.
+            SP.AdjustSP(999); // Start off at full stamina.
+            XP = new Experience(this, 1);
         }
 
-        #region Flavor Text Info
-        public string Name { get; } // TODO add handling for First and Last name
+        #region Tags
+        public string Name { get; } // TODO Tags: add handling for First and Last name
         public Profession Profession { get; }
+        public List<string> CharacterTags { get; private set; } =
+            new List<string>();
         #endregion
 
         #region Inventory
@@ -37,50 +43,6 @@ namespace ConsoleRPG.Models.Actors.Character
         /// The items currently held by the character.
         /// </summary>
         public Inventory Inventory { get; private set; }
-        public double WeightCapacity
-        {
-            get
-            {
-                double moddedSTR = Attributes.BaseValue["STR"] + EquipmentMod("STR") + EffectMod("STR");
-                if (moddedSTR <= 10)
-                {
-                    // 15 points of Weight Cap for every STR up to 10
-                    return moddedSTR * 15;
-                }
-                else
-                {
-                    // Diminishing max Weight Capacity returns for STR > 10
-                    return (moddedSTR - 10) * 5 + (10 * 15);
-                }
-                
-            }
-        }
-        public double WeightLoad
-        {
-            get
-            {
-                double weight = 0;
-                foreach(KeyValuePair<string, Item> item in Inventory.InventoryContents)
-                {
-                    // weight of all items in inventory
-                    weight += Inventory.InventoryContents[item.Key].Weight
-                        * Inventory.InventoryCounts[item.Key];
-                }
-                foreach(var item in Equipment.Slot)
-                {
-                    // weight of all equipped items
-                    weight += Equipment.Slot[item.Key].Weight;
-                }
-                return weight;
-            }
-        }
-        public bool IsOverburdened
-        {
-            get
-            {
-                return WeightLoad > WeightCapacity;
-            }
-        } // If held weight exceeds the weight capacity.
         #endregion
 
         #region Equipment
@@ -93,53 +55,23 @@ namespace ConsoleRPG.Models.Actors.Character
         #endregion
 
         #region Health, Stamina, XP
-        public double BaseHealth { get; private set; }
-        public double BaseStamina { get; private set; }
-        public double HP { get; private set; }
-        public double SP { get; private set; }
-        public double MaxHP
+        public bool IsAlive
         {
             get
             {
-                return BaseHealth + EquipmentMod("healthBonus");
-                // TODO add max health modifier from Effects
+                return HP.Current > 0;
             }
         }
-        public double MaxSP
-        {
-            get
-            {
-                return Profession.BaseStamina + EquipmentMod("staminaBonus");
-            }
-        }
-        public double PercentHP
-        {
-            get
-            {
-                return Math.Round((HP / MaxHP * 100),2);
-            }
-        }
-        public double PercentSP
-        {
-            get
-            {
-                return Math.Round((SP / MaxSP * 100), 2);
-            }
-        }
-        public int XP { get; private set; } = 0;
-        public int NextLevelXP { get; private set; } = 100; // TODO build level up module
+        public Health HP { get; private set; }
+        public Stamina SP { get; private set; }
+        public Experience XP { get; private set; }
         #endregion
 
         #region Stat Modifiers
-        /// <summary>
-        /// Returns the total equipment modifier for the given stat.
-        /// </summary>
-        /// <param name="stat"></param>
-        /// <returns></returns>
-        public double EquipmentMod(string stat)
+        public double EquipmentMod(string stat, Equipment equipment)
         {
             double mod = 0;
-            foreach (KeyValuePair<string, EquipmentItem> item in this.Equipment.Slot)
+            foreach (KeyValuePair<string, EquipmentItem> item in equipment.Slot)
             {
                 foreach (KeyValuePair<string, double> itemStat in item.Value.WeaponStats)
                 {
@@ -165,14 +97,9 @@ namespace ConsoleRPG.Models.Actors.Character
             }
             return mod;
         }
-        /// <summary>
-        /// Returns the total effect modifier for the given stat.
-        /// </summary>
-        /// <param name="stat"></param>
-        /// <returns></returns>
-        public double EffectMod(string stat)
+        public double EffectMod(string stat, ActiveEffects activeEffects)
         {
-            // TODO build Effects and get modified character stats from them
+            // TODO Effect Mod
             return 0;
         }
         #endregion
@@ -183,23 +110,15 @@ namespace ConsoleRPG.Models.Actors.Character
         #endregion
 
         #region Offense
-        public Dictionary<string, double> DmgMultiplier // TODO add Effect mods to offense
+        public double EquipmentDmgMultiplier(string dmgType)
         {
-            get
-            {
-                return new Dictionary<string, double>()
-                {
-                    // + EffectMultiplier("slash")
-                    { "slash", EquipmentDmgMultiplier("slash") + DmgScaling["slash"] + Bonus2HScaling }, 
-                    { "pierce", EquipmentDmgMultiplier("pierce") + DmgScaling["pierce"] + Bonus2HScaling },
-                    { "crush", EquipmentDmgMultiplier("crush") + DmgScaling["crush"] + Bonus2HScaling },
-
-                    { "poison", EquipmentDmgMultiplier("poison") + DmgScaling["poison"] },
-                    { "bleed", EquipmentDmgMultiplier("bleed") + DmgScaling["bleed"] },
-                    { "fire", EquipmentDmgMultiplier("fire") + DmgScaling["fire"] },
-                    { "acid", EquipmentDmgMultiplier("acid") + DmgScaling["acid"] },
-                };
-            }
+            string dmgMult = dmgType + "Multiplier";
+            return EquipmentMod(dmgMult,this.Equipment);
+        }
+        public double EffectDmgMultiplier(string dmgType)
+        {
+            string dmgMult = dmgType + "Multiplier";
+            return EffectMod(dmgMult, this.ActiveEffects);
         }
         public Dictionary<string, double> DmgScaling
         {
@@ -209,8 +128,8 @@ namespace ConsoleRPG.Models.Actors.Character
                 {
                     // + EffectMultiplier("slash")
                     { "slash", 0.2 * (Attributes.ModdedValue["DEX"] - 5) },
-                    { "pierce", 0.2 * (Attributes.ModdedValue["SKL"] - 5)},
-                    { "crush", 0.2 * (Attributes.ModdedValue["STR"] - 5)},
+                    { "pierce", 0.2 * (Attributes.ModdedValue["SKL"] - 5) },
+                    { "crush", 0.2 * (Attributes.ModdedValue["STR"] - 5) },
 
                     { "poison", 0.1 * Talents.ModdedValue["Herbalism"] },
                     { "bleed", 0.1 * Talents.ModdedValue["Medicine"] },
@@ -219,52 +138,47 @@ namespace ConsoleRPG.Models.Actors.Character
                 };
             }
         } // Attack scaling is additive
-        public double Bonus2HScaling
+        public double Bonus2HScaling(string dmgType, bool is2H)
         {
-            get
+            if (is2H && (
+                   dmgType == "slash"
+                || dmgType == "pierce"
+                || dmgType == "crush"
+                ))
             {
-                if(this.Equipment.Is2H)
-                {
-                    return 0.2;
-                }
-                else
-                {
-                    return 0.0;
-                }
+                return 0.2;
+            }
+            else
+            {
+                return 0.0;
             }
         }
-        public double EquipmentDmgMultiplier(string dmgType)
+        public double DmgMULT(string dmgType)
         {
-            string dmgMult = dmgType + "Multiplier";
-            return EquipmentMod(dmgMult);
+            return EquipmentDmgMultiplier(dmgType)
+                + EffectDmgMultiplier(dmgType)
+                + DmgScaling[dmgType] 
+                + Bonus2HScaling(dmgType, this.Equipment.Is2H);
         }
         #endregion
 
         #region Defense
-        public Dictionary<string,double> PROTMultiplier // TODO add Effect mods to defense
+        public double EquipmentPROT(string dmgType)
         {
-            get
-            {
-                return new Dictionary<string, double>()
-                {
-                    { "slash", EquipmentPROT("slash") * PROTScaling["slash"] }, // + EffectPROT("slash") },
-                    { "pierce", EquipmentPROT("pierce") * PROTScaling["pierce"] },
-                    { "crush", EquipmentPROT("crush") * PROTScaling["crush"] },
-
-                    { "poison", EquipmentPROT("poison") * PROTScaling["poison"] },
-                    { "bleed", EquipmentPROT("bleed") * PROTScaling["bleed"] },
-                    { "fire", EquipmentPROT("fire") * PROTScaling["fire"] },
-                    { "acid", EquipmentPROT("acid") * PROTScaling["acid"] },
-                };
-            }
+            string dmgProt = dmgType + "PROT";
+            return EquipmentMod(dmgProt,this.Equipment);
         }
-        // Defense scaling is multiplicative with equipment PROT, otherwise becoming invincible would be easy
-        public Dictionary<string, double> PROTScaling 
+        public double EffectPROT(string dmgType)
+        {
+            string dmgPROT = dmgType + "PROT";
+            return EffectMod(dmgPROT, this.ActiveEffects);
+        }
+        public Dictionary<string, double> PROTScaling
         {
             get
             {
                 return new Dictionary<string, double>()
-                { // TODO Balance the hell out of these defense stats, they're broke AF
+                { // TODO Balance: balance sorely needed for defense
                     // + EffectMultiplier("slash")
                     { "slash", 0.05 * (Attributes.ModdedValue["FOR"] - 5) },
                     { "pierce", 0.05 * (Attributes.ModdedValue["FOR"] - 5)},
@@ -277,57 +191,22 @@ namespace ConsoleRPG.Models.Actors.Character
                 };
             }
         }
-        public double EquipmentPROT(string dmgType)
+        public double PROT(string dmgType)
         {
-            string dmgProt = dmgType + "PROT";
-            return EquipmentMod(dmgProt);
+            // Defense scaling is multiplicative with equipment PROT, 
+            // otherwise becoming invincible would be too easy.
+            return EquipmentPROT(dmgType)
+                * EffectPROT(dmgType)
+                * PROTScaling[dmgType];
+        }
+        public bool TryBlock(EquipmentItem equipment)
+        {
+            return true;
         }
         #endregion
 
         #region Combat Functions
-        /// <summary>
-        /// Reduces damage per armor, adds armor piercing damage, then deals remaining damage to Actor's HP.
-        /// </summary>
-        /// <param name="dmgType">The damage type.</param>
-        /// <param name="dmg">The amount of damage.</param>
-        /// <param name="ap">The armor-piercing multiplier of the attack.</param>
-        override public void TakeHit(string dmgType, int dmg, double ap)
-        {
-            double reducedDmg = (1 - EquipmentPROT(dmgType)) * dmg + (EquipmentPROT(dmgType) * dmg * ap);
-            TakeHpDmg((int)reducedDmg);
-        }
-        public override void TakeHpDmg(int dmg)
-        {
-            HP -= dmg;
-            if(HP < 0)
-            {
-                HP = 0;
-            }
-        }
-        public override void RestoreHp(int hp)
-        {
-            HP += hp;
-            if(HP > MaxHP)
-            {
-                HP = MaxHP;
-            }
-        }
-        public void ReduceSP(int sp)
-        {
-            SP -= sp;
-            if(SP < 0)
-            {
-                SP = 0;
-            }
-        }
-        public void RestoreSP(int sp)
-        {
-            SP += sp;
-            if(SP > MaxSP)
-            {
-                SP = MaxSP;
-            }
-        }
+
         #endregion
     }
 }

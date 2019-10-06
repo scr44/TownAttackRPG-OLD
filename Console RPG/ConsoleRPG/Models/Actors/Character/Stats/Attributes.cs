@@ -82,12 +82,12 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
             {
                 return new Dictionary<string, int>()
                 {
-                    { "STR", BaseValue["STR"] + (int)AttachedCharacter.EquipmentMod("STR") + (int)AttachedCharacter.EffectMod("STR") },
-                    { "DEX", BaseValue["DEX"] + (int)AttachedCharacter.EquipmentMod("DEX") + (int)AttachedCharacter.EffectMod("DEX") },
-                    { "SKL", BaseValue["SKL"] + (int)AttachedCharacter.EquipmentMod("SKL") + (int)AttachedCharacter.EffectMod("SKL") },
-                    { "APT", BaseValue["APT"] + (int)AttachedCharacter.EquipmentMod("APT") + (int)AttachedCharacter.EffectMod("APT") },
-                    { "FOR", BaseValue["FOR"] + (int)AttachedCharacter.EquipmentMod("FOR") + (int)AttachedCharacter.EffectMod("FOR") },
-                    { "CHA", BaseValue["CHA"] + (int)AttachedCharacter.EquipmentMod("CHA") + (int)AttachedCharacter.EffectMod("CHA") },
+                    { "STR", BaseValue["STR"] + (int)AttachedCharacter.EquipmentMod("STR", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("STR", AttachedCharacter.ActiveEffects) },
+                    { "DEX", BaseValue["DEX"] + (int)AttachedCharacter.EquipmentMod("DEX", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("DEX", AttachedCharacter.ActiveEffects) },
+                    { "SKL", BaseValue["SKL"] + (int)AttachedCharacter.EquipmentMod("SKL", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("SKL", AttachedCharacter.ActiveEffects) },
+                    { "APT", BaseValue["APT"] + (int)AttachedCharacter.EquipmentMod("APT", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("APT", AttachedCharacter.ActiveEffects) },
+                    { "FOR", BaseValue["FOR"] + (int)AttachedCharacter.EquipmentMod("FOR", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("FOR", AttachedCharacter.ActiveEffects) },
+                    { "CHA", BaseValue["CHA"] + (int)AttachedCharacter.EquipmentMod("CHA", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("CHA", AttachedCharacter.ActiveEffects) },
                 };
             }
         }

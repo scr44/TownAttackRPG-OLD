@@ -12,23 +12,25 @@ using System.Text;
 
 namespace ConsoleRPG.Models.Professions.Default_Professions
 {
-    public class Mercenary : Profession
+    public class Knight : Profession
     {
-        public Mercenary(string gender="F")
+        public Knight(string gender="M")
         {
-            Title = "Mercenary";
+            Title = "Knight";
             Gender = GetGender(gender);
-            ProfessionSummary = "Mercenaries are masters of the longsword; but constant concussions and old wounds have damaged their senses, and their social graces are lacking.";
+            ProfessionSummary = "Knights are masters of the longsword clad in sturdy plate armor; but " +
+                "they often neglect their academic studies in favor of drinking and skirt-chasing.";
             BaseHealth = 20;
             BaseStamina = 20;
+            BaseStaminaRegen = 10.0;
             StartingAttributesDict = new Dictionary<string, int>()
             {
                 { "STR", 6 },
                 { "DEX", 6 },
-                { "SKL", 7 },
-                { "APT", 4 },
-                { "FOR", 2 },
-                { "CHA", 3 }
+                { "SKL", 6 },
+                { "APT", 2 },
+                { "FOR", 5 },
+                { "CHA", 4 }
             };
             StartingTalentsDict = new Dictionary<string, int>()
             {
@@ -49,7 +51,7 @@ namespace ConsoleRPG.Models.Professions.Default_Professions
             {
                 { "MainHand", new Longsword() },
                 { "OffHand", new TwoHanding() },
-                { "Body", new HalfPlate() },
+                { "Body", new PlateArmor() },
                 { "Charm 1", new LoversLocket() },
                 { "Charm 2", new Unadorned() }
             };

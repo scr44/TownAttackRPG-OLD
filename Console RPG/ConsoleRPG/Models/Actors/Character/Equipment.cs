@@ -1,4 +1,5 @@
-﻿using ConsoleRPG.Models.Items;
+﻿using ConsoleRPG.Models.Actors.Character.Stats;
+using ConsoleRPG.Models.Items;
 using ConsoleRPG.Models.Items.Equipment;
 using ConsoleRPG.Models.Items.Equipment.Body;
 using ConsoleRPG.Models.Items.Equipment.Charms;
@@ -13,7 +14,7 @@ namespace ConsoleRPG.Models.Actors.Character
     {
         #region Constructors
         public Equipment() { }
-        public Equipment(Inventory inventoryPointer, EquipmentItem main, EquipmentItem off, 
+        public Equipment(Character character, EquipmentItem main, EquipmentItem off, 
             EquipmentItem body, EquipmentItem charm1, EquipmentItem charm2)
         {
             Slot["MainHand"] = main;
@@ -22,16 +23,27 @@ namespace ConsoleRPG.Models.Actors.Character
             Slot["Charm 1"] = charm1;
             Slot["Charm 2"] = charm2;
 
-            AttachedInventory = inventoryPointer;
+            AttachedCharacter = character;
         }
-        public Equipment(Inventory inventoryPointer, Dictionary<string, EquipmentItem> initDict)
+        public Equipment(Character character, Dictionary<string, EquipmentItem> initDict)
         {
-            this.AttachedInventory = inventoryPointer;
+            AttachedCharacter = character;
             this.Slot = initDict;
         }
         #endregion
 
-        public Inventory AttachedInventory { get; }
+        #region Attached Modules
+        public Character AttachedCharacter { get; }
+        public Inventory AttachedInventory
+        {
+            get
+            {
+                return AttachedCharacter.Inventory;
+            }
+        }
+        #endregion
+
+        #region Slot Dict
         /// <summary>
         /// The set of equipment slots and equipped items.
         /// </summary>
@@ -44,6 +56,9 @@ namespace ConsoleRPG.Models.Actors.Character
                 { "Charm 1", new Unadorned() },
                 { "Charm 2", new Unadorned() }
             };
+        #endregion
+
+        #region Two-Handing
         /// <summary>
         /// Checks whether Character is wielding their primary weapon with both hands.
         /// </summary>
@@ -69,13 +84,38 @@ namespace ConsoleRPG.Models.Actors.Character
             }
             else
             {
-                if (Slot["MainHand"].EquipmentKeywords.Contains("Can2H"))
+                if (Slot["MainHand"].EquipmentTags.Contains("Can2H"))
                 {
                     Unequip("OffHand");
                     Slot["OffHand"] = new TwoHanding();
                 }
                 // if can't 2H the main weapon, do nothing
             }
+        }
+        #endregion
+
+        #region Equipping
+        /// <summary>
+        /// Checks to ensure the character's stats meet the equipment requirements.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public bool MeetsItemReq(EquipmentItem item)
+        {
+            foreach(KeyValuePair<string, double> req in item.ReqStats)
+            {
+                if(AttachedCharacter.Attributes.ModdedValue.ContainsKey(req.Key)
+                    && req.Value > AttachedCharacter.Attributes.ModdedValue[req.Key])
+                {
+                    return false;
+                }
+                if(AttachedCharacter.Talents.ModdedValue.ContainsKey(req.Key)
+                    && req.Value > AttachedCharacter.Talents.ModdedValue[req.Key])
+                {
+                    return false;
+                }
+            }
+            return true;
         }
         /// <summary>
         /// Equips an item and moves prior equipped item to inventory.
@@ -84,13 +124,13 @@ namespace ConsoleRPG.Models.Actors.Character
         /// <param name="item"></param>
         public bool Equip(string slot, EquipmentItem equipment)
         {
-            if (
-                  equipment.ValidSlots[slot] == true
-             && !(equipment.EquipmentKeywords.Contains("NotEquippable"))
-             && !(equipment.EquipmentKeywords.Contains("Broken")))
+            if (  equipment.ValidSlots[slot] == true
+             &&   MeetsItemReq(equipment)
+             && !(equipment.EquipmentTags.Contains("NotEquippable"))
+             && !(equipment.EquipmentTags.Contains("Broken")))
             {
                 EquipmentItem priorEquipment = Slot[slot]; // Hold the prior equipped item,
-                AttachedInventory.RemoveItem(equipment);
+                AttachedInventory.RemoveItem(equipment.ItemName);
                 Slot[slot] = equipment;                    // and equip the new item.
                 if (                             
                        priorEquipment is BareHand
@@ -98,11 +138,13 @@ namespace ConsoleRPG.Models.Actors.Character
                     || priorEquipment is Unadorned
                     || priorEquipment is TwoHanding)
                 {
+                    RefreshHpSpOnEquip(priorEquipment, equipment);
                     return true;                           // return true because the equip succeeded.
                 }
                 else                                       // If the slot had equipment,
                 {
                     AttachedInventory.AddItem(equipment);  // add the prior item to the attached inventory
+                    RefreshHpSpOnEquip(priorEquipment, equipment);
                     return true;                           // and return true because the equip succeeded.
                 }
             }
@@ -111,6 +153,9 @@ namespace ConsoleRPG.Models.Actors.Character
                 return false;                              // don't equip the item, and return false because the equip failed.
             }
         }
+        #endregion
+
+        #region Unequipping
         /// <summary>
         /// Unequips an item and stores it in the inventory.
         /// </summary>
@@ -159,6 +204,51 @@ namespace ConsoleRPG.Models.Actors.Character
                 AttachedInventory.AddItem(priorEquipment);
             }
         }
+        public void RefreshHpSpOnEquip(EquipmentItem priorItem, EquipmentItem newItem)
+        {
+            var hp = AttachedCharacter.HP;
+            var sp = AttachedCharacter.SP;
+
+            var healthDiff = EquipmentMod("healthBonus", newItem) - EquipmentMod("healthBonus", priorItem);
+            var staminaDiff = EquipmentMod("staminaBonus", newItem) - EquipmentMod("staminaBonus", priorItem);
+
+            if (healthDiff > 0)
+            {
+                hp.AdjustHP(healthDiff); // if new armor has more HP bonus, add HP.
+            }
+            else if (healthDiff < 0)
+            {
+                // if new armor has less HP bonus, find the new max HP
+                var newMax = hp.Base + EquipmentMod("healthBonus", newItem);
+                if(hp.Current > newMax)
+                {
+                    hp.AdjustHP(newMax - hp.Current); // if current HP exceeds new max, lower to new max.
+                }
+            }
+            else
+            {
+                // new armor matches health bonus, no change to HP.
+            }
+
+            if (staminaDiff > 0)
+            {
+                sp.AdjustSP(staminaDiff); // if new armor has more SP bonus, add SP.
+            }
+            else if (staminaDiff < 0)
+            {
+                // if new armor has less SP bonus, find the new max SP
+                var newMax = sp.Base + EquipmentMod("staminaBonus", newItem);
+                if (sp.Current > newMax)
+                {
+                    sp.AdjustSP(newMax - sp.Current); // if current SP exceeds new max, lower to new max.
+                }
+            }
+            else
+            {
+                // new armor matches health bonus, no change to SP.
+            }
+        }
+        #endregion
 
         public void DisplayEquipment()
         {
@@ -166,6 +256,33 @@ namespace ConsoleRPG.Models.Actors.Character
             {
                 Console.WriteLine($"{equipment.Key} - {equipment.Value.ItemName}: {equipment.Value.ItemDescrip}\n");
             }
+        }
+
+        public double EquipmentMod(string stat, EquipmentItem equipment)
+        {
+            double mod = 0;
+            foreach (KeyValuePair<string, double> itemStat in equipment.WeaponStats)
+            {
+                if (itemStat.Key == stat)
+                {
+                    mod += itemStat.Value;
+                }
+            }
+            foreach (KeyValuePair<string, double> itemStat in equipment.ArmorStats)
+            {
+                if (itemStat.Key == stat)
+                {
+                    mod += itemStat.Value;
+                }
+            }
+            foreach (KeyValuePair<string, double> itemStat in equipment.CharmStats)
+            {
+                if (itemStat.Key == stat)
+                {
+                    mod += itemStat.Value;
+                }
+            }
+            return mod;
         }
     }
 }

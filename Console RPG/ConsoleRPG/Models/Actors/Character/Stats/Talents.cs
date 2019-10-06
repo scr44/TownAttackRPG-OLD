@@ -69,13 +69,13 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
             {
                 return new Dictionary<string, int>()
                 {
-                    { "Medicine", BaseValue["Medicine"] + (int)AttachedCharacter.EquipmentMod("Medicine") + (int)AttachedCharacter.EffectMod("Medicine") },
-                    { "Herbalism", BaseValue["Herbalism"] + (int)AttachedCharacter.EquipmentMod("Herbalism") + (int)AttachedCharacter.EffectMod("Herbalism") },
-                    { "Explosives", BaseValue["Explosives"] + (int)AttachedCharacter.EquipmentMod("Explosives") + (int)AttachedCharacter.EffectMod("Explosives") },
-                    { "Veterancy", BaseValue["Veterancy"] + (int)AttachedCharacter.EquipmentMod("Veterancy") + (int)AttachedCharacter.EffectMod("Veterancy") },
-                    { "Bestiary", BaseValue["Bestiary"] + (int)AttachedCharacter.EquipmentMod("Bestiary") + (int)AttachedCharacter.EffectMod("Bestiary") },
-                    { "Engineering", BaseValue["Engineering"] + (int)AttachedCharacter.EquipmentMod("Engineering") + (int)AttachedCharacter.EffectMod("Engineering") },
-                    { "History", BaseValue["History"] + (int)AttachedCharacter.EquipmentMod("History") + (int)AttachedCharacter.EffectMod("History") },
+                    { "Medicine", BaseValue["Medicine"] + (int)AttachedCharacter.EquipmentMod("Medicine", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("Medicine", AttachedCharacter.ActiveEffects) },
+                    { "Herbalism", BaseValue["Herbalism"] + (int)AttachedCharacter.EquipmentMod("Herbalism", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("Herbalism", AttachedCharacter.ActiveEffects) },
+                    { "Explosives", BaseValue["Explosives"] + (int)AttachedCharacter.EquipmentMod("Explosives", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("Explosives", AttachedCharacter.ActiveEffects) },
+                    { "Veterancy", BaseValue["Veterancy"] + (int)AttachedCharacter.EquipmentMod("Veterancy", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("Veterancy", AttachedCharacter.ActiveEffects) },
+                    { "Bestiary", BaseValue["Bestiary"] + (int)AttachedCharacter.EquipmentMod("Bestiary", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("Bestiary", AttachedCharacter.ActiveEffects) },
+                    { "Engineering", BaseValue["Engineering"] + (int)AttachedCharacter.EquipmentMod("Engineering", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("Engineering", AttachedCharacter.ActiveEffects) },
+                    { "History", BaseValue["History"] + (int)AttachedCharacter.EquipmentMod("History", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("History", AttachedCharacter.ActiveEffects) },
                 };
             }
         }

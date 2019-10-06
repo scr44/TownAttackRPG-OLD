@@ -11,9 +11,9 @@ namespace ConsoleRPG.Models.Effects.StatusConditions
     {
         public Poisoned(int duration, int dmg, Actor target)
         {
-            EffectKeywords.Add("Status Condition");
-            EffectKeywords.Add("Negative Condition");
-            EffectKeywords.Add("Damage Over Time");
+            EffectTags.Add("Status Condition");
+            EffectTags.Add("Negative Condition");
+            EffectTags.Add("Damage Over Time");
 
             EffectName = "Poisoned";
             EffectDescrip = "Takes poison damage over time.";
@@ -26,7 +26,7 @@ namespace ConsoleRPG.Models.Effects.StatusConditions
 
         public void PoisonDamage(Actor target, int dmg)
         {
-            target.TakeHit("poison", dmg, 0);
+            //target.TakeHit("poison", dmg, 0);
         }
 
         public override void TickEffect()

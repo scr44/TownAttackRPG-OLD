@@ -2,6 +2,9 @@
 using ConsoleRPG.Models.Actors.Character.Stats;
 using ConsoleRPG.Models.Items;
 using ConsoleRPG.Models.Items.Equipment;
+using ConsoleRPG.Models.Items.Equipment.Body;
+using ConsoleRPG.Models.Items.Equipment.Charms;
+using ConsoleRPG.Models.Items.Equipment.Hands;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +18,7 @@ namespace ConsoleRPG.Models.Professions
             
         }
 
+        #region Tags
         public string Title { get; protected set; }
         public string Gender { get; protected set; }
         public string GetGender(string gender)
@@ -34,12 +38,51 @@ namespace ConsoleRPG.Models.Professions
             }
             return Gender;
         }
+        #endregion
+
+        #region Profession Stats
         public string ProfessionSummary { get; protected set; }
         public int BaseHealth { get; protected set; }
         public int BaseStamina { get; protected set; }
-        public Dictionary<string, int> StartingAttributesDict { get; protected set; }
-        public Dictionary<string, int> StartingTalentsDict { get; protected set; }
-        public Dictionary<Item, int> StartingInventoryDict { get; protected set; }
-        public Dictionary<string, EquipmentItem> StartingEquipmentDict { get; protected set; }
+        public double BaseStaminaRegen { get; protected set; }
+        #endregion
+
+        #region Initalizer Dictionaries
+        public Dictionary<string, int> StartingAttributesDict { get; protected set; } =
+            new Dictionary<string, int>()
+            {
+                { "STR", 5 },
+                { "DEX", 5 },
+                { "SKL", 5 },
+                { "APT", 5 },
+                { "FOR", 5 },
+                { "CHA", 5 }
+            };
+        public Dictionary<string, int> StartingTalentsDict { get; protected set; } =
+        new Dictionary<string, int>()
+        {
+            { "Medicine", 0 },
+            { "Herbalism", 0 },
+            { "Explosives", 0 },
+            { "Veterancy", 0 },
+            { "Bestiary", 0 },
+            { "Engineering", 0 },
+            { "History", 0 }
+        };
+        public Dictionary<Item, int> StartingInventoryDict { get; protected set; } =
+            new Dictionary<Item, int>()
+            {
+
+            };
+        public Dictionary<string, EquipmentItem> StartingEquipmentDict { get; protected set; } =
+            new Dictionary<string, EquipmentItem>()
+            {
+                { "MainHand", new BareHand() },
+                { "OffHand", new TwoHanding() },
+                { "Body", new Naked() },
+                { "Charm 1", new Unadorned() },
+                { "Charm 2", new Unadorned() }
+            };
+        #endregion
     }
 }

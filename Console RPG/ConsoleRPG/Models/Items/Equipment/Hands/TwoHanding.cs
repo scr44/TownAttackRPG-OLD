@@ -8,13 +8,12 @@ namespace ConsoleRPG.Models.Items.Equipment.Hands
     {
         public TwoHanding()
         {
-            EquipmentKeywords.Add("None");
-            EquipmentKeywords.Add("Hand");
+            EquipmentTags.Add("None");
+            EquipmentTags.Add("Hand");
 
             ItemName = "Two-handing";
             ItemDescrip = "This character is using their primary weapon with both hands.";
             
-            // TODO add modifier to attack rolls for 2h damage
             // Allow TwoHanding to use Hand abilities like punching, but not throwing
         }
     }
