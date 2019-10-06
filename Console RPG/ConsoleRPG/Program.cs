@@ -1,10 +1,13 @@
 ﻿using ConsoleRPG.Models.Actors.Character;
-using ConsoleRPG.Models.Professions.Default_Professions;
+using ConsoleRPG.Models.Professions.DefaultProfessions;
 using ConsoleRPG.Models.Items;
 using ConsoleRPG.Models.Items.Equipment;
 using System;
+using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
+using ConsoleRPG.Models.Menus.Startup;
+using ConsoleRPG.Models.Menus;
 
 namespace ConsoleRPG 
 {
@@ -13,7 +16,7 @@ namespace ConsoleRPG
     {
         static void Main(string[] args)
         {
-            
+            new Game().Start();
         }
     }
 

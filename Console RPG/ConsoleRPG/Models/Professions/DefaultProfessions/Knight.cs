@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleRPG.Models.Professions.Default_Professions
+namespace ConsoleRPG.Models.Professions.DefaultProfessions
 {
     public class Knight : Profession
     {
