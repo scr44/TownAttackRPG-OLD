@@ -1,5 +1,5 @@
 ﻿using ConsoleRPG.Models.Actors;
-using ConsoleRPG.Models.Actors.Character;
+using ConsoleRPG.Models.Actors.Characters;
 using ConsoleRPG.Models.Effects.EffectInterfaces;
 using System;
 using System.Collections.Generic;

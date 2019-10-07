@@ -4,26 +4,27 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleRPG.Models.Actors.Character.Stats
+namespace ConsoleRPG.Models.Actors.Characters.Stats
 {
-    public class Stamina : IStatModifiers
+    public class Health : IStatModifiers
     {
         /*
-         Stamina or SP (stamina points) measures how much energy your character has available to use skills.
-         Stamina will regenerate on its own in combat, but can also be restored by certain skills or items.
+         Health or HP (health points) measures how close a character is to death. Character HP is determined
+         by their profession, while Enemy and NPC HP is set at Actor intialization. Most armor increases 
+         max health, and many skill effects can temporarily grant extra max HP or restore lost HP.
         */
-        public Stamina()
+        public Health()
         {
 
         }
-        public Stamina(Profession prof, Equipment equipment, ActiveEffects activeEffects)
+        public Health(Profession prof, Equipment equipment, ActiveEffects activeEffects)
         {
             Prof = prof;
             Equipment = equipment;
             ActiveEffects = activeEffects;
-            Base = Prof.BaseStamina;
-            BaseRegen = Prof.BaseStaminaRegen;
+            Base = Prof.BaseHealth;
             Current = Max;
+            BaseRegen = 0; // Actors don't start with any implicit base health regen
         }
 
         #region Linked objects for stat modifier calculation
@@ -72,8 +73,8 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
             get
             {
                 return Base
-                    + (int)Math.Round(EquipmentMod("addMaxSP", this.Equipment))
-                    + (int)Math.Round(EffectMod("addMaxSP", this.ActiveEffects));
+                    + (int)Math.Round(EquipmentMod("healthBonus", this.Equipment))
+                    + (int)Math.Round(EffectMod("healthBonus", this.ActiveEffects));
             }
         }
         public double Percent
@@ -85,53 +86,55 @@ namespace ConsoleRPG.Models.Actors.Character.Stats
         }
         public int Base { get; private set; }
         public double BaseRegen { get; private set; }
-
-        public void AdjustSP(double points)
+        
+        public void AdjustHP(double points)
         {
-            if (0 < points && points < 1)
+            if(0 < points && points < 1)
             {
-                Current += 1; // since SP is an integer, any increase must be at least 1 SP.
+                Current += 1; // since HP is an integer, any increase must be at least 1 HP.
             }
             else if (-1 < points && points < 0)
             {
-                Current -= 1; // Likewise for losing SP.
+                Current -= 1; // Likewise for losing HP.
             }
 
             Current += (int)Math.Round(points);
 
             if (Current > Max)
             {
-                Current = Max;
+                Current = Max; // Cannot have more HP than max. Max itself can be adjusted by buffs, however.
             }
-            else if (Current < 0)
+            else if(Current < 0)
             {
-                Current = 0; // TODO Stamina: Exhaustion/overcast
+                Current = 0; // Die if you hit 0 HP.
+                // Dies() method needed
             }
         }
         public void AdjustBase(int points)
         {
-            // Base stamina can be adjusted in events.
+            // Base health can be adjusted in events.
             Base += points;
-            if (Base < 0)
+            if(Base <= 0)
             {
-                Base = 0; // can't have less than 0 base energy.
+                Base = 1; // ensures that you'll never die simply from taking your armor off
             }
         }
         public void AdjustBaseRegen(int points)
         {
             // Base regen can be adjusted in events.
-            Base += points;
-            if (Base < 1)
+            BaseRegen += points;
+            if (BaseRegen < 0)
             {
-                Base = 1; // can't have less than 1 base regen.
+                BaseRegen = 0; // can't have base negative regen, though effects can cause negatives.
             }
         }
         public void RegenTick()
         {
-            AdjustSP(
+            AdjustHP(
                 BaseRegen
-                + EquipmentMod("staminaRegen", Equipment)
-                + EffectMod("staminaRegen", ActiveEffects)
+                + EquipmentMod("healthRegen", Equipment)
+                + EffectMod("healthRegen", ActiveEffects)
+                - EffectMod("healthDegen", ActiveEffects)
                 );
         }
     }

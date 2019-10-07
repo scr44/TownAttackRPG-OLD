@@ -109,63 +109,65 @@ namespace ConsoleRPG.Models.Menus
         }
         override public ConsoleKey DisplayCursor(int cursor)
         {
-            if (cursor == 1)
+            switch(cursor)
             {
-                Console.WriteLine(MenuOptions1);
+                case 1:
+                    Console.WriteLine(MenuOptions1);
+                    break;
+                case 2:
+                    Console.WriteLine(MenuOptions2);
+                    break;
+                case 3:
+                    Console.WriteLine(MenuOptions3);
+                    break;
             }
-            else if (cursor == 2)
-            {
-                Console.WriteLine(MenuOptions2);
-            }
-            else if (cursor == 3)
-            {
-                Console.WriteLine(MenuOptions3);
-            }
-
             return Console.ReadKey().Key;
         }
         override public int MoveCursor(ConsoleKey keyPressed, int cursor, int maxCursor=3)
         {
-            if (keyPressed == ConsoleKey.UpArrow)
+            switch(keyPressed)
             {
-                CursorMoveBeep();
-                if (cursor == 1)
-                { return maxCursor; }
-                else
-                { return cursor -= 1; }
-            }
-            else if (keyPressed == ConsoleKey.DownArrow)
-            {
-                CursorMoveBeep();
-                if (cursor == maxCursor)
-                { return 1; }
-                else
-                { return cursor += 1; }
-            }
-            else if (keyPressed == ConsoleKey.Enter)
-            {
-                CursorSelectBeep();
-                SelectOption(cursor);
-                return 0;
-            }
-            else
-            {
-                return cursor;
+                case ConsoleKey.UpArrow:
+                    CursorMoveBeep();
+                    if (cursor == 1)
+                    { return maxCursor; }
+                    else
+                    { return cursor -= 1; }
+
+                case ConsoleKey.DownArrow:
+                    CursorMoveBeep();
+                    if (cursor == maxCursor)
+                    { return 1; }
+                    else
+                    { return cursor += 1; }
+
+                case ConsoleKey.Enter:
+                    CursorSelectBeep();
+                    SelectOption(cursor);
+                    return 0;
+
+                case ConsoleKey.Escape:
+                    CursorSelectBeep();
+                    Selection = "Back";
+                    return 0;
+
+                default:
+                    return cursor;
             }
         }
         override public void SelectOption(int cursor)
         {
-            if (cursor == 1)
+            switch(cursor)
             {
-                Selection = "Select Pre-Made Profession";
-            }
-            else if (cursor == 2)
-            {
-                Selection = "Custom Profession";
-            }
-            else // Back
-            {
-                Selection = "Run Main Menu";
+                case 1:
+                    Selection = "Select Pre-Made Profession";
+                    break;
+                case 2:
+                    Selection = "Custom Profession";
+                    break;
+                case 3:
+                    Selection = "Back";
+                    break;
             }
         }
         public override void CursorMoveBeep()

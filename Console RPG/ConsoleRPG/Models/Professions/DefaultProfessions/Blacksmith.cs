@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ConsoleRPG.Models.Actors.Character;
-using ConsoleRPG.Models.Actors.Character.Stats;
+using ConsoleRPG.Models.Actors.Characters;
+using ConsoleRPG.Models.Actors.Characters.Stats;
 using ConsoleRPG.Models.Items;
 using ConsoleRPG.Models.Items.Elixir;
 using ConsoleRPG.Models.Items.Equipment.Body;

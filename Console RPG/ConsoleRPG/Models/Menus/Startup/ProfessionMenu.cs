@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleRPG.Models.Menus.InfoPages;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,7 +10,7 @@ namespace ConsoleRPG.Models.Menus.Startup
         public string Title = @"
 
                                                     ==========================
-                    F1: Attribute   F2: Talent      = Choose Your Profession =               
+        ESC: Back   F1: Attribute   F2: Talent      = Choose Your Profession =               
                           Info           Info       ==========================                 
 ";
 
@@ -217,7 +218,7 @@ namespace ConsoleRPG.Models.Menus.Startup
 ";
         public string FootmanSelected = @"
             
-    Knight               A recently retired soldier. Lethal with a spear and shield, but his time int he military     
+    Knight               A recently retired soldier. Lethal with a spear and shield, but his time in the military     
                                     
                          left him rather uncouth. Can still hold his own, but old wounds slow him down.
     Scholar                         
@@ -362,7 +363,7 @@ namespace ConsoleRPG.Models.Menus.Startup
                            CHA: 8            History: 0
   ===========                                                                                       
   | Barmaid |
-  ===========            Tips: You have an endless supply of free healing that causes the drunk status effect.
+  ===========            Tips: You have an inexhaustible source of free healing that causes the drunk status effect.
                                                                                                     
     Huntress                   Trade hits with enemies while drunk to reduce damage taken and increase your own.
                                                                                                     
@@ -543,6 +544,47 @@ namespace ConsoleRPG.Models.Menus.Startup
       
 
 ";
+        public string SecretProfessionSelected = @"
+            
+    Knight                                                                                                           
+                                    
+                                                                                                    
+    Scholar                                 
+                                            
+                                         
+    Noble                                                                                 
+                                                                                                               
+                                                                                                    
+    Constable                                                                                                            
+                                                                                                    
+                                                                                                                   
+    Footman  
+                                                                                                               
+                   
+    Plague Doctor                                                                                                  
+                                                                                                    
+                                                                                                             
+    Squire                                                                                                    
+                                                                                                                  
+                                                                                                    
+    Barmaid  
+                                                                                                                            
+                                                                                                    
+    Huntress                                                                                                               
+                                                                                                    
+                                                                                                                         
+    Convict  
+                                                                                                   
+                                                                                                    
+    Blacksmith  
+                                                                                                    
+                                                                                                    
+    Alchemist  
+                                                                                                    
+    =========
+    |   ?   |
+    =========
+";
 
         override public string Selection { get; set; }
 
@@ -579,39 +621,100 @@ namespace ConsoleRPG.Models.Menus.Startup
             {
                 Console.WriteLine(NobleSelected);
             }
-
+            else if (cursor == 4)
+            {
+                Console.WriteLine(ConstableSelected);
+            }
+            else if (cursor == 5)
+            {
+                Console.WriteLine(FootmanSelected);
+            }
+            else if (cursor == 6)
+            {
+                Console.WriteLine(PlagueDoctorSelected); 
+            }
+            else if (cursor == 7)
+            {
+                Console.WriteLine(SquireSelected);
+            }
+            else if (cursor == 8)
+            {
+                Console.WriteLine(BarmaidSelected);
+            }
+            else if (cursor == 9)
+            {
+                Console.WriteLine(HuntressSelected);
+            }
+            else if (cursor == 10)
+            {
+                Console.WriteLine(ConvictSelected);
+            }
+            else if (cursor == 11)
+            {
+                Console.WriteLine(BlacksmithSelected);
+            }
+            else if (cursor == 12)
+            {
+                Console.WriteLine(AlchemistSelected);
+            }
+            else if (cursor == 13)
+            {
+                Console.WriteLine(SecretProfessionSelected);
+            }
             return Console.ReadKey().Key;
-        }
-        override public int MoveCursor(ConsoleKey keyPressed, int cursor, int maxCursor = 3)
+        } // TODO Menus: turn this into a switch statement
+        override public int MoveCursor(ConsoleKey keyPressed, int cursor, int maxCursor = 12)
         {
-            if (keyPressed == ConsoleKey.UpArrow)
+            switch (keyPressed)
             {
-                CursorMoveBeep();
-                if (cursor == 1)
-                { return maxCursor; }
-                else
-                { return cursor -= 1; }
-            }
-            else if (keyPressed == ConsoleKey.DownArrow)
-            {
-                CursorMoveBeep();
-                if (cursor == maxCursor)
-                { return 1; }
-                else
-                { return cursor += 1; }
-            }
-            else if (keyPressed == ConsoleKey.Enter)
-            {
-                CursorSelectBeep();
-                SelectOption(cursor);
-                return 0;
-            }
-            else
-            {
-                return cursor;
+                case ConsoleKey.UpArrow:
+                    CursorMoveBeep();
+                    if (cursor == 1)
+                    { return maxCursor; }
+                    else
+                    { return cursor -= 1; }
+
+                case ConsoleKey.DownArrow:
+                    CursorMoveBeep();
+                    if (cursor == maxCursor || cursor == 13)
+                    { return 1; }
+                    else
+                    { return cursor += 1; }
+
+                case ConsoleKey.RightArrow:
+                    if (cursor != 13)
+                    { return 13; }
+                    else
+                    { return cursor; }
+
+                case ConsoleKey.LeftArrow:
+                    if (cursor == 13)
+                    { return 1; }
+                    else
+                    { return cursor; }
+
+                case ConsoleKey.Enter:
+                    CursorSelectBeep();
+                    SelectOption(cursor);
+                    return 0;
+
+                case ConsoleKey.Escape:
+                    Selection = "Back";
+                    return 0;
+
+                case ConsoleKey.F1:
+                    AttributesInfoPage.Display();
+                    return cursor;
+
+                case ConsoleKey.F2:
+                    TalentsInfoPage.Display();
+                    return cursor;
+
+                default:
+                    return cursor;
             }
         }
-        override public void SelectOption(int cursor)
+        override public void SelectOption(int cursor) // TODO Menus: turn this into a switch statement
         {
             if (cursor == 1)
             {
@@ -625,12 +728,55 @@ namespace ConsoleRPG.Models.Menus.Startup
             {
                 Selection = "Noble";
             }
+            else if (cursor == 4)
+            {
+                Selection = "Constable";
+            }
+            else if (cursor == 5)
+            {
+                Selection = "Footman";
+            }
+            else if (cursor == 6)
+            {
+                Selection = "Plague Doctor";
+            }
+            else if (cursor == 7)
+            {
+                Selection = "Squire";
+            }
+            else if (cursor == 8)
+            {
+                Selection = "Barmaid";
+            }
+            else if (cursor == 9)
+            {
+                Selection = "Huntress";
+            }
+            else if (cursor == 10)
+            {
+                Selection = "Convict";
+            }
+            else if (cursor == 11)
+            {
+                Selection = "Blacksmith";
+            }
+            else if (cursor == 12)
+            {
+                Selection = "Alchemist";
+            }
+            else if (cursor == 13)
+            {
+                Selection = "Secret Profession";
+            }
+            else
+            {
+                Selection = "Back";
+            }
         }
         public override void CursorMoveBeep()
         {
             Console.Beep(500, 100);
         }
-
         public override void CursorSelectBeep()
         {
             Console.Beep(900, 100);

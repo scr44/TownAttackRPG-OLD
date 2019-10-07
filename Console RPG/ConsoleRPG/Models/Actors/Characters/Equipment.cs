@@ -1,4 +1,4 @@
-﻿using ConsoleRPG.Models.Actors.Character.Stats;
+﻿using ConsoleRPG.Models.Actors.Characters.Stats;
 using ConsoleRPG.Models.Items;
 using ConsoleRPG.Models.Items.Equipment;
 using ConsoleRPG.Models.Items.Equipment.Body;
@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleRPG.Models.Actors.Character
+namespace ConsoleRPG.Models.Actors.Characters
 {
     public class Equipment
     {

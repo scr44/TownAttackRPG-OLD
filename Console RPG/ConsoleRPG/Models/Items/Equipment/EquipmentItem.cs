@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ConsoleRPG.Models.Actors.Character.Stats;
+using ConsoleRPG.Models.Actors.Characters.Stats;
 
 namespace ConsoleRPG.Models.Items.Equipment
 {

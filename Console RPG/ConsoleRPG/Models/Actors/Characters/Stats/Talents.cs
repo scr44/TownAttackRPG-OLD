@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleRPG.Models.Actors.Character.Stats
+namespace ConsoleRPG.Models.Actors.Characters.Stats
 {
     public class Talents
     {

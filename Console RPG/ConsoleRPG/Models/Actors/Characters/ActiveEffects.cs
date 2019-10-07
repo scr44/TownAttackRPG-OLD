@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ConsoleRPG.Models.Actors.Character
+namespace ConsoleRPG.Models.Actors.Characters
 {
     public class ActiveEffects
     {

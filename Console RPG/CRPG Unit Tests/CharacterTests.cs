@@ -1,4 +1,4 @@
-using ConsoleRPG.Models.Actors.Character;
+using ConsoleRPG.Models.Actors.Characters;
 using ConsoleRPG.Models.Items;
 using ConsoleRPG.Models.Items.Equipment;
 using ConsoleRPG.Models.Items.Equipment.Body;
@@ -9,7 +9,7 @@ using ConsoleRPG.Models.Professions.DefaultProfessions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
-namespace CRPG_Unit_Tests
+namespace Characters
 {
     [TestClass]
     public class CharacterCreation
@@ -445,6 +445,4 @@ namespace CRPG_Unit_Tests
 
         }
     }
-
-
 }

@@ -1,9 +1,12 @@
-﻿using ConsoleRPG.Models.Menus.Startup;
+﻿using ConsoleRPG.Models.Actors.Characters;
+using ConsoleRPG.Models.Menus;
+using ConsoleRPG.Models.Menus.InfoPages;
+using ConsoleRPG.Models.Menus.Startup;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleRPG.Models.Menus
+namespace ConsoleRPG
 {
     public class Game
     {
@@ -21,6 +24,7 @@ namespace ConsoleRPG.Models.Menus
         public ProfessionMenu ProfessionMenu { get; private set; }
 
         public string Selection { get; private set; } = "Run Main Menu";
+        public Dictionary<string, Character> Party { get; private set; }
         
         public void Start()
         {
@@ -35,16 +39,25 @@ namespace ConsoleRPG.Models.Menus
                 else if (Selection == "Run New Game Menu")
                 {
                     Selection = RunNewGameMenu();
+                    if (Selection == "Back")
+                    {
+                        Selection = "Run Main Menu";
+                    }
                 }
                 else if (Selection == "Run Profession Menu")
                 {
                     Selection = RunProfessionMenu();
+                    if (Selection == "Back")
+                    {
+                        Selection = "Run New Game Menu";
+                    }
                 }
             }
         }
         public void BootUpConsole()
         {
-            Console.SetWindowSize(130, 50);
+            //Console.SetWindowSize(130, 50);
+            Console.SetWindowSize(130, 40);
         }
         public void RunSplashScreen()
         {
@@ -64,16 +77,12 @@ namespace ConsoleRPG.Models.Menus
                 }
                 else if (Selection == "Continue")
                 {
-                    Console.Clear();
-                    Console.WriteLine("Sorry, this feature is incomplete.");
-                    Console.ReadKey();
+                    FeatureIncompleteInfoPage.Display();
                     Selection = "Run Main Menu";
                 }
                 else if (Selection == "Options")
                 {
-                    Console.Clear();
-                    Console.WriteLine("Sorry, this feature is incomplete.");
-                    Console.ReadKey();
+                    FeatureIncompleteInfoPage.Display();
                     Selection = "Run Main Menu";
                 }
                 else if (Selection == "Quit")
@@ -98,10 +107,8 @@ namespace ConsoleRPG.Models.Menus
                 }
                 else if (Selection == "Custom Profession")
                 {
-                    Console.Clear();
-                    Console.WriteLine("Sorry, this feature is incomplete.");
+                    FeatureIncompleteInfoPage.Display();
                     Selection = "Run New Game Menu";
-                    Console.ReadKey();
                 }
                 else // Back
                 {
@@ -123,9 +130,13 @@ namespace ConsoleRPG.Models.Menus
                 {
                     Selection = "Run Main Menu";
                 }
-                else
+                else if (Selection == "Back")
                 {
                     Selection = "Run New Game Menu";
+                }
+                else
+                {
+                    Selection = "Run Profession Menu";
                 }
             }
             return Selection;
