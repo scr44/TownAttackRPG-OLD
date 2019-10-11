@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
-namespace ConsoleRPG.Models.Menus.Startup
+namespace ConsoleRPG.Menus.Startup
 {
     public class SplashScreen
     {

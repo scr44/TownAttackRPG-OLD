@@ -1,9 +1,9 @@
-﻿using ConsoleRPG.Models.Menus.InfoPages;
+﻿using ConsoleRPG.Menus.InfoPages;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleRPG.Models.Menus.Startup
+namespace ConsoleRPG.Menus.Startup
 {
     public class ProfessionMenu : Menu
     {

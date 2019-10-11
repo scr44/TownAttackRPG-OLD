@@ -6,8 +6,8 @@ using System;
 using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
-using ConsoleRPG.Models.Menus.Startup;
-using ConsoleRPG.Models.Menus;
+using ConsoleRPG.Menus.Startup;
+using ConsoleRPG.Menus;
 
 namespace ConsoleRPG 
 {

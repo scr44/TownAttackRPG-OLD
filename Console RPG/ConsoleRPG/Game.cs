@@ -1,10 +1,8 @@
 ﻿using ConsoleRPG.Models.Actors.Characters;
-using ConsoleRPG.Models.Menus;
-using ConsoleRPG.Models.Menus.InfoPages;
-using ConsoleRPG.Models.Menus.Startup;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using ConsoleRPG.Menus;
+using ConsoleRPG.Menus.Startup;
 
 namespace ConsoleRPG
 {

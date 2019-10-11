@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleRPG.Models.Menus.Startup
+namespace ConsoleRPG.Menus.Startup
 {
     class PartySelect
     {

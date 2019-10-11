@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleRPG.Models.Menus.InfoPages
+namespace ConsoleRPG.Menus.InfoPages
 {
     static public class AttributesInfoPage
     {

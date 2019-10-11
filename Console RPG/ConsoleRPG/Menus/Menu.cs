@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleRPG.Models.Menus
+namespace ConsoleRPG.Menus
 {
     abstract public class Menu
     {

@@ -34,3 +34,4 @@ namespace ConsoleRPG.Models.Effects
         }
     }
 }
+// TODO 01: Effects

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
-namespace ConsoleRPG.Models.Menus
+namespace ConsoleRPG.Menus.Startup
 {
     public class NewGameMenu : Menu
     {
+        #region Title and Options strings
         string Title = @"
 
 
@@ -85,6 +86,7 @@ namespace ConsoleRPG.Models.Menus
          
                                                            > Back <
 ";
+        #endregion
 
         override public string Selection { get; set; } = "Run New Game Menu";
 

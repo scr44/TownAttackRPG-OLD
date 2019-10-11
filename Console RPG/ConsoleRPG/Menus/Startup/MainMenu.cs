@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using ConsoleRPG.Menus;
 
-namespace ConsoleRPG.Models.Menus.Startup
+namespace ConsoleRPG.Menus.Startup
 {
     public class MainMenu : Menu
     {
-
+        #region Title and Options
         string Title = @"
 
 
@@ -99,6 +100,7 @@ namespace ConsoleRPG.Models.Menus.Startup
 
                                                             > Quit <
 ";
+        #endregion
 
         override public string Selection { get; set; }
 
