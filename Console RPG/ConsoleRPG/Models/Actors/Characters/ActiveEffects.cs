@@ -8,7 +8,7 @@ namespace ConsoleRPG.Models.Actors.Characters
 {
     public class ActiveEffects
     {
-        public List<Effect> EffectList { get; private set; }
+        public List<Effect> EffectList { get; private set; } = new List<Effect>();
         public Dictionary<string,int> EffectInstanceCount
         {
             get
@@ -40,48 +40,60 @@ namespace ConsoleRPG.Models.Actors.Characters
             }
         }
 
-
-        public void AddEffect(Effect newEffect) // TODO Effects: finish add effect duration refreshing
+        #region Adding and Removing Effects (ad hoc)
+        public void AddEffect(Effect newEffect)
         {
-            if(newEffect.EffectTags.Contains("Unique") // Duration stacks or refreshes rather than new instance
+            // If the effect can't stack, the duration stacks or refreshes rather than a new instance
+            if (newEffect.EffectTags.Contains("Unique") 
                 && EffectInstanceCount.ContainsKey(newEffect.EffectName))
             {
                 if(newEffect.EffectTags.Contains("Stacking Duration"))
                 {
-                    // Add duration to existing instance
+                    // Stack the durations
+                    foreach(Effect effect in EffectList)
+                    {
+                        if (effect.EffectName == newEffect.EffectName)
+                        {
+                            effect.Duration += newEffect.Duration;
+                        }
+                    }
                 }
                 else
-                {
+                {   
                     // Refresh duration to new instance's starting duration
+                    foreach (Effect effect in EffectList)
+                    {
+                        if (effect.EffectName == newEffect.EffectName)
+                        {
+                            effect.Duration = newEffect.Duration;
+                        }
+                    }
                 }
             }
-            else // Effect starts
+            // Otherwise, the effect starts
+            else
             {
                 EffectList.Add(newEffect);
-                if (newEffect.EffectTags.Contains("Trigger on Start"))
+
+                // If the effect has any triggers upon starting, activate them
+                if (newEffect.EffectTags.Contains("Trigger upon Start"))
                 {
-                    newEffect.TriggerEffect();
+                    newEffect.NewEffectAction();
                 }
             }
         }
-        public void RemoveEffect(int i)
+        public void RemoveEffect(int i, bool safeRemove=false)
         {
-            if(EffectList[i].EffectTags.Contains("Trigger on Expiry"))
+            if (EffectList[i].EffectTags.Contains("Trigger on Expiry") && safeRemove == false)
             {
-                EffectList[i].Duration = 0;
-                EffectList[i].TriggerEffect();
+                EffectList[i].ExpiryAction();
             }
             EffectList.RemoveAt(i);
         }
-        public void RemoveKeywordEffects(int numToRemove, string keyword)
+        public void RemoveEffectsByKeyword(int numToRemove, string keyword)
         {
-            for(int i = EffectList.Count - 1; i >= 0; i--)
+            for(int i = EffectList.Count - 1; i >= 0 && numToRemove > 0; i--)
             {
-                if(numToRemove == 0)
-                {
-                    break;
-                }
-
                 if(EffectList[i].EffectTags.Contains(keyword))
                 {
                     RemoveEffect(i);
@@ -90,20 +102,29 @@ namespace ConsoleRPG.Models.Actors.Characters
                 numToRemove--;
             }
         }
+        #endregion
 
-        public void TriggerAllEffects()
-        {
-            foreach(Effect effect in EffectList)
-            {
-                effect.TriggerEffect();
-            }
-        }
+        #region Tick and Expire Effects (every turn)
+        // Ticks all effects, lowering duration by 1 and doing whatever other tick actions the individual effects have
         public void TickAllEffects()
         {
             foreach(Effect effect in EffectList)
             {
-                effect.TickEffect();
+                effect.TickAction();
+            }
+            RemoveExpiredEffects();
+        }
+        public void RemoveExpiredEffects()
+        {
+            // go backward to make RemoveEffect safe for the list
+            for (int i=EffectList.Count-1; i >= 0; i--)
+            {
+                if (EffectList[i].Duration == 0)
+                {
+                    RemoveEffect(i);
+                }
             }
         }
+        #endregion
     }
 }

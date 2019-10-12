@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleRPG.Models.Actors.Characters.Stats;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -15,15 +16,15 @@ namespace ConsoleRPG.Models.Actors
             {
                 if (Gender == "Male")
                 {
-                    return "his";
+                    return "His";
                 }
                 else if (Gender == "Female")
                 {
-                    return "her";
+                    return "Her";
                 }
                 else
                 {
-                    return "its";
+                    return "Its";
                 }
             }
         }
@@ -33,15 +34,15 @@ namespace ConsoleRPG.Models.Actors
             {
                 if (Gender == "Male")
                 {
-                    return "his";
+                    return "His";
                 }
                 else if (Gender == "Female")
                 {
-                    return "hers";
+                    return "Hers";
                 }
                 else
                 {
-                    return "its";
+                    return "Its";
                 }
             }
         }
@@ -51,24 +52,42 @@ namespace ConsoleRPG.Models.Actors
             {
                 if (Gender == "Male")
                 {
-                    return "he";
+                    return "He";
                 }
                 else if (Gender == "Female")
                 {
-                    return "she";
+                    return "She";
                 }
                 else
                 {
-                    return "it";
+                    return "It";
                 }
             }
         }
-        public string GenderAdjective
+        #endregion
+
+        #region Offense
+        virtual public double DMG(string dmgType)
         {
-            get
-            {
-                return Gender.ToLower();
-            }
+            return 1.0; // Actors default to having no damage multiplier
+        }
+        #endregion
+
+        #region Defense
+        virtual public double PROT(string dmgType)
+        {
+            return 1.0; // Actors default to having no damage protection
+        }
+        #endregion
+
+        #region Combat Functions
+        virtual public void Damaged(double dmgRaw, string dmgType, double dmgAP = 0.00)
+        {
+            
+        }
+        virtual public void Healed(double healAmt)
+        {
+            
         }
         #endregion
     }

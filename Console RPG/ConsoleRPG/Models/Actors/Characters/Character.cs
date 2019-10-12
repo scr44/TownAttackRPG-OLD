@@ -1,5 +1,4 @@
 ﻿using ConsoleRPG.Models.Actors.Characters.Stats;
-using ConsoleRPG.Models.Combat;
 using ConsoleRPG.Models.Items;
 using ConsoleRPG.Models.Items.Equipment;
 using ConsoleRPG.Models.Items.Equipment.Body;
@@ -12,7 +11,7 @@ using System.Text;
 
 namespace ConsoleRPG.Models.Actors.Characters
 {
-    public class Character : Actor, IStatModifiers, IAttack, IDefense
+    public class Character : Actor, IStatModifiers
     {
         public Character(string name, Profession prof)
         {
@@ -62,8 +61,8 @@ namespace ConsoleRPG.Models.Actors.Characters
                 return HP.Current > 0;
             }
         }
-        public Health HP { get; private set; }
-        public Stamina SP { get; private set; }
+        public new Health HP { get; private set; }
+        public new Stamina SP { get; private set; }
         public Experience XP { get; private set; }
         #endregion
 
@@ -153,7 +152,7 @@ namespace ConsoleRPG.Models.Actors.Characters
                 return 0.0;
             }
         }
-        public double DmgMULT(string dmgType)
+        override public double DMG(string dmgType)
         {
             return EquipmentDmgMultiplier(dmgType)
                 + EffectDmgMultiplier(dmgType)
@@ -191,7 +190,7 @@ namespace ConsoleRPG.Models.Actors.Characters
                 };
             }
         }
-        public double PROT(string dmgType)
+        override public double PROT(string dmgType)
         {
             // Defense scaling is multiplicative with equipment PROT, 
             // otherwise becoming invincible would be too easy.
@@ -199,14 +198,30 @@ namespace ConsoleRPG.Models.Actors.Characters
                 * EffectPROT(dmgType)
                 * PROTScaling[dmgType];
         }
+
         public bool TryBlock(EquipmentItem equipment)
         {
+            // TODO Combat: insert blocking behavior
             return true;
         }
-        #endregion
 
-        #region Combat Functions
+        public override void Damaged(double dmgRaw, string dmgType, double dmgAP = 0)
+        {
+            base.Damaged(dmgRaw, dmgType, dmgAP);
+            // PROT reduces damage multiplicatively
+            double reducedDmg = dmgRaw * (1 - PROT(dmgType));
+            // A portion of the blocked damage gets through with the armor piercing multiplier
+            double armorPiercingDmg = (dmgRaw - reducedDmg) * dmgAP;
+            // calculate the total amount of damage the character will actually take
+            double totalDmgTaken = -1 * (reducedDmg + armorPiercingDmg);
 
+            // take the damage
+            HP.AdjustHP(totalDmgTaken);
+        }
+        override public void Healed(double healAmt)
+        {
+            HP.AdjustHP(healAmt);
+        }
         #endregion
     }
 }

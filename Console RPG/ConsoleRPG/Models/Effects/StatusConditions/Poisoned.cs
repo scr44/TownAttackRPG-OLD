@@ -22,17 +22,18 @@ namespace ConsoleRPG.Models.Effects.StatusConditions
             DMG = dmg;
         }
 
-        int DMG;
+        int DMG { get; }
 
         public void PoisonDamage(Actor target, int dmg)
         {
-            //target.TakeHit("poison", dmg, 0);
+            target.Damaged(DMG, "poison", 0);
         }
 
-        public override void TickEffect()
+        public override void TickAction()
         {
             PoisonDamage(Target, DMG);
-            base.TickEffect();
+
+            base.TickAction();
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using ConsoleRPG.Menus;
 using ConsoleRPG.Menus.Startup;
+using ConsoleRPG.Menus.InfoPages;
 
 namespace ConsoleRPG
 {

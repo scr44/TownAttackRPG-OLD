@@ -11,6 +11,7 @@ namespace ConsoleRPG.Models.Effects
 
         public string EffectName { get; protected set; }
         public string EffectDescrip { get; protected set; }
+
         /// <summary>
         /// Number of ticks an effect has remaining.
         /// </summary>
@@ -19,18 +20,31 @@ namespace ConsoleRPG.Models.Effects
         /// The target of the effect.
         /// </summary>
         public Actor Target { get; protected set; }
+
         /// <summary>
         /// Dictionary of the Attribute, Talent, Charm, and other stats modified by the Effect.
         /// </summary>
         public Dictionary<string, int> EffectStatsModified { get; protected set; }
 
-        public virtual void TriggerEffect()
+        public virtual void TriggerAction()
         {
 
         } // TODO Effects: build an Effect with a triggered function (eg next attack skill costs less AP)
-        public virtual void TickEffect()
+        public virtual void TickAction()
         {
             Duration -= 1;
+            if(Duration <= 0)
+            {
+                ExpiryAction();
+            }
+        }
+        public virtual void NewEffectAction()
+        {
+
+        }
+        public virtual void ExpiryAction()
+        {
+
         }
     }
 }

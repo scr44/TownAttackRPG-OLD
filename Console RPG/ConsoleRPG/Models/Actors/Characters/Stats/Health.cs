@@ -107,7 +107,7 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
             else if(Current < 0)
             {
                 Current = 0; // Die if you hit 0 HP.
-                // Dies() method needed
+                // TODO HP: Dies() method needed
             }
         }
         public void AdjustBase(int points)
