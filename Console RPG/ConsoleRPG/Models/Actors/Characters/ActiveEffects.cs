@@ -41,7 +41,7 @@ namespace ConsoleRPG.Models.Actors.Characters
         }
 
         #region Adding and Removing Effects (ad hoc)
-        public void AddEffect(Effect newEffect)
+        public bool AddEffect(Effect newEffect)
         {
             // If the effect can't stack, the duration stacks or refreshes rather than a new instance
             if (newEffect.EffectTags.Contains("Unique") 
@@ -76,19 +76,25 @@ namespace ConsoleRPG.Models.Actors.Characters
                 EffectList.Add(newEffect);
 
                 // If the effect has any triggers upon starting, activate them
-                if (newEffect.EffectTags.Contains("Trigger upon Start"))
-                {
-                    newEffect.NewEffectAction();
-                }
+                newEffect.NewEffectAction();
             }
+            return true;
         }
-        public void RemoveEffect(int i, bool safeRemove=false)
+        public bool RemoveEffect(int i, bool safeRemove=false)
         {
-            if (EffectList[i].EffectTags.Contains("Trigger on Expiry") && safeRemove == false)
+            try
             {
-                EffectList[i].ExpiryAction();
+                if (EffectList[i].EffectTags.Contains("Trigger on Expiry") && safeRemove == false)
+                {
+                    EffectList[i].ExpiryAction();
+                }
+                EffectList.RemoveAt(i);
+                return true;
             }
-            EffectList.RemoveAt(i);
+            catch (ArgumentOutOfRangeException)
+            {
+                return false;
+            }
         }
         public void RemoveEffectsByKeyword(int numToRemove, string keyword)
         {

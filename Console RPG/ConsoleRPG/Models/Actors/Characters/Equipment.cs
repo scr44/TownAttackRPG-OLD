@@ -32,7 +32,7 @@ namespace ConsoleRPG.Models.Actors.Characters
         }
         #endregion
 
-        #region Attached Modules
+        #region Attached Objects
         public Character AttachedCharacter { get; }
         public Inventory AttachedInventory
         {

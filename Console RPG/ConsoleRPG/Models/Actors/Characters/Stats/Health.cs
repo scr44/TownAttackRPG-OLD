@@ -61,7 +61,7 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
             }
             return mod;
         }
-        public double EffectMod(string stat, ActiveEffects activeEffects)
+        public double EffectMod(string stat)
         {
             // TODO Effect Mod
             return 0;
@@ -74,7 +74,7 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
             {
                 return Base
                     + (int)Math.Round(EquipmentMod("healthBonus", this.Equipment))
-                    + (int)Math.Round(EffectMod("healthBonus", this.ActiveEffects));
+                    + (int)Math.Round(EffectMod("healthBonus"));
             }
         }
         public double Percent
@@ -133,8 +133,8 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
             AdjustHP(
                 BaseRegen
                 + EquipmentMod("healthRegen", Equipment)
-                + EffectMod("healthRegen", ActiveEffects)
-                - EffectMod("healthDegen", ActiveEffects)
+                + EffectMod("healthRegen")
+                - EffectMod("healthDegen")
                 );
         }
     }

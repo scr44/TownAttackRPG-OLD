@@ -505,26 +505,26 @@ namespace ConsoleRPG.Menus.Startup
 ";
         public string AlchemistSelected = @"
             
-    Knight               The town blacksmith is incredibly strong, and knows every weak point that armor can have.   
+    Knight               Recently expelled from the university for burning down a research hall, this pyromaniac     
                                     
-                         However, he is slow to move, and has a gruff demeanor.                     
+                         may be more dangerous to his allies than his enemies.                    
     Scholar                         
                                   
                                 
     Noble  
                          Attributes             Talents          Starting Equipment      Starting Inventory
                                                                                                     
-    Constable              STR: 9            Medicine: 0         * Blacksmith's Hammer   * Coins x1200                   
+    Constable              STR: 2            Medicine: 0         * Bare Hand             * Coins x500                    
                                                                                                     
-                           DEX: 2            Explosives: 1       * Bare Hand             * Healing Elixir x5   
+                           DEX: 2            Explosives: 3       * Arsonist's Cookbook   * Healing Elixir x5   
     Footman  
-                           SKL: 7            Veterancy: 0        * Blacksmith's Apron                          
+                           SKL: 6            Veterancy: 0        * Singed Robes                                
                    
-    Plague Doctor          APT: 3            Bestiary: 0         * Silver Ingot                                    
+    Plague Doctor          APT: 7            Bestiary: 0         * Flint and Tinder                                
                                                                                                     
-                           FOR: 6            Engineering: 3                                           
+                           FOR: 3            Engineering: 2                                           
     Squire                                                                                                    
-                           CHA: 3            History: 0
+                           CHA: 1            History: 0
                                                                                                     
     Barmaid  
                          Tips: The thief's stamina regenerates more quickly than any other class. Use this to attack

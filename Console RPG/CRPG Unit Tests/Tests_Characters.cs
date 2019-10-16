@@ -352,11 +352,6 @@ namespace Characters
 
     }
     [TestClass]
-    public class DamageAndProt
-    {
-
-    }
-    [TestClass]
     public class LevelAndExperience
     {
         [TestMethod]

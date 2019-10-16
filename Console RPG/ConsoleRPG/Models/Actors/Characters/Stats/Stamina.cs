@@ -60,7 +60,7 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
             }
             return mod;
         }
-        public double EffectMod(string stat, ActiveEffects activeEffects)
+        public double EffectMod(string stat)
         {
             // TODO Effect Mod
             return 0;
@@ -73,7 +73,7 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
             {
                 return Base
                     + (int)Math.Round(EquipmentMod("addMaxSP", this.Equipment))
-                    + (int)Math.Round(EffectMod("addMaxSP", this.ActiveEffects));
+                    + (int)Math.Round(EffectMod("addMaxSP"));
             }
         }
         public double Percent
@@ -131,7 +131,7 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
             AdjustSP(
                 BaseRegen
                 + EquipmentMod("staminaRegen", Equipment)
-                + EffectMod("staminaRegen", ActiveEffects)
+                + EffectMod("staminaRegen")
                 );
         }
     }

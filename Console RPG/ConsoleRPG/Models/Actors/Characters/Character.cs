@@ -5,13 +5,14 @@ using ConsoleRPG.Models.Items.Equipment.Body;
 using ConsoleRPG.Models.Items.Equipment.Charms;
 using ConsoleRPG.Models.Items.Equipment.Hands;
 using ConsoleRPG.Models.Professions;
+using ConsoleRPG.Models.Effects;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ConsoleRPG.Models.Actors.Characters
 {
-    public class Character : Actor, IStatModifiers
+    public class Character : Actor
     {
         public Character(string name, Profession prof)
         {
@@ -96,10 +97,17 @@ namespace ConsoleRPG.Models.Actors.Characters
             }
             return mod;
         }
-        public double EffectMod(string stat, ActiveEffects activeEffects)
+        public double EffectMod(string stat)
         {
-            // TODO Effect Mod
-            return 0;
+            double mod = 0;
+            foreach (Effect effect in this.ActiveEffects.EffectList)
+            {
+                if (effect.StatMod.ContainsKey(stat))
+                {
+                    mod += effect.StatMod[stat];
+                }
+            }
+            return mod;
         }
         #endregion
 
@@ -117,7 +125,7 @@ namespace ConsoleRPG.Models.Actors.Characters
         public double EffectDmgMultiplier(string dmgType)
         {
             string dmgMult = dmgType + "Multiplier";
-            return EffectMod(dmgMult, this.ActiveEffects);
+            return EffectMod(dmgMult);
         }
         public Dictionary<string, double> DmgScaling
         {
@@ -125,7 +133,6 @@ namespace ConsoleRPG.Models.Actors.Characters
             {
                 return new Dictionary<string, double>()
                 {
-                    // + EffectMultiplier("slash")
                     { "slash", 0.2 * (Attributes.ModdedValue["DEX"] - 5) },
                     { "pierce", 0.2 * (Attributes.ModdedValue["SKL"] - 5) },
                     { "crush", 0.2 * (Attributes.ModdedValue["STR"] - 5) },
@@ -170,7 +177,7 @@ namespace ConsoleRPG.Models.Actors.Characters
         public double EffectPROT(string dmgType)
         {
             string dmgPROT = dmgType + "PROT";
-            return EffectMod(dmgPROT, this.ActiveEffects);
+            return EffectMod(dmgPROT);
         }
         public Dictionary<string, double> PROTScaling
         {

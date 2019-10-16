@@ -20,11 +20,15 @@ namespace ConsoleRPG.Models.Items.Equipment
             {
                 { "accuracy", 0.00 },
                 { "parryChance", 0.00 },
+
                 { "slashMultiplier", 0.00 },
                 { "pierceMultiplier", 0.00 },
                 { "crushMultiplier", 0.00 },
+
                 { "critChance", 0.00 },
-                { "critMultiplier", 0.00 }
+                { "critMultiplier", 0.00 },
+
+                { "armorPiercing", 0.00 },
             };
         /// <summary>
         /// Armor-specific statistics

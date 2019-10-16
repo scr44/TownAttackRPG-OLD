@@ -7,24 +7,6 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
 {
     public class Attributes
     {
-        #region Attribute Descriptions
-        /* 
-        Strength (STR): A character's brute power. Required for heavy weapons and armor, as well as strong attacks. Affects melee attacks, weight capacity, and ability to perform physical feats.
-
-        Dexterity (DEX): A character's finesse. Required for light weapons and agile attacks. Affects melee attacks, parry chance, and ability to perform physical feats.
-
-        Skill (SKL): A character's level of training and precision. Unlocks advanced weapon techniques. Affects armor penetration.
-
-        Aptitude (APT): A character's ability to learn new things quickly. Affects how much experience is gained.
-
-        Fortitude (FOR): A character's resilience and will to survive. Affects damage PROT.
-
-        Charisma (CHA): A character's talent at persuading others. Opens many options in dialogue.
-         
-        ALL attributes can be used in event/conversation checks.     
-        */
-        #endregion
-
         #region Constructors
         /// <summary>
         /// Sets all Attributes to the base level (5).
@@ -82,12 +64,12 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
             {
                 return new Dictionary<string, int>()
                 {
-                    { "STR", BaseValue["STR"] + (int)AttachedCharacter.EquipmentMod("STR", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("STR", AttachedCharacter.ActiveEffects) },
-                    { "DEX", BaseValue["DEX"] + (int)AttachedCharacter.EquipmentMod("DEX", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("DEX", AttachedCharacter.ActiveEffects) },
-                    { "SKL", BaseValue["SKL"] + (int)AttachedCharacter.EquipmentMod("SKL", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("SKL", AttachedCharacter.ActiveEffects) },
-                    { "APT", BaseValue["APT"] + (int)AttachedCharacter.EquipmentMod("APT", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("APT", AttachedCharacter.ActiveEffects) },
-                    { "FOR", BaseValue["FOR"] + (int)AttachedCharacter.EquipmentMod("FOR", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("FOR", AttachedCharacter.ActiveEffects) },
-                    { "CHA", BaseValue["CHA"] + (int)AttachedCharacter.EquipmentMod("CHA", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("CHA", AttachedCharacter.ActiveEffects) },
+                    { "STR", BaseValue["STR"] + (int)AttachedCharacter.EquipmentMod("STR", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("STR") },
+                    { "DEX", BaseValue["DEX"] + (int)AttachedCharacter.EquipmentMod("DEX", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("DEX") },
+                    { "SKL", BaseValue["SKL"] + (int)AttachedCharacter.EquipmentMod("SKL", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("SKL") },
+                    { "APT", BaseValue["APT"] + (int)AttachedCharacter.EquipmentMod("APT", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("APT") },
+                    { "FOR", BaseValue["FOR"] + (int)AttachedCharacter.EquipmentMod("FOR", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("FOR") },
+                    { "CHA", BaseValue["CHA"] + (int)AttachedCharacter.EquipmentMod("CHA", AttachedCharacter.Equipment) + (int)AttachedCharacter.EffectMod("CHA") },
                 };
             }
         }

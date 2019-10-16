@@ -4,7 +4,9 @@ using System.Text;
 
 namespace ConsoleRPG.Models.Skills
 {
-    public abstract class Skill
+    abstract public class Skill
     {
+        public List<string> SkillTags { get; protected set; }
+
     }
 }

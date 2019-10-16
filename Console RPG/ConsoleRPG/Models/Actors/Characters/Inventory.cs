@@ -38,7 +38,7 @@ namespace ConsoleRPG.Models.Actors.Characters
             {
                 double moddedSTR = AttachedCharacter.Attributes.BaseValue["STR"]
                     + AttachedCharacter.EquipmentMod("STR", AttachedCharacter.Equipment) 
-                    + AttachedCharacter.EffectMod("STR", AttachedCharacter.ActiveEffects);
+                    + AttachedCharacter.EffectMod("STR");
                 if (moddedSTR <= 10)
                 {
                     // 15 points of Weight Cap for every STR up to 10

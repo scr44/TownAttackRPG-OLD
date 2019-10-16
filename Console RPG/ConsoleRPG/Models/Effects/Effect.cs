@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ConsoleRPG.Models.Effects
 {
-    public abstract class Effect
+    abstract public class Effect
     {//TODO Effects: handle effects lasting beyond combat
         public List<string> EffectTags { get; protected set; } = new List<string>();
 
@@ -24,7 +24,7 @@ namespace ConsoleRPG.Models.Effects
         /// <summary>
         /// Dictionary of the Attribute, Talent, Charm, and other stats modified by the Effect.
         /// </summary>
-        public Dictionary<string, int> EffectStatsModified { get; protected set; }
+        public Dictionary<string, double> StatMod { get; protected set; } = new Dictionary<string, double>();
 
         public virtual void TriggerAction()
         {

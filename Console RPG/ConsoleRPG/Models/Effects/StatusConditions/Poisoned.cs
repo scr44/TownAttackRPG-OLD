@@ -12,11 +12,11 @@ namespace ConsoleRPG.Models.Effects.StatusConditions
         public Poisoned(int duration, int dmg, Actor target)
         {
             EffectTags.Add("Status Condition");
-            EffectTags.Add("Negative Condition");
+            EffectTags.Add("Negative Effect");
             EffectTags.Add("Damage Over Time");
 
             EffectName = "Poisoned";
-            EffectDescrip = "Takes poison damage over time.";
+            EffectDescrip = "Taking poison damage over time.";
             Duration = duration;
             Target = target;
             DMG = dmg;

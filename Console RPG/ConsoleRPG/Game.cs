@@ -55,8 +55,8 @@ namespace ConsoleRPG
         }
         public void BootUpConsole()
         {
-            Console.SetWindowSize(130, 50);
-            //Console.SetWindowSize(130, 40);
+            //Console.SetWindowSize(130, 50);
+            Console.SetWindowSize(130, 40);
         }
         public void RunSplashScreen()
         {
