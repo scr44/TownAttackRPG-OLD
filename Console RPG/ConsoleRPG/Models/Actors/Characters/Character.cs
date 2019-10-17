@@ -26,13 +26,43 @@ namespace ConsoleRPG.Models.Actors.Characters
 
             HP = new Health(Profession, Equipment, ActiveEffects);
             SP = new Stamina(Profession, Equipment, ActiveEffects);
-            HP.AdjustHP(9999); // Start off at full health.
-            SP.AdjustSP(999); // Start off at full stamina.
+            HP.AdjustHP(9999); // Start off at full health (account for equip mods).
+            SP.AdjustSP(999); // Start off at full stamina (account for equip mods).
             XP = new Experience(this, 1);
         }
 
         #region Tags
-        public string Name { get; } // TODO Tags: add handling for First and Last name
+        public string Name { get; }
+        public string FirstName
+        {
+            get
+            {
+                string[] split = Name.Split(' ');
+                if (split.Length > 1)
+                {
+                    return split[0];
+                }
+                else
+                {
+                    return Name;
+                }
+            }
+        }
+        public string LastName
+        {
+            get
+            {
+                string[] split = Name.Split(' ');
+                if (split.Length > 1)
+                {
+                    return split[split.Length - 1];
+                }
+                else
+                {
+                    return Name;
+                }
+            }
+        }
         public Profession Profession { get; }
         public List<string> CharacterTags { get; private set; } =
             new List<string>();
@@ -55,7 +85,7 @@ namespace ConsoleRPG.Models.Actors.Characters
         #endregion
 
         #region Health, Stamina, XP
-        public bool IsAlive
+        public new bool IsAlive
         {
             get
             {
@@ -65,6 +95,23 @@ namespace ConsoleRPG.Models.Actors.Characters
         public new Health HP { get; private set; }
         public new Stamina SP { get; private set; }
         public Experience XP { get; private set; }
+
+        public override void Damaged(double dmgRaw, string dmgType, double dmgAP = 0)
+        {
+            // PROT reduces damage multiplicatively
+            double reducedDmg = dmgRaw * (1 - PROT(dmgType));
+            // A portion of the blocked damage gets through with the armor piercing multiplier
+            double armorPiercingDmg = (dmgRaw - reducedDmg) * dmgAP;
+            // calculate the total amount of damage the character will actually take
+            double totalDmgTaken = -1 * (reducedDmg + armorPiercingDmg);
+
+            // take the damage
+            HP.AdjustHP(totalDmgTaken);
+        }
+        override public void Healed(double healAmt)
+        {
+            HP.AdjustHP(healAmt);
+        }
         #endregion
 
         #region Stat Modifiers
@@ -159,6 +206,8 @@ namespace ConsoleRPG.Models.Actors.Characters
                 return 0.0;
             }
         }
+        // TODO Character: get AP (armor piercing)
+
         override public double DMG(string dmgType)
         {
             return EquipmentDmgMultiplier(dmgType)
@@ -169,6 +218,12 @@ namespace ConsoleRPG.Models.Actors.Characters
         #endregion
 
         #region Defense
+        public bool TryBlock(EquipmentItem equipment)
+        {
+            // TODO Combat: insert blocking behavior
+            return true;
+        }
+
         public double EquipmentPROT(string dmgType)
         {
             string dmgProt = dmgType + "PROT";
@@ -197,6 +252,7 @@ namespace ConsoleRPG.Models.Actors.Characters
                 };
             }
         }
+
         override public double PROT(string dmgType)
         {
             // Defense scaling is multiplicative with equipment PROT, 
@@ -204,30 +260,6 @@ namespace ConsoleRPG.Models.Actors.Characters
             return EquipmentPROT(dmgType)
                 * EffectPROT(dmgType)
                 * PROTScaling[dmgType];
-        }
-
-        public bool TryBlock(EquipmentItem equipment)
-        {
-            // TODO Combat: insert blocking behavior
-            return true;
-        }
-
-        public override void Damaged(double dmgRaw, string dmgType, double dmgAP = 0)
-        {
-            base.Damaged(dmgRaw, dmgType, dmgAP);
-            // PROT reduces damage multiplicatively
-            double reducedDmg = dmgRaw * (1 - PROT(dmgType));
-            // A portion of the blocked damage gets through with the armor piercing multiplier
-            double armorPiercingDmg = (dmgRaw - reducedDmg) * dmgAP;
-            // calculate the total amount of damage the character will actually take
-            double totalDmgTaken = -1 * (reducedDmg + armorPiercingDmg);
-
-            // take the damage
-            HP.AdjustHP(totalDmgTaken);
-        }
-        override public void Healed(double healAmt)
-        {
-            HP.AdjustHP(healAmt);
         }
         #endregion
     }

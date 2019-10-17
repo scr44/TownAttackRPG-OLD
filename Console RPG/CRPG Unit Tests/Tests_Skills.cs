@@ -6,8 +6,12 @@ using System.Text;
 namespace Skills
 {
     [TestClass]
-    public class Skills
+    public class Activation
     {
+        [TestMethod]
+        public void UseAttackSkill()
+        {
 
+        }
     }
 }

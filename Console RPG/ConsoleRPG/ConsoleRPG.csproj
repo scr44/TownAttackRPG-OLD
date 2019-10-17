@@ -21,7 +21,6 @@
     <Folder Include="Models\Scenario\" />
     <Folder Include="Models\Skills\Abilities\" />
     <Folder Include="Models\Skills\Signets\" />
-    <Folder Include="Models\Skills\Techniques\" />
   </ItemGroup>
 
 </Project>
