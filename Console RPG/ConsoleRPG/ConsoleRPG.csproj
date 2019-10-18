@@ -15,6 +15,7 @@
   <ItemGroup>
     <Folder Include="Models\Actors\Enemies\Bandits\" />
     <Folder Include="Models\Actors\Enemies\Beasts\" />
+    <Folder Include="Models\Effects\Debuffs\" />
     <Folder Include="Models\Items\Herb\" />
     <Folder Include="Models\Items\Throwable\" />
     <Folder Include="..\..\..\..\..\..\Program Files %2528x86%2529\Microsoft Visual Studio\git\rpg-steve\Console RPG\ConsoleRPG\Menus\InGame\" />

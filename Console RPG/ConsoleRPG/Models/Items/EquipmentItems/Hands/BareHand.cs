@@ -14,7 +14,5 @@ namespace ConsoleRPG.Models.Items.Equipment.Hands
             ItemName = "Bare hand";
             ItemDescrip = "An empty hand. Can punch and throw items.";
         }
-
-        // TODO Skills: add item throwing Techniques to Hand type equipment
     }
 }

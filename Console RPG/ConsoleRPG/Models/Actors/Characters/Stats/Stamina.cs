@@ -26,13 +26,19 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
             Current = Max;
         }
 
-        #region Linked objects for stat modifier calculation
+        #region Attached objects
         private Profession Prof { get; }
         private Equipment Equipment { get; }
         private ActiveEffects ActiveEffects { get; }
         #endregion
+
         public double EquipmentMod(string stat, Equipment equipment)
         {
+            if (equipment is null)
+            {
+                return 0;
+            }
+
             double mod = 0;
             foreach (KeyValuePair<string, EquipmentItem> item in equipment.Slot)
             {
@@ -66,7 +72,7 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
             return 0;
         }
 
-        public int Current { get; private set; }
+        public int Current { get; private set; } = 0;
         public int Max
         {
             get

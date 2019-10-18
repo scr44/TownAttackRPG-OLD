@@ -56,6 +56,23 @@ namespace ConsoleRPG.Models.Actors.Characters
                 { "Charm 1", new Unadorned() },
                 { "Charm 2", new Unadorned() }
             };
+        public List<string> AllEquipmentTags
+        {
+            get
+            {
+                var equipment = Slot.Values;
+                List<string> tags = new List<string>();
+
+                foreach (EquipmentItem item in equipment)
+                {
+                    for (int i=0; i<item.EquipmentTags.Count; i++)
+                    {
+                        tags.Add(item.EquipmentTags[i]);
+                    }
+                }
+                return tags;
+            }
+        }
         #endregion
 
         #region Two-Handing

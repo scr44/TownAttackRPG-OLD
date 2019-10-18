@@ -13,10 +13,6 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
          by their profession, while Enemy and NPC HP is set at Actor intialization. Most armor increases 
          max health, and many skill effects can temporarily grant extra max HP or restore lost HP.
         */
-        public Health()
-        {
-
-        }
         public Health(Profession prof, Equipment equipment, ActiveEffects activeEffects)
         {
             Prof = prof;
@@ -34,6 +30,11 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
         #endregion
         public double EquipmentMod(string stat, Equipment equipment)
         {
+            if (equipment is null)
+            {
+                return 0;
+            }
+
             double mod = 0;
             foreach (KeyValuePair<string, EquipmentItem> item in equipment.Slot)
             {
@@ -63,7 +64,7 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
         }
         public double EffectMod(string stat)
         {
-            // TODO Effect Mod
+            // TODO Effect: HP Mod
             return 0;
         }
 
@@ -77,13 +78,7 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
                     + (int)Math.Round(EffectMod("healthBonus"));
             }
         }
-        public double Percent
-        {
-            get
-            {
-                return Math.Round((((double)Current / Max * 100)));
-            }
-        }
+        public double Percent => Math.Round((((double)Current / Max * 100)));
         public int Base { get; private set; }
         public double BaseRegen { get; private set; }
         

@@ -132,7 +132,9 @@ namespace ConsoleRPG.Models.Items.Equipment
             Condition += points;
         }
         public void CharmEffect()
-        { // TODO Effects: add Charm Effect method to Equipment class 
+        {
+            // TODO Effects: add Charm Effect method to Equipment class 
+            // These will typically be some endless duration effect that activates when combat starts
         }
     }
 }

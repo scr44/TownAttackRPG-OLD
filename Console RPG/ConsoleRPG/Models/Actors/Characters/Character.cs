@@ -9,6 +9,7 @@ using ConsoleRPG.Models.Effects;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ConsoleRPG.Models.Actors.CombatInterfaces;
 
 namespace ConsoleRPG.Models.Actors.Characters
 {
@@ -92,26 +93,9 @@ namespace ConsoleRPG.Models.Actors.Characters
                 return HP.Current > 0;
             }
         }
-        public new Health HP { get; private set; }
-        public new Stamina SP { get; private set; }
+        override public Health HP { get; protected set; }
+        override public Stamina SP { get; protected set; }
         public Experience XP { get; private set; }
-
-        public override void Damaged(double dmgRaw, string dmgType, double dmgAP = 0)
-        {
-            // PROT reduces damage multiplicatively
-            double reducedDmg = dmgRaw * (1 - PROT(dmgType));
-            // A portion of the blocked damage gets through with the armor piercing multiplier
-            double armorPiercingDmg = (dmgRaw - reducedDmg) * dmgAP;
-            // calculate the total amount of damage the character will actually take
-            double totalDmgTaken = -1 * (reducedDmg + armorPiercingDmg);
-
-            // take the damage
-            HP.AdjustHP(totalDmgTaken);
-        }
-        override public void Healed(double healAmt)
-        {
-            HP.AdjustHP(healAmt);
-        }
         #endregion
 
         #region Stat Modifiers
@@ -220,7 +204,7 @@ namespace ConsoleRPG.Models.Actors.Characters
         #region Defense
         public bool TryBlock(EquipmentItem equipment)
         {
-            // TODO Combat: insert blocking behavior
+            // TODO Character: insert blocking behavior
             return true;
         }
 
@@ -260,6 +244,19 @@ namespace ConsoleRPG.Models.Actors.Characters
             return EquipmentPROT(dmgType)
                 * EffectPROT(dmgType)
                 * PROTScaling[dmgType];
+        }
+
+        override public void Damaged(double dmgRaw, string dmgType, double dmgAP = 0)
+        {
+            // PROT reduces damage multiplicatively
+            double reducedDmg = dmgRaw * (1 - PROT(dmgType));
+            // A portion of the blocked damage gets through with the armor piercing multiplier
+            double armorPiercingDmg = (dmgRaw - reducedDmg) * dmgAP;
+            // calculate the total amount of damage the character will actually take
+            double totalDmgTaken = -1 * (reducedDmg + armorPiercingDmg);
+
+            // take the damage
+            HP.AdjustHP(totalDmgTaken);
         }
         #endregion
     }

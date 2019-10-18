@@ -1,11 +1,12 @@
 ﻿using ConsoleRPG.Models.Actors.Characters.Stats;
+using ConsoleRPG.Models.Actors.CombatInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ConsoleRPG.Models.Actors
 {
-    public abstract class Actor
+    public abstract class Actor : IDamage
     {
         public string Gender { get; set; }
         #region Pronouns
@@ -74,39 +75,21 @@ namespace ConsoleRPG.Models.Actors
                 return HP.Current > 0;
             }
         }
-        public Health HP { get; private set; }
-        public Stamina SP { get; private set; }
+        abstract public Health HP { get; protected set; }
+        abstract public Stamina SP { get; protected set; }
 
         virtual public void Damaged(double dmgRaw, string dmgType, double dmgAP = 0)
         {
-            // PROT reduces damage multiplicatively
-            double reducedDmg = dmgRaw * (1 - PROT(dmgType));
-            // A portion of the blocked damage gets through with the armor piercing multiplier
-            double armorPiercingDmg = (dmgRaw - reducedDmg) * dmgAP;
-            // calculate the total amount of damage the character will actually take
-            double totalDmgTaken = -1 * (reducedDmg + armorPiercingDmg);
-
-            // take the damage
-            HP.AdjustHP(totalDmgTaken);
-        }
-        virtual public void Healed(double healAmt)
-        {
-            HP.AdjustHP(healAmt);
+            throw new NotImplementedException();
         }
         #endregion
 
         #region Offense
-        virtual public double DMG(string dmgType)
-        {
-            return 1.0; // Actors default to having no damage multiplier
-        }
+        abstract public double DMG(string dmgType);
         #endregion
 
         #region Defense
-        virtual public double PROT(string dmgType)
-        {
-            return 1.0; // Actors default to having no damage protection
-        }
+        abstract public double PROT(string dmgType);
         #endregion
     }
 }

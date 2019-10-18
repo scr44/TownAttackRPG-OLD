@@ -2,43 +2,37 @@
 using System.Collections.Generic;
 using System.Text;
 using ConsoleRPG.Models.Actors;
+using ConsoleRPG.Models.Actors.Characters;
 using ConsoleRPG.Models.Skills;
 
 namespace ConsoleRPG.Models.Skills.Techniques.Swords
 {
     public class DoubleSlash : Skill
     {
-        public DoubleSlash(Actor self)
+        public DoubleSlash(Actor self) : base(self)
         {
-            this.Self = self;
+            #region Tags and Metadata
+            base.SkillName = "Double Slash";
+            base.ShortDescrip = "Make two slashes in quick succession.";
+            base.SkillTags = new List<string>() { "Sword", "Technique", "Two-Handed", "Physical", "Attack" };
+            #endregion
+
+            #region Cooldown and Stamina
+            base.CooldownMax = 0;
+            base.SPCost = 5;
+            #endregion
+
+            #region Requirements
+            base.SkillProfessionReqs = new List<string>() { "Knight" };
+            base.SkillStatReqs = null;
+            base.SkillEquipmentTagReqs = new List<string>() { "Sword" };
+            #endregion
         }
 
-        #region Tags and Metadata
-        public override string SkillName { get; } = "Double Slash";
-        public override string ShortDescrip { get; } = "Make two slashes in quick succession.";
-        public override string FullDescrip
-        {
-            get
-            {
-                return $"Deal {1 * Self.DMG("slash")} slashing damage twice.";
-            }
-        }
-
-        public override List<string> SkillTags => throw new NotImplementedException();
-
-        public Actor Self { get; }
-        #endregion
-
-        #region Skill Requirements
-        public override Dictionary<string, int> SkillStatReqs => throw new NotImplementedException();
-
-        public override Dictionary<string, bool> SkillEquipmentReqs => throw new NotImplementedException();
-
-        public override List<string> SkillProfessionReqs => throw new NotImplementedException();
-
-        public override bool Skill2HReq => throw new NotImplementedException();
-
-        public override bool MeetsSkillReqs => throw new NotImplementedException();
+        #region Interpolated Description
+        public override string FullDescrip 
+            => $"Two-handed Knightly Sword Technique: " +
+            $"Attack twice, dealing {1 * Self.DMG("slash")} slashing damage each time.";
         #endregion
 
         #region Targeting and Behavior
@@ -49,10 +43,10 @@ namespace ConsoleRPG.Models.Skills.Techniques.Swords
         }
         #endregion
 
-        public override void Use(Actor target = null, List<Actor> targetList = null)
+        public override void Use(Actor target, List<Actor> targetList = null)
         {
+            base.Use(); // Checks for ready & skill reqs, then takes stamina and starts cooldown
             OnTarget(target);
-            
         }
     }
 }

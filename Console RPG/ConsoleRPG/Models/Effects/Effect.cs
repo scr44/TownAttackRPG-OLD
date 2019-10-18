@@ -6,7 +6,7 @@ using System.Text;
 namespace ConsoleRPG.Models.Effects
 {
     abstract public class Effect
-    {//TODO Effects: handle effects lasting beyond combat
+    {
         public List<string> EffectTags { get; protected set; } = new List<string>();
 
         public string EffectName { get; protected set; }
@@ -28,8 +28,8 @@ namespace ConsoleRPG.Models.Effects
 
         public virtual void TriggerAction()
         {
-
-        } // TODO Effects: build an Effect with a triggered function (eg next attack skill costs less AP)
+            // TODO Effects: build an Effect with a triggered function (eg next attack skill costs less AP)
+        }
         public virtual void TickAction()
         {
             Duration -= 1;
@@ -48,4 +48,3 @@ namespace ConsoleRPG.Models.Effects
         }
     }
 }
-// TODO 01: Effects

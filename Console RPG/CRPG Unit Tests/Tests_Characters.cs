@@ -1,3 +1,4 @@
+using ConsoleRPG.Models.Actors;
 using ConsoleRPG.Models.Actors.Characters;
 using ConsoleRPG.Models.Items;
 using ConsoleRPG.Models.Items.Equipment;
@@ -336,15 +337,19 @@ namespace Characters
         public void SPRestore()
         {
             Guinevere.SP.AdjustSP(-20);
+
+            // SP Regeneration (per turn/tick)
             Guinevere.SP.RegenTick();
 
             Assert.AreEqual(10, Guinevere.SP.Current,
                 "Character should have 10 SP after one regen tick.");
 
+            // SP Restoration (potions etc)
             Guinevere.SP.AdjustSP(10);
 
             Assert.AreEqual(20, Guinevere.SP.Current,
                 "Character should have 20 SP after restored SP.");
+
             Guinevere.SP.AdjustSP(400);
             Assert.AreEqual(20, Guinevere.SP.Current,
                 "Character SP should not exceed MaxSP.");
@@ -438,6 +443,19 @@ namespace Characters
             Assert.AreEqual(2, Guinevere.XP.AvailableTalentPts,
                 "Character should have 2 Talent points for reaching lvl 6.");
 
+        }
+    }
+    [TestClass]
+    public class Miscellaneous
+    {
+        [TestMethod]
+        public void CheckIfActorIsCharacter()
+        {
+            Character Guinevere = new Character("Guinevere", new Knight("F"));
+            List<Actor> list = new List<Actor>();
+            list.Add(Guinevere);
+            Assert.IsTrue(list[0] is Actor);
+            Assert.IsTrue(list[0] is Character);
         }
     }
 }
