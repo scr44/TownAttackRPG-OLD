@@ -80,7 +80,7 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
         /// </summary>
         /// <param name="stat">Medicine, Speech, Herbalim, BombCrafting, Bestiary, Veterancy, Engineering, or History.</param>
         /// <param name="points">Positive points to increase, negative points to decrease.</param>
-        public void ChangeTalent(string stat, int points)
+        public void AdjustTalent(string stat, int points)
         {
             if (BaseValue.ContainsKey(stat))
             {

@@ -9,13 +9,17 @@ namespace ConsoleRPG.Models.Skills
 {
     abstract public class Skill
     {
-        public Skill(Actor self)
+        public Skill(Actor self=null)
         {
             this.Self = self;
             // set all the requirements in the constructor
         }
+        public void SetUser(Actor self)
+        {
+            this.Self = self;
+        }
 
-        public Actor Self { get; }
+        public Actor Self { get; protected set; }
 
         #region Tags and Metadata
         public string SkillName { get; protected set; }

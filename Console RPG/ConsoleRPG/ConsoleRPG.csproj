@@ -13,15 +13,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Menus\Combat\" />
+    <Folder Include="Menus\Dialogue\" />
     <Folder Include="Models\Actors\Enemies\Bandits\" />
     <Folder Include="Models\Actors\Enemies\Beasts\" />
-    <Folder Include="Models\Effects\Debuffs\" />
+    <Folder Include="Models\Actors\Enemies\Bosses\" />
     <Folder Include="Models\Items\Herb\" />
     <Folder Include="Models\Items\Throwable\" />
     <Folder Include="..\..\..\..\..\..\Program Files %2528x86%2529\Microsoft Visual Studio\git\rpg-steve\Console RPG\ConsoleRPG\Menus\InGame\" />
-    <Folder Include="Models\Scenario\" />
     <Folder Include="Models\Skills\Abilities\" />
     <Folder Include="Models\Skills\Signets\" />
+    <Folder Include="Scenario\Campaign\Tutorial\" />
+    <Folder Include="Scenario\Campaign\TownAttackClassic\" />
   </ItemGroup>
 
 </Project>

@@ -79,12 +79,45 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
         /// </summary>
         /// <param name="stat">STR, DEX, SKL, APT, PER, or CHA</param>
         /// <param name="points">Positive points to increase, negative points to decrease.</param>
-        public void ChangeAttribute(string stat, int points)
+        public void AdjustAttribute(string stat, int points)
         {
             if (BaseValue.ContainsKey(stat))
             {
                 stat = stat.ToUpper();
                 BaseValue[stat] += points;
+                if (BaseValue[stat] < 1)
+                {
+                    BaseValue[stat] = 1;
+                }
+                else if (BaseValue[stat] > 10)
+                {
+                    BaseValue[stat] = 10;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Tried to change an invalid Attribute.");
+            }
+        }
+        /// <summary>
+        /// Sets the given stat's base level to the given points. Cannot go lower than 1 or higher than 10.
+        /// </summary>
+        /// <param name="stat"></param>
+        /// <param name="points"></param>
+        public void SetAttribute(string stat, int points)
+        {
+            if (BaseValue.ContainsKey(stat))
+            {
+                stat = stat.ToUpper();
+                if (points < 1)
+                {
+                    points = 1;
+                }
+                else if (points > 10)
+                {
+                    points = 10;
+                }
+                BaseValue[stat] = points;
             }
             else
             {

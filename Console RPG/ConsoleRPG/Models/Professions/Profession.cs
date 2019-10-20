@@ -1,10 +1,12 @@
 ﻿using ConsoleRPG.Models.Actors.Characters;
 using ConsoleRPG.Models.Actors.Characters.Stats;
+using ConsoleRPG.Models.Actors.SkillCollections;
 using ConsoleRPG.Models.Items;
 using ConsoleRPG.Models.Items.Equipment;
 using ConsoleRPG.Models.Items.Equipment.Body;
 using ConsoleRPG.Models.Items.Equipment.Charms;
 using ConsoleRPG.Models.Items.Equipment.Hands;
+using ConsoleRPG.Models.Skills;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -47,7 +49,7 @@ namespace ConsoleRPG.Models.Professions
         public double BaseStaminaRegen { get; protected set; }
         #endregion
 
-        #region Initalizer Dictionaries
+        #region Initalizers
         public Dictionary<string, int> StartingAttributesDict { get; protected set; } =
             new Dictionary<string, int>()
             {
@@ -82,6 +84,7 @@ namespace ConsoleRPG.Models.Professions
                 { "Charm 1", new Unadorned() },
                 { "Charm 2", new Unadorned() }
             };
+        public List<Skill> StartingSkills = new List<Skill>(6) { null, null, null, null, null, null };
         #endregion
     }
 }

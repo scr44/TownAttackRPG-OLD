@@ -1,5 +1,6 @@
 using ConsoleRPG.Models.Actors;
 using ConsoleRPG.Models.Actors.Characters;
+using ConsoleRPG.Models.Effects.Buffs;
 using ConsoleRPG.Models.Items;
 using ConsoleRPG.Models.Items.Equipment;
 using ConsoleRPG.Models.Items.Equipment.Body;
@@ -146,11 +147,12 @@ namespace Characters
         {
             Assert.AreEqual(Guinevere.Inventory.WeightCapacity, 7 * 15,
                 "Weight capacity should equal 15 times strength when STR <= 10.");
-            Guinevere.Attributes.ChangeAttribute("STR", 3);
+            Guinevere.Attributes.AdjustAttribute("STR", 3);
             Assert.AreEqual(Guinevere.Inventory.WeightCapacity, 10 * 15,
                 "Weight capacity should equal 15 times strength when STR <= 10.");
-            Guinevere.Attributes.ChangeAttribute("STR", 10);
-            Assert.AreEqual(Guinevere.Inventory.WeightCapacity, 10 * 15 + 10 * 5,
+            Guinevere.Attributes.SetAttribute("STR", 10);
+            Guinevere.ActiveEffects.AddEffect(new Berserk(1, Guinevere)); // adds 2 STR
+            Assert.AreEqual(Guinevere.Inventory.WeightCapacity, 10 * 15 + 2 * 5,
                 "When STR > 10, scaling bonus per point falls to 5.");
         }
         [TestMethod]
@@ -341,8 +343,8 @@ namespace Characters
             // SP Regeneration (per turn/tick)
             Guinevere.SP.RegenTick();
 
-            Assert.AreEqual(10, Guinevere.SP.Current,
-                "Character should have 10 SP after one regen tick.");
+            Assert.AreEqual(11, Guinevere.SP.Current,
+                "Character should have 10 + DEX*.2 SP after one regen tick.");
 
             // SP Restoration (potions etc)
             Guinevere.SP.AdjustSP(10);
@@ -364,7 +366,7 @@ namespace Characters
         {
             Character Guinevere = new Character("Guinevere", new Knight("F"));
             // Change knight's APT to 5 (2 + 3), the base level
-            Guinevere.Attributes.ChangeAttribute("APT", 3);
+            Guinevere.Attributes.AdjustAttribute("APT", 3);
 
             Assert.AreEqual(1, Guinevere.XP.Level,
                 "New character should start at lvl 1.");
@@ -386,7 +388,7 @@ namespace Characters
         {
             Character Guinevere = new Character("Guinevere", new Knight("F"));
             // Change knight's APT to 5 (2 + 3), the base level
-            Guinevere.Attributes.ChangeAttribute("APT", 3);
+            Guinevere.Attributes.AdjustAttribute("APT", 3);
             Guinevere.XP.GainXP(50);
             Guinevere.XP.GainXP(Guinevere.XP.Needed);
 
@@ -452,8 +454,7 @@ namespace Characters
         public void CheckIfActorIsCharacter()
         {
             Character Guinevere = new Character("Guinevere", new Knight("F"));
-            List<Actor> list = new List<Actor>();
-            list.Add(Guinevere);
+            List<Actor> list = new List<Actor> { Guinevere };
             Assert.IsTrue(list[0] is Actor);
             Assert.IsTrue(list[0] is Character);
         }

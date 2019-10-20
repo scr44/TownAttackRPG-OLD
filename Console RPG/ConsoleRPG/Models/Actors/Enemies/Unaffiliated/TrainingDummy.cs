@@ -17,7 +17,7 @@ namespace ConsoleRPG.Models.Actors.Enemies.Unaffiliated
         {
             return 0;
         }
-        public override double PROT(string dmgType)
+        public override double PROT(string dmgType, bool weaponBlock)
         {
             return 0;
         }

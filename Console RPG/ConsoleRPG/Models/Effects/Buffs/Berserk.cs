@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ConsoleRPG.Models.Actors;
 using ConsoleRPG.Models.Effects;
+using ConsoleRPG.Models.Effects.Debuffs;
 using ConsoleRPG.Models.Effects.EffectInterfaces;
 
 namespace ConsoleRPG.Models.Effects.Buffs
@@ -46,7 +47,7 @@ namespace ConsoleRPG.Models.Effects.Buffs
 
         public override void ExpiryAction()
         {
-            // TODO Effect: add exhaustion effect
+            Target.ActiveEffects.AddEffect(new Exhausted(3, -5));
         }
     }
 }

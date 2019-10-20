@@ -11,9 +11,8 @@ namespace ConsoleRPG.Models.Actors.Enemies
     {
         public Enemy(int baseHP, int baseSP, int SPRegen)
         {
-            EnemyProfStats prof = new EnemyProfStats(baseHP, baseSP, SPRegen);
-            HP = new Health(prof,null,this.ActiveEffects);
-            SP = new Stamina(prof, null, this.ActiveEffects);
+            HP = new Health(this, baseHP);
+            SP = new Stamina(this, baseSP, SPRegen);
         }
 
         // Not all Actors need to have a full stat list and equipment. Enemies are simple actors with some combat stats and skills.
@@ -21,14 +20,12 @@ namespace ConsoleRPG.Models.Actors.Enemies
         public override Health HP { get; protected set; }
         public override Stamina SP { get; protected set; }
 
-        public ActiveEffects ActiveEffects { get; protected set; } = new ActiveEffects();
-
         public override double DMG(string dmgType)
         {
             throw new NotImplementedException();
         }
 
-        public override double PROT(string dmgType)
+        public override double PROT(string dmgType, bool weaponBlock)
         {
             throw new NotImplementedException();
         }

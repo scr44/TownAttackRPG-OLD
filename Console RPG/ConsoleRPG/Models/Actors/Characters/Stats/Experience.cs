@@ -76,7 +76,7 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
             if(Math.Abs(points) <= AvailableAttributePts) // no negative points allowed
             {
                 AvailableAttributePts -= points;
-                AttachedCharacter.Attributes.ChangeAttribute(att, points);
+                AttachedCharacter.Attributes.AdjustAttribute(att, points);
             }
         }
         public void SpendTalentPts(string att, int points)
@@ -84,7 +84,7 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
             if(Math.Abs(points) <= AvailableTalentPts)
             {
                 AvailableTalentPts -= points;
-                AttachedCharacter.Talents.ChangeTalent(att, points);
+                AttachedCharacter.Talents.AdjustTalent(att, points);
             }
         }
     }

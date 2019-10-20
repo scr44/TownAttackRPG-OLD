@@ -6,80 +6,50 @@ using System.Text;
 
 namespace ConsoleRPG.Models.Actors.Characters.Stats
 {
-    public class Stamina : IStatModifiers
+    public class Stamina
     {
         /*
          Stamina or SP (stamina points) measures how much energy your character has available to use skills.
          Stamina will regenerate on its own in combat, but can also be restored by certain skills or items.
         */
-        public Stamina()
+        public Stamina(Actor actor)
         {
-            // TODO Dexterity: make dex mod affect stamina regen
+            if (actor is Character)
+            {
+                Character = (Character)actor;
+                Base = Character.Profession.BaseStamina;
+                BaseRegen = Character.Profession.BaseStaminaRegen;
+                Current = Max;
+            }
         }
-        public Stamina(Profession prof, Equipment equipment, ActiveEffects activeEffects)
+        public Stamina(Actor actor, int baseSP, int SPRegen)
         {
-            Prof = prof;
-            Equipment = equipment;
-            ActiveEffects = activeEffects;
-            Base = Prof.BaseStamina;
-            BaseRegen = Prof.BaseStaminaRegen;
+            Actor = actor;
+            Base = baseSP;
+            BaseRegen = SPRegen;
             Current = Max;
         }
 
         #region Attached objects
-        private Profession Prof { get; }
-        private Equipment Equipment { get; }
-        private ActiveEffects ActiveEffects { get; }
+        private Actor Actor { get; } = null;
+        private Character Character { get; } = null;
         #endregion
-
-        public double EquipmentMod(string stat, Equipment equipment)
-        {
-            if (equipment is null)
-            {
-                return 0;
-            }
-
-            double mod = 0;
-            foreach (KeyValuePair<string, EquipmentItem> item in equipment.Slot)
-            {
-                foreach (KeyValuePair<string, double> itemStat in item.Value.WeaponStats)
-                {
-                    if (itemStat.Key == stat)
-                    {
-                        mod += itemStat.Value;
-                    }
-                }
-                foreach (KeyValuePair<string, double> itemStat in item.Value.ArmorStats)
-                {
-                    if (itemStat.Key == stat)
-                    {
-                        mod += itemStat.Value;
-                    }
-                }
-                foreach (KeyValuePair<string, double> itemStat in item.Value.CharmStats)
-                {
-                    if (itemStat.Key == stat)
-                    {
-                        mod += itemStat.Value;
-                    }
-                }
-            }
-            return mod;
-        }
-        public double EffectMod(string stat)
-        {
-            // TODO Effect Mod
-            return 0;
-        }
 
         public int Current { get; private set; } = 0;
         public int Max
         {
             get
             {
-                return Base
-                    + (int)Math.Round(EquipmentMod("addMaxSP", this.Equipment))
-                    + (int)Math.Round(EffectMod("addMaxSP"));
+                if (Character is null)
+                {
+                    return Base + (int)Math.Round(Actor.EffectMod("addMaxSP"));
+                }
+                else
+                {
+                    return Base
+                    + (int)Math.Round(Character.EquipmentMod("addMaxSP", Character.Equipment))
+                    + (int)Math.Round(Character.EffectMod("addMaxSP"));
+                }
             }
         }
         public double Percent
@@ -109,9 +79,9 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
             {
                 Current = Max;
             }
-            else if (Current < 0)
+            else if (Current <= -5)
             {
-                Current = 0; // TODO Stamina: Exhaustion/overcast
+                Current = -10; // you can "overcast" your stamina, to mitigate high-SP skill spam
             }
         }
         public void AdjustBase(int points)
@@ -134,11 +104,20 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
         }
         public void RegenTick()
         {
-            AdjustSP(
+            if (Character is null)
+            {
+                AdjustSP(BaseRegen + Actor.EffectMod("staminaRegen"));
+            }
+            else
+            {
+                AdjustSP(
                 BaseRegen
-                + EquipmentMod("staminaRegen", Equipment)
-                + EffectMod("staminaRegen")
+                + Character.EquipmentMod("staminaRegen", Character.Equipment)
+                + Character.EffectMod("staminaRegen")
+                + Character.Attributes.ModdedValue["DEX"] * .2
                 );
+            }
+            
         }
     }
 }

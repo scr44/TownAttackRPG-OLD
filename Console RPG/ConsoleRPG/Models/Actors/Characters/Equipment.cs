@@ -150,15 +150,22 @@ namespace ConsoleRPG.Models.Actors.Characters
         /// </summary>
         /// <param name="slot"></param>
         /// <param name="item"></param>
-        public bool Equip(string slot, EquipmentItem equipment)
+        public bool Equip(string slot, Item item)
         {
+            if ( !(item is EquipmentItem) )
+            {
+                return false; // if the item isn't equipment, return false.
+            }
+
+            EquipmentItem equipment = (EquipmentItem)item;
+
             if (  equipment.ValidSlots[slot] == true
              &&   MeetsItemReq(equipment)
              && !(equipment.EquipmentTags.Contains("NotEquippable"))
              && !(equipment.EquipmentTags.Contains("Broken")))
             {
                 EquipmentItem priorEquipment = Slot[slot]; // Hold the prior equipped item,
-                AttachedInventory.RemoveItem(equipment.ItemName);
+                AttachedInventory.RemoveItem(item.ItemName);
                 Slot[slot] = equipment;                    // and equip the new item.
                 if (                             
                        priorEquipment is BareHand

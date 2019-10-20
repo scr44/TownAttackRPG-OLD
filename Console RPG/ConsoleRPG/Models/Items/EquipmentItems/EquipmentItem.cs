@@ -9,7 +9,7 @@ namespace ConsoleRPG.Models.Items.Equipment
     {
         public List<string> EquipmentTags { get; protected set; } =
             new List<string>();
-        public double Condition { get; protected set; } = 100; // TODO Equipment: condition/degredation
+        public double Condition { get; protected set; } = 100;
 
         #region Stats Tables
         /// <summary>

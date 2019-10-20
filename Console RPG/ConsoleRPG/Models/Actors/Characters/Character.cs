@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ConsoleRPG.Models.Actors.CombatInterfaces;
+using ConsoleRPG.Models.Actors.SkillCollections;
 
 namespace ConsoleRPG.Models.Actors.Characters
 {
@@ -24,9 +25,10 @@ namespace ConsoleRPG.Models.Actors.Characters
             Talents = new Talents(this, prof.StartingTalentsDict);
             Inventory = new Inventory(this, prof.StartingInventoryDict);
             Equipment = new Equipment(this, prof.StartingEquipmentDict);
+            Skillbar = new Skillbar(this, prof.StartingSkills);
 
-            HP = new Health(Profession, Equipment, ActiveEffects);
-            SP = new Stamina(Profession, Equipment, ActiveEffects);
+            HP = new Health(this);
+            SP = new Stamina(this);
             HP.AdjustHP(9999); // Start off at full health (account for equip mods).
             SP.AdjustSP(999); // Start off at full stamina (account for equip mods).
             XP = new Experience(this, 1);
@@ -86,16 +88,14 @@ namespace ConsoleRPG.Models.Actors.Characters
         #endregion
 
         #region Health, Stamina, XP
-        public new bool IsAlive
-        {
-            get
-            {
-                return HP.Current > 0;
-            }
-        }
         override public Health HP { get; protected set; }
         override public Stamina SP { get; protected set; }
         public Experience XP { get; private set; }
+        #endregion
+
+        #region Skills
+        public Skillbar Skillbar { get; private set; }
+        // Skill Library
         #endregion
 
         #region Stat Modifiers
@@ -128,7 +128,38 @@ namespace ConsoleRPG.Models.Actors.Characters
             }
             return mod;
         }
-        public double EffectMod(string stat)
+        public double SingleEquipmentMod(string stat, EquipmentItem item)
+        {
+            double mod = 0;
+            foreach (KeyValuePair<string, double> itemStat in item.WeaponStats)
+            {
+                if (itemStat.Key == stat)
+                {
+                    mod += itemStat.Value;
+                }
+            }
+            foreach (KeyValuePair<string, double> itemStat in item.ArmorStats)
+            {
+                if (itemStat.Key == stat)
+                {
+                    mod += itemStat.Value;
+                }
+            }
+            foreach (KeyValuePair<string, double> itemStat in item.CharmStats)
+            {
+                if (itemStat.Key == stat)
+                {
+                    mod += itemStat.Value;
+                }
+            }
+            return mod;
+        }
+        #endregion
+
+        #region Active Effects
+        new public ActiveEffects ActiveEffects { get; private set; }
+            = new ActiveEffects();
+        override public double EffectMod(string stat)
         {
             double mod = 0;
             foreach (Effect effect in this.ActiveEffects.EffectList)
@@ -140,11 +171,6 @@ namespace ConsoleRPG.Models.Actors.Characters
             }
             return mod;
         }
-        #endregion
-
-        #region Active Effects
-        public ActiveEffects ActiveEffects { get; private set; }
-            = new ActiveEffects();
         #endregion
 
         #region Offense
@@ -190,7 +216,7 @@ namespace ConsoleRPG.Models.Actors.Characters
                 return 0.0;
             }
         }
-        // TODO Character: get AP (armor piercing)
+        public new double ArmorPiercing => EquipmentMod("armorPiercing", Equipment); // consider making this single item--it's a bit silly right now
 
         override public double DMG(string dmgType)
         {
@@ -202,16 +228,35 @@ namespace ConsoleRPG.Models.Actors.Characters
         #endregion
 
         #region Defense
-        public bool TryBlock(EquipmentItem equipment)
+        public bool AttemptBlock(EquipmentItem equipment)
         {
-            // TODO Character: insert blocking behavior
-            return true;
+            Random rand = new Random();
+            if (equipment.ArmorStats["blockChance"] * .01 >= rand.NextDouble())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public double EquipmentPROT(string dmgType)
+        public double EquipmentPROT(string dmgType, bool weaponBlock = false)
         {
+            double prot = 0;
             string dmgProt = dmgType + "PROT";
-            return EquipmentMod(dmgProt,this.Equipment);
+            if (weaponBlock)
+            {
+                prot += EquipmentMod(dmgProt, this.Equipment);
+            }
+            else
+            {
+                prot += SingleEquipmentMod(dmgProt, this.Equipment.Slot["Body"]);
+                prot += SingleEquipmentMod(dmgProt, this.Equipment.Slot["Charm 1"]);
+                prot += SingleEquipmentMod(dmgProt, this.Equipment.Slot["Charm 2"]);
+            }
+
+            return prot;
         }
         public double EffectPROT(string dmgType)
         {
@@ -223,8 +268,7 @@ namespace ConsoleRPG.Models.Actors.Characters
             get
             {
                 return new Dictionary<string, double>()
-                { // TODO Balance: balance sorely needed for defense
-                    // Also the math needs adjusted, right now you can have negative PROT
+                {
                     { "slash", 0.05 * (Attributes.ModdedValue["FOR"] - 5) },
                     { "pierce", 0.05 * (Attributes.ModdedValue["FOR"] - 5)},
                     { "crush", 0.05 * (Attributes.ModdedValue["FOR"] - 5)},
@@ -237,13 +281,14 @@ namespace ConsoleRPG.Models.Actors.Characters
             }
         }
 
-        override public double PROT(string dmgType)
+        override public double PROT(string dmgType, bool weaponBlock = false)
         {
             // Defense scaling is multiplicative with equipment PROT, 
-            // otherwise becoming invincible would be too easy.
-            return EquipmentPROT(dmgType)
-                * EffectPROT(dmgType)
-                * PROTScaling[dmgType];
+            // otherwise becoming invincible would be too easy. (it's still pretty easy)
+                return 
+                    1 - (1 - EquipmentPROT(dmgType, weaponBlock))
+                      * (1 - EffectPROT(dmgType))
+                      * (1 - PROTScaling[dmgType]);
         }
 
         override public void Damaged(double dmgRaw, string dmgType, double dmgAP = 0)

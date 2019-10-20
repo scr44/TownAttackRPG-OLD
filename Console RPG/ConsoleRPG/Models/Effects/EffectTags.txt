@@ -21,7 +21,7 @@
 
 ==Behavior==
 "Stacking Duration"
-"Stacking Buff"
+"Stacking Instances"
 "Trigger on Start"
 "Trigger on Expiry"
 "Infinite Duration"

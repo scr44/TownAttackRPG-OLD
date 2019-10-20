@@ -19,7 +19,6 @@ namespace ConsoleRPG.Models.Items.Equipment.Body
                 "What would your mother say?",
                 "Your birthday suit.",
                 "It's a good thing this game uses ASCII graphics."
-                // TODO Easter Egg: update if ever moving past ASCII graphics.
             };
             ItemDescrip = nakedDescriptions[rand.Next(0,5)];
         }

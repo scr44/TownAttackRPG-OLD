@@ -6,6 +6,8 @@ using ConsoleRPG.Models.Items.Equipment.Charms;
 using ConsoleRPG.Models.Items.Equipment.Hands;
 using ConsoleRPG.Models.Items.Money;
 using ConsoleRPG.Models.Items.VendorTrash;
+using ConsoleRPG.Models.Skills;
+using ConsoleRPG.Models.Skills.Techniques.Swords;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -54,6 +56,7 @@ namespace ConsoleRPG.Models.Professions.DefaultProfessions
                 { "Charm 1", new LoversLocket() },
                 { "Charm 2", new Unadorned() }
             };
+            StartingSkills = new List<Skill>(6) { new DoubleSlash(), null, null, null, null, null };
         }
     }
 }

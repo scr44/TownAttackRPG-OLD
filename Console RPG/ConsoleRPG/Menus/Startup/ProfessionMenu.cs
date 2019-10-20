@@ -609,60 +609,50 @@ namespace ConsoleRPG.Menus.Startup
         }
         override public ConsoleKey DisplayCursor(int cursor)
         {
-            if (cursor == 1)
+            switch (cursor)
             {
-                Console.WriteLine(KnightSelected);
-            }
-            else if (cursor == 2)
-            {
-                Console.WriteLine(ScholarSelected);
-            }
-            else if (cursor == 3)
-            {
-                Console.WriteLine(NobleSelected);
-            }
-            else if (cursor == 4)
-            {
-                Console.WriteLine(ConstableSelected);
-            }
-            else if (cursor == 5)
-            {
-                Console.WriteLine(FootmanSelected);
-            }
-            else if (cursor == 6)
-            {
-                Console.WriteLine(PlagueDoctorSelected); 
-            }
-            else if (cursor == 7)
-            {
-                Console.WriteLine(SquireSelected);
-            }
-            else if (cursor == 8)
-            {
-                Console.WriteLine(BarmaidSelected);
-            }
-            else if (cursor == 9)
-            {
-                Console.WriteLine(HuntressSelected);
-            }
-            else if (cursor == 10)
-            {
-                Console.WriteLine(ConvictSelected);
-            }
-            else if (cursor == 11)
-            {
-                Console.WriteLine(BlacksmithSelected);
-            }
-            else if (cursor == 12)
-            {
-                Console.WriteLine(AlchemistSelected);
-            }
-            else if (cursor == 13)
-            {
-                Console.WriteLine(SecretProfessionSelected);
+                case 1:
+                    Console.WriteLine(KnightSelected);
+                    break;
+                case 2:
+                    Console.WriteLine(ScholarSelected);
+                    break;
+                case 3:
+                    Console.WriteLine(NobleSelected);
+                    break;
+                case 4:
+                    Console.WriteLine(ConstableSelected);
+                    break;
+                case 5:
+                    Console.WriteLine(FootmanSelected);
+                    break;
+                case 6:
+                    Console.WriteLine(PlagueDoctorSelected);
+                    break;
+                case 7:
+                    Console.WriteLine(SquireSelected);
+                    break;
+                case 8:
+                    Console.WriteLine(BarmaidSelected);
+                    break;
+                case 9:
+                    Console.WriteLine(HuntressSelected);
+                    break;
+                case 10:
+                    Console.WriteLine(ConvictSelected);
+                    break;
+                case 11:
+                    Console.WriteLine(BlacksmithSelected);
+                    break;
+                case 12:
+                    Console.WriteLine(AlchemistSelected);
+                    break;
+                case 13:
+                    Console.WriteLine(SecretProfessionSelected);
+                    break;
             }
             return Console.ReadKey().Key;
-        } // TODO Menus: turn this into a switch statement
+        }
         override public int MoveCursor(ConsoleKey keyPressed, int cursor, int maxCursor = 12)
         {
             switch (keyPressed)
@@ -714,63 +704,52 @@ namespace ConsoleRPG.Menus.Startup
                     return cursor;
             }
         }
-        override public void SelectOption(int cursor) // TODO Menus: turn this into a switch statement
+        override public void SelectOption(int cursor)
         {
-            if (cursor == 1)
+            switch (cursor)
             {
-                Selection = "Knight";
-            }
-            else if (cursor == 2)
-            {
-                Selection = "Scholar";
-            }
-            else if (cursor == 3)
-            {
-                Selection = "Noble";
-            }
-            else if (cursor == 4)
-            {
-                Selection = "Constable";
-            }
-            else if (cursor == 5)
-            {
-                Selection = "Footman";
-            }
-            else if (cursor == 6)
-            {
-                Selection = "Plague Doctor";
-            }
-            else if (cursor == 7)
-            {
-                Selection = "Squire";
-            }
-            else if (cursor == 8)
-            {
-                Selection = "Barmaid";
-            }
-            else if (cursor == 9)
-            {
-                Selection = "Huntress";
-            }
-            else if (cursor == 10)
-            {
-                Selection = "Convict";
-            }
-            else if (cursor == 11)
-            {
-                Selection = "Blacksmith";
-            }
-            else if (cursor == 12)
-            {
-                Selection = "Alchemist";
-            }
-            else if (cursor == 13)
-            {
-                Selection = "Secret Profession";
-            }
-            else
-            {
-                Selection = "Back";
+                case 1:
+                    Selection = "Knight";
+                    break;
+                case 2:
+                    Selection = "Scholar";
+                    break;
+                case 3:
+                    Selection = "Noble";
+                    break;
+                case 4:
+                    Selection = "Constable";
+                    break;
+                case 5:
+                    Selection = "Footman";
+                    break;
+                case 6:
+                    Selection = "Plague Doctor";
+                    break;
+                case 7:
+                    Selection = "Squire";
+                    break;
+                case 8:
+                    Selection = "Barmaid";
+                    break;
+                case 9:
+                    Selection = "Huntress";
+                    break;
+                case 10:
+                    Selection = "Convict";
+                    break;
+                case 11:
+                    Selection = "Blacksmith";
+                    break;
+                case 12:
+                    Selection = "Alchemist";
+                    break;
+                case 13:
+                    Selection = "Secret Profession";
+                    break;
+                default:
+                    Selection = "Back";
+                    break;
             }
         }
         public override void CursorMoveBeep()

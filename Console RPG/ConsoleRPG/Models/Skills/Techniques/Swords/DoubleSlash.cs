@@ -9,7 +9,7 @@ namespace ConsoleRPG.Models.Skills.Techniques.Swords
 {
     public class DoubleSlash : Skill
     {
-        public DoubleSlash(Actor self) : base(self)
+        public DoubleSlash(Actor self=null) : base(self)
         {
             #region Tags and Metadata
             base.SkillName = "Double Slash";
@@ -24,7 +24,11 @@ namespace ConsoleRPG.Models.Skills.Techniques.Swords
 
             #region Requirements
             base.SkillProfessionReqs = new List<string>() { "Knight" };
-            base.SkillStatReqs = null;
+            base.SkillStatReqs = new Dictionary<string, int>()
+            {
+                { "STR", 5 },
+                { "DEX", 5 },
+            };
             base.SkillEquipmentTagReqs = new List<string>() { "Sword" };
             #endregion
         }
@@ -38,8 +42,8 @@ namespace ConsoleRPG.Models.Skills.Techniques.Swords
         #region Targeting and Behavior
         override public void OnTarget(Actor target)
         {
-            target.Damaged(1 * Self.DMG("slash"), "slash"); // TODO Skill: add AP arg
-            target.Damaged(1 * Self.DMG("slash"), "slash");
+            target.Damaged(1 * Self.DMG("slash"), "slash", Self.ArmorPiercing);
+            target.Damaged(1 * Self.DMG("slash"), "slash", Self.ArmorPiercing);
         }
         #endregion
 

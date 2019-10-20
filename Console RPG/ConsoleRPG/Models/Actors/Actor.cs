@@ -1,5 +1,7 @@
-﻿using ConsoleRPG.Models.Actors.Characters.Stats;
+﻿using ConsoleRPG.Models.Actors.Characters;
+using ConsoleRPG.Models.Actors.Characters.Stats;
 using ConsoleRPG.Models.Actors.CombatInterfaces;
+using ConsoleRPG.Models.Effects;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -84,12 +86,29 @@ namespace ConsoleRPG.Models.Actors
         }
         #endregion
 
+        #region Active Effects
+        public ActiveEffects ActiveEffects { get; protected set; } = new ActiveEffects();
+        virtual public double EffectMod(string stat)
+        {
+            double mod = 0;
+            foreach (Effect effect in this.ActiveEffects.EffectList)
+            {
+                if (effect.StatMod.ContainsKey(stat))
+                {
+                    mod += effect.StatMod[stat];
+                }
+            }
+            return mod;
+        }
+        #endregion
+
         #region Offense
         abstract public double DMG(string dmgType);
+        public double ArmorPiercing = 0;
         #endregion
 
         #region Defense
-        abstract public double PROT(string dmgType);
+        abstract public double PROT(string dmgType, bool weaponBlock);
         #endregion
     }
 }

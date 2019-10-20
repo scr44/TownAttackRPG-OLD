@@ -11,6 +11,7 @@ namespace ConsoleRPG.Models.Items.Equipment.Hands
             EquipmentTags.Add("Book");
             EquipmentTags.Add("Weapon");
             EquipmentTags.Add("Charm");
+            EquipmentTags.Add("Can2H");
 
             ItemName = "History Tome";
             ItemDescrip = "A thick book filled with dry analyses of ancient civilizations. Also good " +
