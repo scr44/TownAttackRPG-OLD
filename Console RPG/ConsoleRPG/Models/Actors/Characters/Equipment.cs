@@ -1,4 +1,5 @@
-﻿using ConsoleRPG.Models.Actors.Characters.Stats;
+﻿using ConsoleRPG.Models.Actors.ActorProperties;
+using ConsoleRPG.Models.Actors.Characters.Stats;
 using ConsoleRPG.Models.Items;
 using ConsoleRPG.Models.Items.Equipment;
 using ConsoleRPG.Models.Items.Equipment.Body;

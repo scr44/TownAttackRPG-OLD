@@ -1,4 +1,5 @@
-﻿using ConsoleRPG.Models.Actors.Characters;
+﻿using ConsoleRPG.Models.Actors.ActorProperties;
+using ConsoleRPG.Models.Actors.Characters;
 using ConsoleRPG.Models.Actors.Characters.Stats;
 using ConsoleRPG.Models.Actors.CombatInterfaces;
 using ConsoleRPG.Models.Effects;

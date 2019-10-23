@@ -9,54 +9,18 @@ namespace ConsoleRPG
 {
     public class Game
     {
-        public Game()
-        {
-            SplashScreen = new SplashScreen();
-            MainMenu = new MainMenu();
-            NewGameMenu = new NewGameMenu();
-            ProfessionMenu = new ProfessionMenu();
-        }
+        #region Menu Objects
+        SplashScreen SplashScreen = new SplashScreen();
+        MainMenu MainMenu = new MainMenu();
+        ScenarioSelect ScenarioMenu = new ScenarioSelect();
+        ProfessionSelect ProfessionMenu = new ProfessionSelect();
+        #endregion
 
-        public SplashScreen SplashScreen { get; private set; }
-        public MainMenu MainMenu { get; private set; }
-        public NewGameMenu NewGameMenu { get; private set; }
-        public ProfessionMenu ProfessionMenu { get; private set; }
-
-        public string Selection { get; private set; } = "Run Main Menu";
-        public Dictionary<string, Character> Party { get; private set; }
-        
-        public void Start()
-        {
-            BootUpConsole();
-            RunSplashScreen();
-            while(true)
-            {
-                if (Selection == "Run Main Menu")
-                {
-                    Selection = RunMainMenu();
-                }
-                else if (Selection == "Run New Game Menu")
-                {
-                    Selection = RunNewGameMenu();
-                    if (Selection == "Back")
-                    {
-                        Selection = "Run Main Menu";
-                    }
-                }
-                else if (Selection == "Run Profession Menu")
-                {
-                    Selection = RunProfessionMenu();
-                    if (Selection == "Back")
-                    {
-                        Selection = "Run New Game Menu";
-                    }
-                }
-            }
-        }
+        #region Menu Selections
         public void BootUpConsole()
         {
-            Console.SetWindowSize(130, 50);
-            //Console.SetWindowSize(130, 40);
+            //Console.SetWindowSize(130, 50);
+            Console.SetWindowSize(130, 40);
         }
         public void RunSplashScreen()
         {
@@ -68,50 +32,52 @@ namespace ConsoleRPG
         {
             while (Selection == "Run Main Menu")
             {
-                Selection = MainMenu.Options();
+                Selection = MainMenu.DisplayOptions();
+                switch (Selection)
+                {
+                    case "New Game":
+                        Selection = "Run Scenario Menu";
+                        break;
 
-                if (Selection == "New Game")
-                {
-                    Selection = "Run New Game Menu";
-                }
-                else if (Selection == "Continue")
-                {
-                    FeatureIncompleteInfoPage.Display();
-                    Selection = "Run Main Menu";
-                }
-                else if (Selection == "Options")
-                {
-                    FeatureIncompleteInfoPage.Display();
-                    Selection = "Run Main Menu";
-                }
-                else if (Selection == "Quit")
-                {
-                    Environment.Exit(0);
-                }
-                else
-                {
-                    Selection = "Run Main Menu";
+                    case "Continue":
+                        FeatureIncompleteInfoPage.Display();
+                        Selection = "Run Main Menu";
+                        break;
+
+                    case "Options":
+                        FeatureIncompleteInfoPage.Display();
+                        Selection = "Run Main Menu";
+                        break;
+
+                    case "Quit":
+                        Environment.Exit(0);
+                        break;
+
+                    default:
+                        Selection = "Run Main Menu";
+                        break;
                 }
             }
             return Selection;
         }
-        public string RunNewGameMenu()
+        public string RunScenarioSelect()
         {
-            while (Selection == "Run New Game Menu")
+            while (Selection == "Run Scenario Menu")
             {
-                Selection = NewGameMenu.Options();
-                if (Selection == "Select Pre-Made Profession")
+                Selection = ScenarioMenu.DisplayOptions();
+                switch (Selection)
                 {
-                    Selection = "Run Profession Menu";
-                }
-                else if (Selection == "Custom Profession")
-                {
-                    FeatureIncompleteInfoPage.Display();
-                    Selection = "Run New Game Menu";
-                }
-                else // Back
-                {
-                    Selection = "Run Main Menu";
+                    case "Tutorial":
+                        Selection = "Start Tutorial";
+                        break;
+
+                    case "Town Attack Classic":
+                        Selection = "Start TAC";
+                        break;
+
+                    default:
+                        Selection = "Run Main Menu";
+                        break;
                 }
             }
             return Selection;
@@ -120,25 +86,49 @@ namespace ConsoleRPG
         {
             while (Selection == "Run Profession Menu")
             {
-                Selection = ProfessionMenu.Options();
-                if (Selection == "Knight")
+                Selection = ProfessionMenu.DisplayOptions();
+                switch (Selection)
                 {
-                    Selection = "Run Main Menu";
-                }
-                else if (Selection == "Scholar")
-                {
-                    Selection = "Run Main Menu";
-                }
-                else if (Selection == "Back")
-                {
-                    Selection = "Run New Game Menu";
-                }
-                else
-                {
-                    Selection = "Run Profession Menu";
+                    case "Knight":
+                        Selection = "Run Main Menu";
+                        break;
+
+                    case "Scholar":
+                        Selection = "Run Main Menu";
+                        break;
+
+                    default:
+                        Selection = "Run Scenario Menu";
+                        break;
                 }
             }
             return Selection;
         }
+        #endregion
+
+        public string Selection { get; private set; } = "Run Main Menu";
+
+        public void Start()
+        {
+            BootUpConsole();
+            RunSplashScreen();
+            while(true)
+            {
+                if (Selection == "Run Main Menu")
+                {
+                    Selection = RunMainMenu();
+                }
+                else if (Selection == "Run Scenario Menu")
+                {
+                    Selection = RunScenarioSelect();
+                }
+                else if (Selection == "Run Profession Menu")
+                {
+                    Selection = RunProfessionMenu();
+                }
+            }
+        }
+
+       
     }
 }

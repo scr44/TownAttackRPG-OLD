@@ -1,4 +1,5 @@
 using ConsoleRPG.Models.Actors;
+using ConsoleRPG.Models.Actors.ActorProperties;
 using ConsoleRPG.Models.Actors.Characters;
 using ConsoleRPG.Models.Effects.Buffs;
 using ConsoleRPG.Models.Items;
@@ -329,11 +330,16 @@ namespace Characters
             Assert.AreEqual(50, Guinevere.SP.Percent,
                 "Character should have 50% SP left.");
 
-            // Use 20 stamina (not yet possible to overexhaust in gameplay)
+            // Use 20 stamina (exhaust goes to -10)
             Guinevere.SP.AdjustSP(-20);
 
-            Assert.AreEqual(0, Guinevere.SP.Current,
-                "Character should have 0 SP left.");
+            Assert.AreEqual(-10, Guinevere.SP.Current,
+                "Character should have -10 SP left.");
+
+            // Try to use more stamina, should fail
+            Assert.IsFalse(Guinevere.SP.AdjustSP(-10), "SPAdjust should fail");
+            Assert.AreEqual(-10, Guinevere.SP.Current,
+                "Character should have -10 SP left.");
         }
         [TestMethod]
         public void SPRestore()

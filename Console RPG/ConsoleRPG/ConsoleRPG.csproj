@@ -23,7 +23,6 @@
     <Folder Include="..\..\..\..\..\..\Program Files %2528x86%2529\Microsoft Visual Studio\git\rpg-steve\Console RPG\ConsoleRPG\Menus\InGame\" />
     <Folder Include="Models\Skills\Abilities\" />
     <Folder Include="Models\Skills\Signets\" />
-    <Folder Include="Scenario\Campaign\Tutorial\" />
     <Folder Include="Scenario\Campaign\TownAttackClassic\" />
   </ItemGroup>
 

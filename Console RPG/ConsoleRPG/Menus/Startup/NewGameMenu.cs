@@ -90,7 +90,7 @@ namespace ConsoleRPG.Menus.Startup
 
         override public string Selection { get; set; } = "Run New Game Menu";
 
-        override public string Options()
+        override public string DisplayOptions()
         {
             int cursor = 1;
             while (cursor != 0)
@@ -172,14 +172,14 @@ namespace ConsoleRPG.Menus.Startup
                     break;
             }
         }
-        public override void CursorMoveBeep()
-        {
-            Console.Beep(500, 100);
-        }
-        public override void CursorSelectBeep()
-        {
-            Console.Beep(900, 100);
-            Console.Beep(1200, 80);
-        }
+        //public override void CursorMoveBeep()
+        //{
+        //    Console.Beep(500, 100);
+        //}
+        //public override void CursorSelectBeep()
+        //{
+        //    Console.Beep(900, 100);
+        //    Console.Beep(1200, 80);
+        //}
     }
 }

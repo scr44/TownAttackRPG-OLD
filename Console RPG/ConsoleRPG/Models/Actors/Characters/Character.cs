@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Text;
 using ConsoleRPG.Models.Actors.CombatInterfaces;
 using ConsoleRPG.Models.Actors.SkillCollections;
+using ConsoleRPG.Models.Actors.ActorProperties;
 
 namespace ConsoleRPG.Models.Actors.Characters
 {

@@ -62,15 +62,21 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
         public int Base { get; private set; }
         public double BaseRegen { get; private set; }
 
-        public void AdjustSP(double points)
+        public bool AdjustSP(double points)
         {
+            // You can't use stamina if your current SP is below 0
+            if (points < 0 && Current <= 0)
+            {
+                return false;
+            }
+
             if (0 < points && points < 1)
             {
-                Current += 1; // since SP is an integer, any increase must be at least 1 SP.
+                points += 1; // since SP is an integer, any increase must be at least 1 SP.
             }
             else if (-1 < points && points < 0)
             {
-                Current -= 1; // Likewise for losing SP.
+                points -= 1; // Likewise for losing SP.
             }
 
             Current += (int)Math.Round(points);
@@ -83,6 +89,7 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
             {
                 Current = -10; // you can "overcast" your stamina, to mitigate high-SP skill spam
             }
+            return true;
         }
         public void AdjustBase(int points)
         {

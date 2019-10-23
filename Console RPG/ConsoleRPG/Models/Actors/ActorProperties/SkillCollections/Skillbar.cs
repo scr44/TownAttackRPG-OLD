@@ -47,6 +47,11 @@ namespace ConsoleRPG.Models.Actors.SkillCollections
             }
         }
 
+        /// <summary>
+        /// Checks for duplicate skill active on bar
+        /// </summary>
+        /// <param name="skill"></param>
+        /// <returns></returns>
         public bool NoDuplicates(Skill skill)
         {
             foreach(Skill item in Skills)
@@ -76,12 +81,22 @@ namespace ConsoleRPG.Models.Actors.SkillCollections
                 return false;
             }
         }
+        /// <summary>
+        /// Takes a skill out of the bar and returns it.
+        /// </summary>
+        /// <param name="slot">The slot to empty.</param>
+        /// <returns></returns>
         public Skill Remove(int slot)
         {
             Skill skill = Skills[slot - 1];
             Skills[slot - 1] = new EmptySkill(Self);
             return skill;
         }
+        /// <summary>
+        /// Swaps two skills on the bar.
+        /// </summary>
+        /// <param name="slot1"></param>
+        /// <param name="slot2"></param>
         public void Swap(int slot1, int slot2)
         {
             Skill skill1 = Remove(slot1);

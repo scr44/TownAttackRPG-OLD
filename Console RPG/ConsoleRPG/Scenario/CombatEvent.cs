@@ -1,4 +1,5 @@
 ﻿using ConsoleRPG.Models.Actors;
+using ConsoleRPG.Models.Actors.ActorProperties;
 using ConsoleRPG.Models.Actors.Characters;
 using ConsoleRPG.Models.Skills;
 using System;
@@ -24,24 +25,48 @@ namespace ConsoleRPG.Scenario
 
         public Inventory Rewards { get; protected set; } = new Inventory();
 
+        /// <summary>
+        /// Format combat dialogue to output to the combat menu terminal.
+        /// </summary>
+        /// <param name="dialogue"></param>
+        /// <returns></returns>
         public string CombatDialogue(string dialogue)
         {
             // format combat dialogue to output to the combat menu terminal
             return dialogue;
         }
 
+        /// <summary>
+        /// Format combat feedback to output to the combat menu terminal.
+        /// </summary>
+        /// <param name="feedback"></param>
+        /// <returns></returns>
         public string Feedback(string feedback)
         {
             // format combat feedback to output to the combat menu terminal
             return feedback;
         }
 
-        public void PartyMemberUsesSkill(Character partyMember, Skill skill, Actor target = null, List<Actor> targetList = null)
+        /// <summary>
+        /// Select the party member and skill to use on the given target(s).
+        /// </summary>
+        /// <param name="partyMember"></param>
+        /// <param name="skill"></param>
+        /// <param name="target"></param>
+        /// <param name="targetList"></param>
+        public void PartyMemberUsesSkill(Character partyMember, Skill skill, List<Actor> targetList = null)
         {
             // use skill on targets from menu
         }
 
-        public void EnemyUsesSkill(Actor enemyActor, Skill skill, Actor target = null, List<Actor> targetList = null)
+        /// <summary>
+        /// The enemy uses a skill on the given target(s).
+        /// </summary>
+        /// <param name="enemyActor"></param>
+        /// <param name="skill"></param>
+        /// <param name="target"></param>
+        /// <param name="targetList"></param>
+        public void EnemyUsesSkill(Actor enemyActor, Skill skill, List<Actor> targetList = null)
         { 
             // put in enemy AI here
         }

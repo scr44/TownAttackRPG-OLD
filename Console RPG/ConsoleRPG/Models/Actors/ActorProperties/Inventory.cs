@@ -1,10 +1,11 @@
-﻿using ConsoleRPG.Models.Items;
+﻿using ConsoleRPG.Models.Actors.Characters;
+using ConsoleRPG.Models.Items;
 using ConsoleRPG.Models.Items.Equipment;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleRPG.Models.Actors.Characters
+namespace ConsoleRPG.Models.Actors.ActorProperties
 {
     public class Inventory
     {
@@ -36,6 +37,11 @@ namespace ConsoleRPG.Models.Actors.Characters
         {
             get
             {
+                if (AttachedCharacter is null)
+                {
+                    return 9999; // don't bother for non-Character entities
+                }
+
                 double moddedSTR = AttachedCharacter.Attributes.BaseValue["STR"]
                     + AttachedCharacter.EquipmentMod("STR", AttachedCharacter.Equipment) 
                     + AttachedCharacter.EffectMod("STR");
@@ -56,6 +62,11 @@ namespace ConsoleRPG.Models.Actors.Characters
         {
             get
             {
+                if (AttachedCharacter is null)
+                {
+                    return 0; // don't bother for non-Character entities
+                }
+
                 double weight = 0;
                 foreach (KeyValuePair<string, Item> item in this.InventoryContents)
                 {
@@ -113,7 +124,6 @@ namespace ConsoleRPG.Models.Actors.Characters
                 this.AddItem(item);
             }
         }
-        //public void AddItem(string itemName) // TODO implement string name additem if possible without hardcoding all items
         /// <summary>
         /// Removes an item from the inventory and returns it to the caller.
         /// </summary>

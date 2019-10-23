@@ -5,8 +5,9 @@ using System.Text;
 
 namespace ConsoleRPG.Menus.Startup
 {
-    public class ProfessionMenu : Menu
+    public class ProfessionSelect : Menu
     {
+        #region Title and Options strings
         public string Title = @"
 
                                                     ==========================
@@ -585,10 +586,11 @@ namespace ConsoleRPG.Menus.Startup
     |   ?   |
     =========
 ";
+        #endregion
 
         override public string Selection { get; set; }
 
-        override public string Options()
+        override public string DisplayOptions()
         {
             int cursor = 1;
             while (cursor != 0)
@@ -751,15 +753,6 @@ namespace ConsoleRPG.Menus.Startup
                     Selection = "Back";
                     break;
             }
-        }
-        public override void CursorMoveBeep()
-        {
-            Console.Beep(500, 100);
-        }
-        public override void CursorSelectBeep()
-        {
-            Console.Beep(900, 100);
-            Console.Beep(1200, 80);
         }
     }
 }
