@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using ConsoleRPG.Menus;
 using ConsoleRPG.Menus.Startup;
 using ConsoleRPG.Menus.InfoPages;
+using ConsoleRPG.Scenario.Campaign.Tutorial;
 
 namespace ConsoleRPG
 {
@@ -30,31 +31,31 @@ namespace ConsoleRPG
         }
         public string RunMainMenu()
         {
-            while (Selection == "Run Main Menu")
+            while (Selection == "Main Menu")
             {
                 Selection = MainMenu.DisplayOptions();
                 switch (Selection)
                 {
                     case "New Game":
-                        Selection = "Run Scenario Menu";
+                        Selection = "Scenario Menu";
                         break;
 
                     case "Continue":
                         FeatureIncompleteInfoPage.Display();
-                        Selection = "Run Main Menu";
+                        Selection = "Main Menu";
                         break;
 
                     case "Options":
                         FeatureIncompleteInfoPage.Display();
-                        Selection = "Run Main Menu";
+                        Selection = "Main Menu";
                         break;
 
-                    case "Quit":
-                        Environment.Exit(0);
+                    case "Exit Program":
+                        Selection = "Exit Program";
                         break;
 
                     default:
-                        Selection = "Run Main Menu";
+                        Selection = "Main Menu";
                         break;
                 }
             }
@@ -62,21 +63,21 @@ namespace ConsoleRPG
         }
         public string RunScenarioSelect()
         {
-            while (Selection == "Run Scenario Menu")
+            while (Selection == "Scenario Menu")
             {
                 Selection = ScenarioMenu.DisplayOptions();
                 switch (Selection)
                 {
-                    case "Tutorial":
-                        Selection = "Start Tutorial";
+                    case "Begin Scenario: Tutorial":
+                        Selection = "Scenario: Tutorial";
                         break;
 
-                    case "Town Attack Classic":
-                        Selection = "Start TAC";
+                    case "Begin Scenario: Town Attack Classic":
+                        Selection = "Scenario: Town Attack Classic";
                         break;
 
                     default:
-                        Selection = "Run Main Menu";
+                        Selection = "Main Menu";
                         break;
                 }
             }
@@ -84,21 +85,21 @@ namespace ConsoleRPG
         }
         public string RunProfessionMenu()
         {
-            while (Selection == "Run Profession Menu")
+            while (Selection == "Profession Menu")
             {
                 Selection = ProfessionMenu.DisplayOptions();
                 switch (Selection)
                 {
                     case "Knight":
-                        Selection = "Run Main Menu";
+                        Selection = "Main Menu";
                         break;
 
                     case "Scholar":
-                        Selection = "Run Main Menu";
+                        Selection = "Main Menu";
                         break;
 
                     default:
-                        Selection = "Run Scenario Menu";
+                        Selection = "Scenario Menu";
                         break;
                 }
             }
@@ -106,7 +107,7 @@ namespace ConsoleRPG
         }
         #endregion
 
-        public string Selection { get; private set; } = "Run Main Menu";
+        public string Selection { get; private set; } = "Main Menu";
 
         public void Start()
         {
@@ -114,17 +115,28 @@ namespace ConsoleRPG
             RunSplashScreen();
             while(true)
             {
-                if (Selection == "Run Main Menu")
+                switch (Selection)
                 {
-                    Selection = RunMainMenu();
-                }
-                else if (Selection == "Run Scenario Menu")
-                {
-                    Selection = RunScenarioSelect();
-                }
-                else if (Selection == "Run Profession Menu")
-                {
-                    Selection = RunProfessionMenu();
+                    case "Main Menu":
+                        Selection = RunMainMenu();
+                        break;
+                    case "Scenario Menu":
+                        Selection = RunScenarioSelect();
+                        break;
+                    case "Character Creation":
+
+                        break;
+                    //case "Profession Menu":
+
+                    //    break;
+                    case "Scenario: Tutorial":
+                        LoadingScreen.Display(1000);
+                        Tutorial Tutorial = new Tutorial();
+                        Tutorial.RunScenario();
+                        break;
+                    case "Exit Program":
+                        Environment.Exit(0);
+                        break;
                 }
             }
         }

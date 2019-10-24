@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Menus\Combat\" />
     <Folder Include="Menus\Dialogue\" />
     <Folder Include="Models\Actors\Enemies\Bandits\" />
     <Folder Include="Models\Actors\Enemies\Beasts\" />

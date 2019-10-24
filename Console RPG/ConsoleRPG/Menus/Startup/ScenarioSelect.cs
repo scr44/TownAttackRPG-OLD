@@ -54,7 +54,7 @@ namespace ConsoleRPG.Menus.Startup
 ";
         #endregion
 
-        override public string Selection { get; set; } = "Run Scenario Menu";
+        override public string Selection { get; set; } = "Scenario Menu";
 
         public override string DisplayOptions()
         {
@@ -128,24 +128,15 @@ namespace ConsoleRPG.Menus.Startup
             switch (cursor)
             {
                 case 1:
-                    Selection = "Begin Tutorial";
+                    Selection = "Begin Scenario: Tutorial";
                     break;
                 case 2:
-                    Selection = "Begin Town Attack Classic";
+                    Selection = "Begin Scenario: Town Attack Classic";
                     break;
                 case 3:
                     Selection = "Back";
                     break;
             }
         }
-
-        //public override void CursorMoveBeep()
-        //{
-        //    Console.Beep(500, 100);
-        //}
-        //public override void CursorSelectBeep()
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }

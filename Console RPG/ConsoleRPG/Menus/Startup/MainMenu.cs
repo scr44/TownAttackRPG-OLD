@@ -152,31 +152,22 @@ namespace ConsoleRPG.Menus.Startup
         }
         override public void SelectOption(int cursor)
         {
-            if(cursor == 1)
+            switch(cursor)
             {
-                Selection = "New Game";
-            }
-            else if(cursor == 2)
-            {
-                Selection = "Continue";
-            }
-            else if(cursor == 3)
-            {
-                Selection = "Options";
-            }
-            else
-            {
-                Selection = "Quit";
+                case 1:
+                    Selection = "New Game";
+                    break;
+                case 2:
+                    Selection = "Continue";
+                    break;
+                case 3:
+                    Selection = "Options";
+                    break;
+                default:
+                    Selection = "Exit Program";
+                    break;
             }
         }
-        //public override void CursorMoveBeep()
-        //{
-        //    Console.Beep(500, 100);
-        //}
-        //public override void CursorSelectBeep()
-        //{
-        //    Console.Beep(900, 100);
-        //    Console.Beep(1200, 80);
-        //}
+        
     }
 }
