@@ -11,6 +11,11 @@ namespace ConsoleRPG.Models.Actors
 {
     public abstract class Actor : IDamage
     {
+        public Actor(string name)
+        {
+            Name = name;
+        }
+        public string Name { get; protected set; }
         public string Gender { get; set; }
         #region Pronouns
         // Pronouns for string interpolation in events and combat

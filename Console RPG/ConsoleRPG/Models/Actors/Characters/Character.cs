@@ -17,7 +17,7 @@ namespace ConsoleRPG.Models.Actors.Characters
 {
     public class Character : Actor
     {
-        public Character(string name, Profession prof)
+        public Character(string name, Profession prof) : base(name)
         {
             Name = name;
             Gender = prof.Gender;
@@ -36,7 +36,6 @@ namespace ConsoleRPG.Models.Actors.Characters
         }
 
         #region Tags
-        public string Name { get; }
         public string FirstName
         {
             get

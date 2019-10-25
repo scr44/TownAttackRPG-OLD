@@ -8,7 +8,8 @@ namespace ConsoleRPG.Models.Actors.Enemies.Unaffiliated
 {
     public class TrainingDummy : Enemy
     {
-        public TrainingDummy(int baseHP, int baseSP, int SPRegen) : base(baseHP, baseSP, SPRegen)
+        public TrainingDummy(int baseHP, int baseSP, int SPRegen, string name="Training Dummy") 
+            : base(baseHP, baseSP, SPRegen, name)
         {
             // base.Skillbar fills here
         }

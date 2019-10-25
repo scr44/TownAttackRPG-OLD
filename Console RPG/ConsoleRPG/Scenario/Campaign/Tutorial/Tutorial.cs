@@ -3,6 +3,7 @@ using ConsoleRPG.Models.Actors;
 using ConsoleRPG.Models.Actors.Characters;
 using ConsoleRPG.Models.Party;
 using ConsoleRPG.Models.Professions.DefaultProfessions;
+using ConsoleRPG.Scenario.Campaign.Tutorial.Combat;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,25 +17,30 @@ namespace ConsoleRPG.Scenario.Campaign.Tutorial
             PC = new Character("Guinevere", new Knight("F"));
             Party.AddPartyMember((Actor)PC);
             CombatUI = new CombatUI(PC);
+            Tutorial_Combat_01_TrainingDummy = new Tutorial_Combat_01_TrainingDummy(Party);
         }
         Character PC { get; }
         Party Party { get; set; } = new Party();
         CombatUI CombatUI { get; set; } = null;
 
+        #region Modules
+        Tutorial_Welcome_01 Tutorial_Welcome_01 { get; set; } = new Tutorial_Welcome_01();
+        Tutorial_Combat_01_TrainingDummy Tutorial_Combat_01_TrainingDummy { get; set; } 
+        #endregion
+
         public void RunScenario()
         {
-            string Module = "Welcome_01";
+            string Module = "Tutorial_Welcome_01";
             while (true)
             {
                 switch(Module)
                 {
-                    case "Welcome_01":
+                    case "Tutorial_Welcome_01":
                         Tutorial_Welcome_01.Run();
-                        Module = "Combat_01_TrainingDummy";
+                        Module = "Tutorial_Combat_01_TrainingDummy";
                         break;
-                    case "Combat_01_TrainingDummy":
-                        CombatUI.Display();
-                        Console.ReadKey();
+                    case "Tutorial_Combat_01_TrainingDummy":
+                        Tutorial_Combat_01_TrainingDummy.Run();
                         break;
                     default:
                         return;

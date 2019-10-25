@@ -9,7 +9,7 @@ namespace ConsoleRPG.Models.Actors.Enemies
 {
     abstract public class Enemy : Actor
     {
-        public Enemy(int baseHP, int baseSP, int SPRegen)
+        public Enemy(int baseHP, int baseSP, int SPRegen, string name) : base(name)
         {
             HP = new Health(this, baseHP);
             SP = new Stamina(this, baseSP, SPRegen);

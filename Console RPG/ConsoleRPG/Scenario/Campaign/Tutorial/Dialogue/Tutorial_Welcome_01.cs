@@ -4,9 +4,9 @@ using System.Text;
 
 namespace ConsoleRPG.Scenario.Campaign.Tutorial
 {
-    static public class Tutorial_Welcome_01
+    public class Tutorial_Welcome_01
     {
-        static public void Run()
+        public void Run()
         {
             Console.Clear();
             Console.WriteLine();

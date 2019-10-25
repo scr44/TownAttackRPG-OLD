@@ -1,6 +1,8 @@
-﻿using ConsoleRPG.Models.Actors;
+﻿using ConsoleRPG.Menus.Combat;
+using ConsoleRPG.Models.Actors;
 using ConsoleRPG.Models.Actors.ActorProperties;
 using ConsoleRPG.Models.Actors.Characters;
+using ConsoleRPG.Models.Party;
 using ConsoleRPG.Models.Skills;
 using System;
 using System.Collections.Generic;
@@ -8,21 +10,19 @@ using System.Text;
 
 namespace ConsoleRPG.Scenario
 {
-    public class CombatEvent
+    abstract public class CombatEvent
     {
-        public CombatEvent(List<Character> playerParty, List<Actor> enemyParty, List<Actor> allyParty = null)
+        public CombatEvent(Party playerParty)
         {
-            // generate turn order
-
+            // TODO Combat Event: generate turn order
             PlayerParty = playerParty;
-            EnemyParty = enemyParty;
-            AllyParty = allyParty;
+            CombatUI = new CombatUI((Character)playerParty.PartyMembers[0]);
         }
-
-        public List<Character> PlayerParty { get; protected set; }
+        
+        public CombatUI CombatUI { get; protected set; }
+        public Party PlayerParty { get; protected set; }
         public List<Actor> EnemyParty { get; protected set; }
         public List<Actor> AllyParty { get; protected set; }
-
         public Inventory Rewards { get; protected set; } = new Inventory();
 
         /// <summary>
@@ -30,10 +30,23 @@ namespace ConsoleRPG.Scenario
         /// </summary>
         /// <param name="dialogue"></param>
         /// <returns></returns>
-        public string CombatDialogue(string dialogue)
+        public string CombatDialogue(string dialogue, Actor speaker=null)
         {
             // format combat dialogue to output to the combat menu terminal
-            return dialogue;
+            if (!(speaker is null))
+            {
+                return $"{speaker.Name} says \"{dialogue}\"";
+            }
+            else
+            {
+                return dialogue;
+            }
+        }
+        public void Say(string dialogue, Actor speaker = null)
+        {
+            string text = CombatDialogue(dialogue, speaker);
+            CombatUI.WriteToLog(text);
+            CombatUI.Display();
         }
 
         /// <summary>
@@ -78,6 +91,10 @@ namespace ConsoleRPG.Scenario
             // drop loot into the "rewards" inventory
         }
 
-
+        public abstract void Run();
+        public void Pause()
+        {
+            ConsoleKey key = Console.ReadKey().Key;
+        }
     }
 }
