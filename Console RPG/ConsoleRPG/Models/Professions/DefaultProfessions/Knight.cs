@@ -24,7 +24,7 @@ namespace ConsoleRPG.Models.Professions.DefaultProfessions
                 "they often neglect their academic studies in favor of drinking and skirt-chasing.";
             BaseHealth = 20;
             BaseStamina = 20;
-            BaseStaminaRegen = 10.0;
+            BaseStaminaRegen = 15.0;
             StartingAttributesDict = new Dictionary<string, int>()
             {
                 { "STR", 7 },

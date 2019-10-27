@@ -2,6 +2,7 @@
 using ConsoleRPG.Models.Actors.Characters;
 using ConsoleRPG.Models.Actors.Characters.Stats;
 using ConsoleRPG.Models.Actors.CombatInterfaces;
+using ConsoleRPG.Models.Actors.SkillCollections;
 using ConsoleRPG.Models.Effects;
 using System;
 using System.Collections.Generic;
@@ -75,7 +76,7 @@ namespace ConsoleRPG.Models.Actors
         }
         #endregion
 
-        #region Health, Stamina
+        #region Health, Stamina, XP
         public bool IsAlive
         {
             get
@@ -86,10 +87,24 @@ namespace ConsoleRPG.Models.Actors
         abstract public Health HP { get; protected set; }
         abstract public Stamina SP { get; protected set; }
 
-        virtual public void Damaged(double dmgRaw, string dmgType, double dmgAP = 0)
+        public double Damaged(double dmgRaw, string dmgType, double dmgAP = 0, bool weaponBlock = false)
         {
-            throw new NotImplementedException();
+            // PROT reduces damage multiplicatively
+            double reducedDmg = dmgRaw * (1 - PROT(dmgType, weaponBlock));
+            // A portion of the blocked damage gets through with the armor piercing multiplier
+            double armorPiercingDmg = (dmgRaw - reducedDmg) * dmgAP;
+            // calculate the total amount of damage the character will actually take
+            double totalDmgTaken = -1 * (reducedDmg + armorPiercingDmg);
+
+            // take the damage
+            HP.AdjustHP(totalDmgTaken);
+
+            return totalDmgTaken;
         }
+        #endregion
+
+        #region Skillbar
+        public Skillbar Skillbar { get; protected set; }
         #endregion
 
         #region Active Effects
@@ -115,6 +130,11 @@ namespace ConsoleRPG.Models.Actors
 
         #region Defense
         abstract public double PROT(string dmgType, bool weaponBlock);
+        #endregion
+
+        #region Rewards
+        public int XPReward { get; protected set; }
+        public Inventory LootDrops { get; protected set; }
         #endregion
     }
 }

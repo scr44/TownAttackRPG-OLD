@@ -39,7 +39,7 @@ namespace ConsoleRPG.Models.Skills
         {
             get
             {
-                Character self = null;
+                Character self;
 
                 // Don't bother checking reqs for Enemies and other non-Characters
                 if (!(Self is Character))
@@ -127,7 +127,8 @@ namespace ConsoleRPG.Models.Skills
         }
         public int SPCost { get; protected set; }
 
-        public bool Ready => (Cooldown == 0) && (SPCost <= Self.SP.Current);
+        public bool Ready => (Cooldown == 0);
+        public bool HasEnoughSP => (SPCost <= Self.SP.Current);
         public void ActivateSkill()
         {
             StartCD();
@@ -135,28 +136,32 @@ namespace ConsoleRPG.Models.Skills
         }
         #endregion
 
+        protected double dmgFeedback { get; set; } = 0;
+        protected double healFeedback { get; set; } = 0;
+        
         /// <summary>
         /// Uses the skill. Leave args empty if the skill is only self-targeting.
         /// </summary>
         /// <param name="target">The target for single target effects.</param>
         /// <param name="targetList">The list of targets for multi-target effects.</param>
-        virtual public void Use(Actor target = null, List<Actor> targetList = null)
+        virtual public double[] Use(Actor target = null, List<Actor> targetList = null)
         {
-            // All skills check to see if they're ready and meet the reqs
             if (!Ready)
             {
                 throw new SkillNotReadyException();
+            }
+            else if (!HasEnoughSP)
+            {
+                throw new SkillNeedsSPException();
             }
             else if (!MeetsSkillReqs)
             {
                 throw new SkillReqsNotMetException();
             }
-            else
-            {
-                ActivateSkill(); // set cooldown and reduce available SP
-            }
-
+            ActivateSkill();
             // Individual skill implementations happen after base.Use()
+
+            return new double[] { dmgFeedback, healFeedback };
         }
     }
 }

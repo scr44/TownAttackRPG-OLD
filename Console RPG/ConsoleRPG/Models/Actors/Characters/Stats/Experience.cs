@@ -30,6 +30,18 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
         public int AvailableAttributePts { get; private set; } = 0;
         public int AvailableTalentPts { get; private set; } = 0;
 
+        public bool WillLevelUp(int points)
+        {
+            points *= (int)((0.1) * (AttachedCharacter.Attributes.ModdedValue["APT"] - 5) + 1);
+            if (points + Current >= Needed)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public void GainXP(int points)
         {
             points *= (int)((0.1) * (AttachedCharacter.Attributes.ModdedValue["APT"] - 5) + 1);

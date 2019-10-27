@@ -1,0 +1,13 @@
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\ConsoleRPG\bin\Release\netcoreapp2.2\win10-x64\hostpolicy.dll
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\ConsoleRPG\bin\Release\netcoreapp2.2\win10-x64\hostfxr.dll
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\ConsoleRPG\bin\Release\netcoreapp2.2\win10-x64\ConsoleRPG.exe
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\ConsoleRPG\bin\Release\netcoreapp2.2\win10-x64\ConsoleRPG.deps.json
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\ConsoleRPG\bin\Release\netcoreapp2.2\win10-x64\ConsoleRPG.runtimeconfig.json
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\ConsoleRPG\bin\Release\netcoreapp2.2\win10-x64\ConsoleRPG.runtimeconfig.dev.json
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\ConsoleRPG\bin\Release\netcoreapp2.2\win10-x64\ConsoleRPG.dll
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\ConsoleRPG\bin\Release\netcoreapp2.2\win10-x64\ConsoleRPG.pdb
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\ConsoleRPG\obj\Release\netcoreapp2.2\win10-x64\ConsoleRPG.csprojAssemblyReference.cache
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\ConsoleRPG\obj\Release\netcoreapp2.2\win10-x64\ConsoleRPG.AssemblyInfoInputs.cache
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\ConsoleRPG\obj\Release\netcoreapp2.2\win10-x64\ConsoleRPG.AssemblyInfo.cs
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\ConsoleRPG\obj\Release\netcoreapp2.2\win10-x64\ConsoleRPG.dll
+E:\Program Files (x86)\Microsoft Visual Studio\git\rpg-steve\Console RPG\ConsoleRPG\obj\Release\netcoreapp2.2\win10-x64\ConsoleRPG.pdb

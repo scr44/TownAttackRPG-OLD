@@ -32,15 +32,6 @@ namespace ConsoleRPG.Menus.Startup
                                                ++#    ++#    +#+           #++   ##++    
                                                +#+    +#+    #+#           +#+    +#+     
                                               ###    ###     ###             ########   ";
-        string MenuOptions = @"
-                                                            New Game
-
-                                                            Continue    
-
-                                                            Options
-
-                                                            Quit
-";
         string MenuOptions1 = @"
                                                           > New Game <
 

@@ -87,7 +87,7 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
             }
             else if (Current <= -5)
             {
-                Current = -10; // you can "overcast" your stamina, to mitigate high-SP skill spam
+                Current = -5; // you can "overcast" your stamina, to mitigate high-SP skill spam
             }
             return true;
         }

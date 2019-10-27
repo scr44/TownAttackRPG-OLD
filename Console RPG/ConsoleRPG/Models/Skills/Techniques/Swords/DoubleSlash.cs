@@ -42,15 +42,17 @@ namespace ConsoleRPG.Models.Skills.Techniques.Swords
         #region Targeting and Behavior
         override public void OnTarget(Actor target)
         {
-            target.Damaged(1 * Self.DMG("slash"), "slash", Self.ArmorPiercing);
-            target.Damaged(1 * Self.DMG("slash"), "slash", Self.ArmorPiercing);
+            this.dmgFeedback = 0;
+            this.dmgFeedback += target.Damaged(1 * Self.DMG("slash"), "slash", Self.ArmorPiercing);
+            this.dmgFeedback += target.Damaged(1 * Self.DMG("slash"), "slash", Self.ArmorPiercing);
         }
         #endregion
 
-        public override void Use(Actor target, List<Actor> targetList = null)
+        public override double[] Use(Actor target, List<Actor> targetList = null)
         {
-            base.Use(); // Checks for ready & skill reqs, then takes stamina and starts cooldown
+            base.Use(); // takes stamina and starts cooldown
             OnTarget(target);
+            return new double[] { dmgFeedback, healFeedback };
         }
     }
 }

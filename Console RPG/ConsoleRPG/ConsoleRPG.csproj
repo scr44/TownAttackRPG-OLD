@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <StartupObject>ConsoleRPG.Program</StartupObject>
+    <ApplicationIcon />
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,9 +21,8 @@
     <Folder Include="Models\Items\Herb\" />
     <Folder Include="Models\Items\Throwable\" />
     <Folder Include="..\..\..\..\..\..\Program Files %2528x86%2529\Microsoft Visual Studio\git\rpg-steve\Console RPG\ConsoleRPG\Menus\InGame\" />
-    <Folder Include="Models\Skills\Abilities\" />
     <Folder Include="Models\Skills\Signets\" />
-    <Folder Include="Scenario\Campaign\TownAttackClassic\" />
+    <Folder Include="Scenario\TownAttackClassic\" />
   </ItemGroup>
 
 </Project>

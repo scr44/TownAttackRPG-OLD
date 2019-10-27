@@ -4,7 +4,8 @@ using System.Text;
 
 namespace ConsoleRPG.Scenario
 {
-    class DialogueEvent
+    public class DialogueEvent : Event
     {
+
     }
 }

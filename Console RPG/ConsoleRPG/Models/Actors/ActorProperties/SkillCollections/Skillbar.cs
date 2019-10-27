@@ -10,6 +10,8 @@ namespace ConsoleRPG.Models.Actors.SkillCollections
         public Skillbar(Actor self)
         {
             Self = self;
+            Skill Empty = new EmptySkill(Self);
+            Skills = new List<Skill>(6) { Empty, Empty, Empty, Empty, Empty, Empty };
         }
         public Skillbar(Actor self, List<Skill> skills)
         {
@@ -104,7 +106,5 @@ namespace ConsoleRPG.Models.Actors.SkillCollections
             TryAdd(slot1, skill2);
             TryAdd(slot2, skill1);
         }
-
-        // consider handling skill UI here, generate an ASCII skillbar
     }
 }

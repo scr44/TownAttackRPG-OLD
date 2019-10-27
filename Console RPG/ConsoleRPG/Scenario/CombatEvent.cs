@@ -2,6 +2,7 @@
 using ConsoleRPG.Models.Actors;
 using ConsoleRPG.Models.Actors.ActorProperties;
 using ConsoleRPG.Models.Actors.Characters;
+using ConsoleRPG.Models.Items;
 using ConsoleRPG.Models.Party;
 using ConsoleRPG.Models.Skills;
 using System;
@@ -10,7 +11,7 @@ using System.Text;
 
 namespace ConsoleRPG.Scenario
 {
-    abstract public class CombatEvent
+    abstract public class CombatEvent : Event
     {
         public CombatEvent(Party playerParty)
         {
@@ -21,8 +22,8 @@ namespace ConsoleRPG.Scenario
         
         public CombatUI CombatUI { get; protected set; }
         public Party PlayerParty { get; protected set; }
-        public List<Actor> EnemyParty { get; protected set; }
-        public List<Actor> AllyParty { get; protected set; }
+        public Party EnemyParty { get; protected set; }
+        public Party AllyParty { get; protected set; }
         public Inventory Rewards { get; protected set; } = new Inventory();
 
         /// <summary>
@@ -42,59 +43,171 @@ namespace ConsoleRPG.Scenario
                 return dialogue;
             }
         }
+        /// <summary>
+        /// Write dialogue or combat feedback to the combat log.
+        /// </summary>
+        /// <param name="dialogue"></param>
+        /// <param name="speaker"></param>
         public void Say(string dialogue, Actor speaker = null)
         {
             string text = CombatDialogue(dialogue, speaker);
             CombatUI.WriteToLog(text);
             CombatUI.Display();
         }
-
         /// <summary>
-        /// Format combat feedback to output to the combat menu terminal.
+        /// Write feedback to combat log.
         /// </summary>
-        /// <param name="feedback"></param>
-        /// <returns></returns>
-        public string Feedback(string feedback)
+        /// <param name="text"></param>
+        public void Feedback(string text)
         {
-            // format combat feedback to output to the combat menu terminal
-            return feedback;
+            Say(text);
         }
 
         /// <summary>
-        /// Select the party member and skill to use on the given target(s).
+        /// An actor uses a skill on the given target(s).
         /// </summary>
-        /// <param name="partyMember"></param>
+        /// <param name="user"></param>
         /// <param name="skill"></param>
         /// <param name="target"></param>
         /// <param name="targetList"></param>
-        public void PartyMemberUsesSkill(Character partyMember, Skill skill, List<Actor> targetList = null)
+        public void ActorUsesSkill(Actor user, int skillslot, Actor singleTarget = null, List<Actor> multiTarget = null)
         {
-            // use skill on targets from menu
-        }
+            Skill skill = user.Skillbar.Skills[skillslot - 1];
 
+            #region Use skill
+            double[] feedbackArray;
+            try
+            {
+               feedbackArray = skill.Use(singleTarget, multiTarget);
+            }
+            catch (SkillReqsNotMetException)
+            {
+                Feedback($"Cannot use {skill.SkillName}, requirements not met.");
+                return;
+            }
+            catch (SkillNotReadyException)
+            {
+                Feedback($"{skill.SkillName} is not ready yet ({skill.Cooldown} turns left on cooldown).");
+                return;
+            }
+            catch (SkillNeedsSPException)
+            {
+                Feedback($"Not enough stamina to use {skill.SkillName}.");
+                return;
+            }
+            #endregion
+
+            #region Usage feedback
+            feedbackArray[0] = -Math.Round(feedbackArray[0]);
+            Say("");
+            if (feedbackArray[0] != 0)
+            {
+                if (!(singleTarget is null) && !(multiTarget is null))
+                {
+                    Feedback($"{user.Name} used {skill.SkillName}. {feedbackArray[0]} damage!");
+                }
+                else if (!(singleTarget is null))
+                {
+                    Feedback($"{user.Name} used {skill.SkillName} on {singleTarget.Name}. {feedbackArray[0]} damage!");
+                }
+                else if (!(multiTarget is null))
+                {
+                    foreach (Actor actor in multiTarget)
+                    {
+                        Feedback($"{user.Name} used {skill.SkillName} on {actor.Name}. {feedbackArray[0]} damage!");
+                    }
+                }
+            }
+            if (feedbackArray[1] != 0)
+            {
+                if (!(singleTarget is null) && !(multiTarget is null))
+                {
+                    Feedback($"{user.Name} used {skill.SkillName}. {feedbackArray[1]} healed!");
+                }
+                else if (!(singleTarget is null))
+                {
+                    Feedback($"{user.Name} used {skill.SkillName} on {singleTarget.Name}. {feedbackArray[1]} healed!");
+                }
+                else if (!(multiTarget is null))
+                {
+                    foreach (Actor actor in multiTarget)
+                    {
+                        Feedback($"{user.Name} used {skill.SkillName} on {actor.Name}. {feedbackArray[1]} healed!");
+                    }
+                }
+            }
+            if (feedbackArray[0] == 0 && feedbackArray[1] == 0)
+            {
+                if (!(singleTarget is null) && !(multiTarget is null))
+                {
+                    Feedback($"{user.Name} used {skill.SkillName}.");
+                }
+                else if (!(singleTarget is null))
+                {
+                    Feedback($"{user.Name} used {skill.SkillName} on {singleTarget.Name}.");
+                }
+                else if (!(multiTarget is null))
+                {
+                    foreach (Actor actor in multiTarget)
+                    {
+                        Feedback($"{user.Name} used {skill.SkillName} on {actor.Name}.");
+                    }
+                }
+            }
+            
+            #endregion
+        }
         /// <summary>
-        /// The enemy uses a skill on the given target(s).
+        /// Removes enemy from target list and drops rewards/XP.
         /// </summary>
         /// <param name="enemyActor"></param>
-        /// <param name="skill"></param>
-        /// <param name="target"></param>
-        /// <param name="targetList"></param>
-        public void EnemyUsesSkill(Actor enemyActor, Skill skill, List<Actor> targetList = null)
-        { 
-            // put in enemy AI here
-        }
-
         public void EnemyKilled(Actor enemyActor)
         {
+            int xp = enemyActor.XPReward;
+            Say($"{enemyActor.Name} has been struck down. The party gains {xp} XP.");
+            
             // award XP to party
-
+            foreach (Actor member in PlayerParty.PartyMembers)
+            {
+                if (member is Character)
+                {
+                    Character memberChar = (Character)member;
+                    if (memberChar.XP.WillLevelUp(xp))
+                    {
+                        Say($"{memberChar.Name} leveled up!");
+                    }
+                }
+            }
             // drop loot into the "rewards" inventory
+            Inventory loot = enemyActor.LootDrops;
+            if (!(loot is null))
+            {
+                foreach (KeyValuePair<string, Item> item in loot.InventoryContents)
+                {
+                    Item itemToAdd = item.Value;
+                    int numberToAdd = enemyActor.LootDrops.InventoryCounts[item.Key];
+                    for (int i = 1; i <= numberToAdd; i++)
+                    {
+                        Rewards.AddItem(itemToAdd, numberToAdd);
+                        Say($"{enemyActor.Name} drops {item.Key} (x{numberToAdd})");
+                    }
+                }
+            }
+            Say("");
+        }
+        public void AllyKilled(Actor ally)
+        {
+
+        }
+        public void PlayerKilled(Actor player)
+        {
+
         }
 
         public abstract void Run();
-        public void Pause()
+        public void VictoryScreen()
         {
-            ConsoleKey key = Console.ReadKey().Key;
+
         }
     }
 }

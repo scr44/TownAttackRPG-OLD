@@ -330,16 +330,16 @@ namespace Characters
             Assert.AreEqual(50, Guinevere.SP.Percent,
                 "Character should have 50% SP left.");
 
-            // Use 20 stamina (exhaust goes to -10)
+            // Use 20 stamina (exhaust goes to -5)
             Guinevere.SP.AdjustSP(-20);
 
-            Assert.AreEqual(-10, Guinevere.SP.Current,
-                "Character should have -10 SP left.");
+            Assert.AreEqual(-5, Guinevere.SP.Current,
+                "Character should have -5 SP left.");
 
             // Try to use more stamina, should fail
             Assert.IsFalse(Guinevere.SP.AdjustSP(-10), "SPAdjust should fail");
-            Assert.AreEqual(-10, Guinevere.SP.Current,
-                "Character should have -10 SP left.");
+            Assert.AreEqual(-5, Guinevere.SP.Current,
+                "Character should have -5 SP left.");
         }
         [TestMethod]
         public void SPRestore()
@@ -349,8 +349,8 @@ namespace Characters
             // SP Regeneration (per turn/tick)
             Guinevere.SP.RegenTick();
 
-            Assert.AreEqual(11, Guinevere.SP.Current,
-                "Character should have 10 + DEX*.2 SP after one regen tick.");
+            Assert.AreEqual(16, Guinevere.SP.Current,
+                "Character should have 15 + DEX*.2 SP after one regen tick.");
 
             // SP Restoration (potions etc)
             Guinevere.SP.AdjustSP(10);

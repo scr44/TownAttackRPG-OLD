@@ -11,5 +11,14 @@ namespace ConsoleRPG.Scenario
             // TODO Event: center text
             Console.WriteLine(text);
         }
+
+        public void Pause()
+        {
+            ConsoleKey key = ConsoleKey.A;
+            while (key != ConsoleKey.Enter)
+            {
+                key = Console.ReadKey().Key;
+            }
+        }
     }
 }

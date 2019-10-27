@@ -40,9 +40,10 @@ namespace ConsoleRPG.Models.Skills
             
         }
 
-        public override void Use(Actor target = null, List<Actor> targetList = null)
+        public override double[] Use(Actor target = null, List<Actor> targetList = null)
         {
             // do nothing
+            return new double[] { 0, 0 };
         }
     }
 }

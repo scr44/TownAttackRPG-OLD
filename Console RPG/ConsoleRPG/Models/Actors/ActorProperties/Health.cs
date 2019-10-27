@@ -58,7 +58,7 @@ namespace ConsoleRPG.Models.Actors.Characters.Stats
         public double Percent => Math.Round((((double)Current / Max * 100)));
         public int Base { get; private set; }
         public double BaseRegen { get; private set; } = 0; // Actors don't start with any implicit base health regen
-        public new bool IsAlive
+        public bool IsAlive
         {
             get
             {

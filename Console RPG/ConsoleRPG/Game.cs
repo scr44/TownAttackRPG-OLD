@@ -20,8 +20,8 @@ namespace ConsoleRPG
         #region Menu Selections
         public void BootUpConsole()
         {
-            //Console.SetWindowSize(130, 50);
-            Console.SetWindowSize(130, 40);
+            Console.SetWindowSize(130, 50);
+            //Console.SetWindowSize(130, 40);
         }
         public void RunSplashScreen()
         {
@@ -74,6 +74,9 @@ namespace ConsoleRPG
 
                     case "Begin Scenario: Town Attack Classic":
                         Selection = "Scenario: Town Attack Classic";
+
+                        FeatureIncompleteInfoPage.Display();
+                        Selection = "Scenario Menu";
                         break;
 
                     default:
@@ -130,7 +133,7 @@ namespace ConsoleRPG
 
                     //    break;
                     case "Scenario: Tutorial":
-                        LoadingScreen.Display(1000);
+                        LoadingScreen.Display(500);
                         Tutorial Tutorial = new Tutorial();
                         Tutorial.RunScenario();
                         break;

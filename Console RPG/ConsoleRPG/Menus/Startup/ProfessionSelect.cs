@@ -200,7 +200,7 @@ namespace ConsoleRPG.Menus.Startup
                            CHA: 5            History: 0
                                                                                                     
     Barmaid
-                         Tips: Use your gauntlet to chain stun effects on enemies, while your teammates finish them
+                         Tips: Use your gauntlet to chain stun effects on enemies while your teammates finish them
                                                                                                     
     Huntress                   off. Mark enemies to let you and your teammates deal extra damage to them.
                                                                                                     
@@ -366,7 +366,7 @@ namespace ConsoleRPG.Menus.Startup
   | Barmaid |
   ===========            Tips: You have an inexhaustible source of free healing that causes the drunk status effect.
                                                                                                     
-    Huntress                   Trade hits with enemies while drunk to reduce damage taken and increase your own.
+    Huntress                   Trade hits with enemies while drunk to reduce damage taken and increase your own dealt.
                                                                                                     
                                If combat drags on for too long, you may become too drunk to fight effectively.
     Convict
@@ -528,11 +528,11 @@ namespace ConsoleRPG.Menus.Startup
                            CHA: 1            History: 0
                                                                                                     
     Barmaid  
-                         Tips: The thief's stamina regenerates more quickly than any other class. Use this to attack
+                         Tips: Deal heavy area-of-effect damage to the entire enemy party with your deadly firebombs.
                                                                                                     
-    Huntress                   enemies with high-damaging skills every turn. Your daggers have a high critical multiplier
+    Huntress                   Use your most powerful bombs judiciously, as the explosive blowback will damage your own  
                                                                                                     
-                               that can make up for their low base damage.                                        
+                               party members.                                                                     
     Convict  
                                                                                                    
                                                                                                     
@@ -547,37 +547,37 @@ namespace ConsoleRPG.Menus.Startup
 ";
         public string SecretProfessionSelected = @"
             
-    Knight                                                                                                           
+    Knight               SECRET PROFESSION                                                                          
                                     
+                                                                                                  
+    Scholar                         
+                                  
+                                
+    Noble  
+                         Attributes             Talents          Starting Equipment      Starting Inventory
                                                                                                     
-    Scholar                                 
-                                            
-                                         
-    Noble                                                                                 
-                                                                                                               
+    Constable              STR: 8            Medicine: 0         * ???                   * ???                           
                                                                                                     
-    Constable                                                                                                            
-                                                                                                    
-                                                                                                                   
+                           DEX: 8            Explosives: 0       * ???                                         
     Footman  
-                                                                                                               
+                           SKL: 1            Veterancy: 1        * ???                                         
                    
-    Plague Doctor                                                                                                  
+    Plague Doctor          APT: 5            Bestiary: 3         * ???                                             
                                                                                                     
-                                                                                                             
+                           FOR: 5            Engineering: 0                                           
     Squire                                                                                                    
-                                                                                                                  
+                           CHA: 9            History: 0
                                                                                                     
     Barmaid  
-                                                                                                                            
+                         Tips: Quit horsing around and go save the town!                                               
                                                                                                     
-    Huntress                                                                                                               
+    Huntress                                                                                                             
                                                                                                     
-                                                                                                                         
+                                                                                                                       
     Convict  
                                                                                                    
                                                                                                     
-    Blacksmith  
+    Blacksmith    
                                                                                                     
                                                                                                     
     Alchemist  
